@@ -1,0 +1,4 @@
+root = true
+
+[*.cs]
+dotnet_diagnostic.ASP0020.severity = none

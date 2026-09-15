@@ -1,0 +1,5 @@
+bin/
+obj/
+*.db
+run*.txt
+openapi*.json
