@@ -55,8 +55,8 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   one sentence ("Union types aren't supported for non-body binding sources") is the documented
   position, and "it is up to user to verify the correct behavior". The form-binding ask was
   split off at the area owner's request as a general, union-free issue (next entry).
-- **Minimal API `[FromForm]` with more than one public constructor** (union-free; drafted
-  2026-09-15, to be filed): the handler receives `default(T)` / `null` with 200 and nothing is
+- **dotnet/aspnetcore#69322** (filed 2026-09-15, union-free): Minimal API `[FromForm]` with more
+  than one public constructor. The handler receives `default(T)` / `null` with 200 and nothing is
   logged, because the mapper's `Warning` goes to a null logger and the generated binding catches
   only `FormDataMappingException`. Asks for the type to be refused when the delegate is built, as
   a non-parsable query parameter already is; failing that at request time; and for

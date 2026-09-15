@@ -153,8 +153,8 @@ Why, from `dotnet/aspnetcore` `main` (read 2026-09-15):
 
 A union lowers to one public constructor per case, so any union with two or more cases takes
 step 1. dotnet/aspnetcore#51379 (open since 2023) is the same path for a class with a primary and
-a parameterless constructor. A separate, union-free issue asking for the mapper to refuse the
-type when the delegate is built was drafted on 2026-09-15 at the area owner's request (see
+a parameterless constructor. dotnet/aspnetcore#69322, union-free and filed at the area owner's
+request, asks for the mapper to refuse the type when the delegate is built (see
 [page 10](10-documentation-and-upstream.md)).
 
 ### Three rules
