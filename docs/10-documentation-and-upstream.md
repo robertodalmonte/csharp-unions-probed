@@ -49,7 +49,20 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   "considering" for .NET 12, and an analyzer was offered. Since `IParsable<T>` on the union
   already binds every non-body source correctly (`QParsable`), the ask became the diagnostic, not
   the feature: cover `[FromForm]`, exempt `IParsable<T>` unions, default to `ASP0020`'s severity.
-  And the form fallback is the multi-constructor struct rule, not union code.
+  And the form fallback is the multi-constructor struct rule, not union code. **Ruled the same
+  day**: no analyzer in .NET 11 ("too late in the release"), .NET 12 undecided; the [release
+  notes'](https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-11?view=aspnetcore-10.0&tabs=minimal-apis#c-union-types)
+  one sentence ("Union types aren't supported for non-body binding sources") is the documented
+  position, and "it is up to user to verify the correct behavior". The form-binding ask was
+  split off at the area owner's request as a general, union-free issue (next entry).
+- **Minimal API `[FromForm]` with more than one public constructor** (union-free; drafted
+  2026-09-15, to be filed): the handler receives `default(T)` / `null` with 200 and nothing is
+  logged, because the mapper's `Warning` goes to a null logger and the generated binding catches
+  only `FormDataMappingException`. Asks for the type to be refused when the delegate is built, as
+  a non-parsable query parameter already is; failing that at request time; and for
+  `FormDataMapperOptions` to receive the application's `ILoggerFactory`. Mechanism and repro on
+  [page 05](05-aspnet-core.md) and in `QFormCtor`. Related: dotnet/aspnetcore#51379, the same
+  path for a class with a primary and a parameterless constructor.
 - **dotnet/docs#55951**: the reference's `pet is Pet` note, and its null-handling sample. The
   first item's proposed fix was itself wrong: it proposed "always true" and cited the spec, and on
   2026-09-11 AlekseyTs (Roslyn) pointed out that the spec had changed to `Value`-only, under which

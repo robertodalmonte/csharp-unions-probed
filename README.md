@@ -42,7 +42,7 @@ one of those four facts.
 | 02 null-valued union | verified 2026-09-11 | | |
 | 03 pattern matching | verified 2026-09-11; `is <union type>` rule changed after RC 1 | **re-run: `is <union type>` and interface cases become `CS8121`** | |
 | 04 System.Text.Json | verified 2026-09-11 | | |
-| 05 ASP.NET Core | verified 2026-09-11 and 2026-09-15 | **re-run: validation of union cases (aspnetcore#68268); `[JsonNumberHandling]` on the union (runtime#133668); any new analyzer from aspnetcore#66648** | |
+| 05 ASP.NET Core | verified 2026-09-11 and 2026-09-15 | **re-run: validation of union cases (aspnetcore#68268); `[JsonNumberHandling]` on the union (runtime#133668); `QFormCtor` if the form-binding issue moves** | |
 | 06 closed hierarchies | verified 2026-09-10 | | |
 | 07 hand-written unions | verified 2026-09-11 | | |
 | 08 EF Core | verified 2026-09-11 (EF 11 RC 1) and on EF 10.0.9 | | |

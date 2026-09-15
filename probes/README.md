@@ -17,6 +17,7 @@ disagree.
 | `QOa` | web + OpenApi | The blast radius of an unclassifiable union (reflection/RDG, `MapGroup`, MVC, read-time, a non-union control); a nested union case | 04, 05 |
 | `QVal` | web | Validation on Minimal APIs and MVC, with canaries | 05 |
 | `QParsable` | web + MVC | `IParsable<T>` on a union bound from query, header, route and form, Minimal API and MVC; the multi-constructor struct form fallback | 05 |
+| `QFormCtor` | web + MVC, no union | The multi-constructor `[FromForm]` fallback with plain structs and classes, logging on at `Debug`; the #51379 shape; MVC contrast; `QUERY_CONTROL` for the `ASP0020` contrast | 05, 10 |
 | `QEf` | console + EF Core SQLite | The persistence recipe verbatim with the real `union` keyword; the placeholder constructor; detached entities; an int-mapped `Kind` | 08 |
 | `QRepro1` / `QRepro2` / `QRepro3` | the repros exactly as posted | dotnet/runtime#133668, dotnet/aspnetcore#66648, dotnet/docs#55951 | 10 |
 
@@ -24,10 +25,11 @@ disagree.
 
 - **Basic:** each project stands alone. `dotnet build`, then `dotnet run --no-build`. The web
   probes bind fixed ports on `127.0.0.1`, so run them one at a time: `UnionWeb` 5310+, `Probe2`
-  5410+, `QVal` 5480, `QOa` 5491+, `QRepro2` 5560, `QParsable` 5570.
+  5410+, `QVal` 5480, `QOa` 5491+, `QRepro2` 5560, `QParsable` 5570, `QFormCtor` 5580.
 - **Conditional probes:** `dotnet build --no-incremental -p:DefineConstants=NAME`.
   - Builds that fail by design: `QLang` `PROBE_ERR` and `PROBE_ERR2`; `QLang2` `TEST_EVENT`,
-    `TEST_CHAIN`, `TEST_EXPLICIT`, `TEST_LIST` and `TEST_UNION_INTO_UNION`.
+    `TEST_CHAIN`, `TEST_EXPLICIT`, `TEST_LIST` and `TEST_UNION_INTO_UNION`; `QFormCtor`
+    `QUERY_CONTROL` (`ASP0020`).
   - A run that crashes by design: `QLang2` `REC_RECURSE` overflows the stack.
   - Runs that succeed: `QLang2` `CLASS_PROVIDER` and `CAST_FIX`.
 - **RDG (Request Delegate Generator):**

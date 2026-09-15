@@ -132,9 +132,30 @@ Probed with plain structs of the shape a union lowers to (`object? Value` plus c
 - `struct Opaque2 { Opaque2(int value); Opaque2(string value); }` binds `default` with 200 for
   **every** key.
 
-The Minimal API form mapper falls back to `default(T)` when a struct has more than one candidate
-constructor. A union lowers to N constructors and inherits it. Why the mapper does this was not
-established (source not read); that it does is.
+Union-free confirmation (`QFormCtor`): a `struct` or `class` with two public constructors binds
+`default` / `null` with 200 for every key; with one constructor it binds by parameter name. MVC
+refuses the same types at request time with a 500 whose message says why (`Could not create an
+instance of type 'TwoCtorStruct'. Model bound complex types must not be abstract or value types
+and must have a parameterless constructor…`). Minimal API says nothing, at any stage.
+
+Why, from `dotnet/aspnetcore` `main` (read 2026-09-15):
+
+1. `FormDataMetadataFactory.GetOrCreateMetadataFor` returns `null` when
+   `type.GetConstructors().Length > 1` ("We can't select the constructor when there are multiple
+   of them"), logged at `Debug`.
+2. `ComplexTypeConverterFactory.CanConvert` is therefore `false`, and
+   `FormDataMapperOptions.CreateConverter` throws `No converter registered for type …`.
+3. `FormDataMapper.Map<T>` catches that, logs `CannotResolveConverter` at `Warning`, and returns
+   `default`.
+4. `RequestDelegateFactory` builds its options with `new FormDataMapperOptions()`, which uses
+   `NullLoggerFactory.Instance`. Both log lines are discarded. The generated binding catches only
+   `FormDataMappingException`, which this path never throws, so the handler runs.
+
+A union lowers to one public constructor per case, so any union with two or more cases takes
+step 1. dotnet/aspnetcore#51379 (open since 2023) is the same path for a class with a primary and
+a parameterless constructor. A separate, union-free issue asking for the mapper to refuse the
+type when the delegate is built was drafted on 2026-09-15 at the area owner's request (see
+[page 10](10-documentation-and-upstream.md)).
 
 ### Three rules
 
@@ -146,7 +167,8 @@ established (source not read); that it does is.
    implicitly convert type 'string' to 'IntOrBool'`, reported against a generated file, while the
    reflection build of the same source succeeds.
 2. **Minimal API `[FromForm]` on a non-parsable union has no guard at all.** No analyzer, no
-   exception, no 400. A null-valued union reaches the handler and blows up in its first `switch`,
+   exception, no 400, and no log line even at `Debug` (the mapper logs to a null logger). A
+   null-valued union reaches the handler and blows up in its first `switch`,
    or, if nothing switches on it, the handler serializes `null`. Implement `IParsable<TUnion>` on
    any union bound from a non-body source; failing that, bind the field as `string` and convert.
    MVC never binds a non-parsable union silently: it fails every non-body binding with a 500 from
