@@ -56,6 +56,15 @@ in the docs, and read the output, not the docs, when they disagree.
   endpoint** before trusting the run. An incremental build after flipping the property does not
   re-run the generator, so it silently re-tests the reflection path and produces an empty diff that
   looks like "RDG behaves identically". That happened here once.
+- **`QVal` MVC re-run (dotnet/aspnetcore#69834):** the two `MVC` lines at the end of the output are
+  the ones to watch. On RC 2 the canary record body (`/mvc/admin`) returns 400 and the union body
+  (`/mvc/union`) returns 200 with `ModelState.IsValid == true`. When #69834 (*Validate active union
+  cases in MVC*) ships in a build you have, bump the packages and the SDK, `dotnet build`, `dotnet run
+  --no-build`, and expect `/mvc/union` to match the canary. If it still returns 200, the fix did not
+  reach that build. The Minimal API lines (`/union-rec`, `/union-cls`) are already fixed on RC 2 and the
+  `[Required]` wrapper "user missing" line is expected to stay 200 on a struct, so both are controls;
+  docs 05 and 10 get the new result and
+  keep the RC 2 one, labelled with its build.
 - **`ASP0020`:** `UnionWeb`, `Probe2`, `RdgNoString` and `QRepro2` carry an `.editorconfig` that
   suppresses it on purpose, to observe the runtime behaviour behind the analyzer. Delete the file
   from `UnionWeb` to see the three `ASP0020` errors instead.
