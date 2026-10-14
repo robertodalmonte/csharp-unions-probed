@@ -21,7 +21,9 @@ So a state union such as `union FourEyesApproval(NotRequired, PendingApproval, P
 FullyApproved, Rejected)`, five object cases, three of them distinguishable only by which `Guid`
 fields are present, **cannot** be deserialized without a classifier. Serialization still "works",
 which is the trap: the write side is silent and the read side fails, possibly in a different
-service.
+service. The shipped structural classifier refuses this shape too (cases with no properties are
+indistinguishable); the guidance question is
+[dotnet/runtime#135742](https://github.com/dotnet/runtime/issues/135742).
 
 ## The hand-written classifier is a payload-shape heuristic
 

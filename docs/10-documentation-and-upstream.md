@@ -73,13 +73,29 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   `pet is Pet` does not compile. The note is still wrong, for a different reason. The second item
   stands.
 
+- **dotnet/aspnetcore#64599** (comment, 2026-10-14): the umbrella *Support C# unions*. Asks
+  whether MVC validation of union cases is in scope. #68846 changed the validation source
+  generator, and an `[ApiController]` action with a union body still returns 200 with
+  `ModelState.IsValid == true` on RC 2 while the plain-record control returns 400. Also asks for a
+  docs line that `[Required]` on a union-typed property is always satisfied. Backed by `QVal`.
+  [Comment](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6160610105).
+- **dotnet/aspnetcore#69826** (filed 2026-10-14): one Minimal API endpoint taking a union the
+  structural classifier refuses makes every route return 500, and with `AddControllers()` or
+  `AddAuthorization()` startup throws, while the same union on an MVC action fails only that
+  action. Asks whether the failure should be scoped to the endpoint. Backed by `QOa` and `Probe2`
+  section G. [Issue](https://github.com/dotnet/aspnetcore/issues/69826).
+- **dotnet/runtime#135742** (filed 2026-10-14): a state union with data-less cases cannot be
+  classified by `JsonUnionTypeStructuralClassifier`. The refusal is by design (dotnet/runtime#129805);
+  the issue asks for guidance (a hand-written classifier or a `closed` hierarchy) and whether the
+  message should mention `[JsonRequired]` for the subset case. Backed by `UnionWeb` and `Probe2`.
+  [Issue](https://github.com/dotnet/runtime/issues/135742).
+
 Not reported, because upstream already covers them:
 
 - the null-state rule, which is by design (dotnet/roslyn#85054);
-- union validation, fixed for RC 2 in Minimal APIs (dotnet/aspnetcore#68268, PR #68846; MVC
-  still returns 200 on RC 2);
-- the `record class` provider overflow (dotnet/docs#55322);
-- the all-routes 500, which is not union-specific.
+- union validation in Minimal APIs, fixed for RC 2 (dotnet/aspnetcore#68268, PR #68846); the MVC
+  gap is the #64599 comment above;
+- the `record class` provider overflow (dotnet/docs#55322).
 
 ## Not compiled
 

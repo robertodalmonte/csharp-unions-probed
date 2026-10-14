@@ -32,7 +32,7 @@ one of those four facts.
 | 07 | [Hand-written unions](docs/07-hand-written-unions.md) | Class-based, non-boxing and `IUnionMembers` providers all work on RC 1; the `record class` provider stack overflow and its two fixes |
 | 08 | [EF Core](docs/08-ef-core.md) | EF cannot map a union and will not; the `Ignore` + `ComplexProperty` + private bridge recipe, verified with the keyword; why TPH corrupts mutable state |
 | 09 | [Roslyn](docs/09-roslyn.md) | `ITypeSymbol.UnionCaseTypes` lists cases of generated and hand-written unions, and returns an empty array for an ordinary type |
-| 10 | [Documentation and upstream](docs/10-documentation-and-upstream.md) | Where the reference, the spec and the compiler disagree; the three issues filed and how each was ruled |
+| 10 | [Documentation and upstream](docs/10-documentation-and-upstream.md) | Where the reference, the spec and the compiler disagree; the issues filed and how each was ruled, including three filed on 2026-10-14 |
 
 ## Status by build
 

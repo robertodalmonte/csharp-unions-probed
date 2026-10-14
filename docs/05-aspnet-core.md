@@ -209,6 +209,9 @@ option objects, fixes that case (200 in both stacks); a missing `$type` is still
 
 ## An unclassifiable union takes the whole route table down
 
+*Filed as [dotnet/aspnetcore#69826](https://github.com/dotnet/aspnetcore/issues/69826) on
+2026-10-14: should the failure be scoped to the endpoint that uses the union?*
+
 The structural classifier's contract-time refusal ([04](04-system-text-json.md)) is thrown when
 the endpoint's JSON contract is built, and *when* that happens depends on unrelated services:
 
@@ -243,7 +246,8 @@ union cases*). **Re-run on RC 2 (`QVal`, 2026-10-14):**
 - Still **200**: a class whose `[Required]` union property is missing from the payload. A union is
   a struct, so `[Required]` on it is always satisfied.
 - **MVC is not fixed.** The `[ApiController]` action with the union body still returns 200 with
-  `ModelState.IsValid == true`, while the canary record body returns 400.
+  `ModelState.IsValid == true`, while the canary record body returns 400. Asked on the umbrella,
+  [dotnet/aspnetcore#64599](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6160610105).
 
 What follows is the RC 1 behaviour, kept because it is what an RC 1 application does. On RC 1, with `builder.Services.AddValidation()` (the
 generator ships with the SDK; a `Microsoft.Extensions.Validation` package reference is redundant
