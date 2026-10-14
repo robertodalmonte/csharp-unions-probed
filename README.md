@@ -55,6 +55,25 @@ labelled with the build it held on. Packages in `probes/` are pinned to the RC 2
 
 ## Running the probes
 
+| Project | Kind | Backs pages |
+|---|---|---|
+| `QLang` | console | 01, 02, 03, 07 |
+| `QLang2` | console, `AnalysisLevel=latest-all` | 01, 02, 07 |
+| `QRoslyn` | console, the SDK's own Roslyn | 09 |
+| `UnionWeb` | web + OpenApi | 04, 05 |
+| `Probe2` | web + OpenApi | 04, 05 |
+| `RdgNoString` | web | 05 |
+| `QOa` | web + OpenApi | 04, 05 |
+| `QVal` | web | 05 |
+| `QParsable` | web + MVC | 05 |
+| `QFormCtor` | web + MVC, no union | 05, 10 |
+| `QIface` | console | 03 |
+| `QSrcGen` | console | 05, 10 |
+| `QClosedJson` | console | 04, 10 |
+| `QClosed` + `QClosedLib` | console + class library | 06 |
+| `QEf` | console + EF Core SQLite | 08 |
+| `QRepro1` / `QRepro2` / `QRepro3` | the repros exactly as posted | 10 |
+
 Each project stands alone: `dotnet build`, then `dotnet run --no-build`, and read the output. The
 web probes bind fixed ports on `127.0.0.1`. [`probes/README.md`](probes/README.md) maps each
 project to the pages it backs, lists the conditional builds that fail or crash by design, and
