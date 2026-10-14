@@ -63,8 +63,19 @@ The same shift applies to **interfaces declared on the union**. A union that dec
 `union GenUnion<T>(T, string) : IMarker` made `u is IMarker` always true on RC 1 (`CS0183` again,
 because the instance is tested first). On RC 2 the union's own interfaces no longer count: the
 pattern is true only when the held case implements `IMarker`. `QLang2`'s `GenUnion<T>` probe now
-prints `g is IMarker: False`. The case where no case type can implement the interface (an error in
-the spec) was not probed on RC 2.
+prints `g is IMarker: False`. The case where no case type can implement the interface is an error,
+as the spec says (`QIface`, RC 2):
+
+| Union | Interface pattern | RC 2 |
+|---|---|---|
+| `Pet(Cat, Bird)`, both cases implement `IPet` | `p is IPet` | compiles; `True` for a held case, `False` for `default` |
+| `GenUnion<T>(T, string) : IMarker`, open `T` | `g is IMarker` | compiles; `True` only when `T` implements `IMarker` |
+| `GenUnion<int>`, same union closed over `int` | `g is IMarker` | **`CS8121`**: no case type can implement it |
+| `SealedU(SealedA, SealedB)`, sealed cases, no `IPet` | `u is IPet` | **`CS8121`** |
+| `Plant(Fern, Moss)`, unsealed cases, no `IPet` | `u is IPet` | **compiles**: a subtype of `Fern` could implement it |
+
+So the rule is about whether some type that could be held can implement the interface, not about
+whether one does.
 
 **The language reference is wrong under both rules.** It says *"a pattern like `pet is Pet`
 typically doesn't match"*. On RC 1 it always matched; on RC 2 it does not compile.

@@ -1,8 +1,11 @@
 # 6. The `closed` modifier, and `closed` vs `union`
 
-*Compiled on SDK `11.0.100-rc.1.26425.128`, 2026-09-10. Diagnostic codes and messages are quoted
-from the compiler. Probes: `QLang`, `QLang2`; the cross-assembly cases were built as two projects
-by hand.*
+*Compiled on SDK `11.0.100-rc.1.26425.128`, 2026-09-10, and every claim below re-run on
+`11.0.100-rc.2.26504.105` on 2026-10-14 with the same diagnostics and the same runtime failure.
+Diagnostic codes and messages are quoted from the compiler. Probes: `QClosed` and `QClosedLib`
+(the two assemblies; the declaration rules and the three warnings sit behind `DefineConstants`
+switches, listed in [`probes/README.md`](../probes/README.md)), `QLang`, `QLang2`. The RC 1 run
+built the cross-assembly cases as two projects by hand.*
 
 `closed` is the *class* half of C# 15's closed-hierarchy work: it marks a base class or record
 whose derived set the compiler may treat as complete, so a `switch` over it can be exhaustive with

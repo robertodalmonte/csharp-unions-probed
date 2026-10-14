@@ -18,6 +18,9 @@ in the docs, and read the output, not the docs, when they disagree.
 | `QVal` | web | Validation on Minimal APIs and MVC, with canaries | 05 |
 | `QParsable` | web + MVC | `IParsable<T>` on a union bound from query, header, route and form, Minimal API and MVC; the multi-constructor struct form fallback | 05 |
 | `QFormCtor` | web + MVC, no union | The multi-constructor `[FromForm]` fallback with plain structs and classes, logging on at `Debug`; the #51379 shape; MVC contrast; `QUERY_CONTROL` for the `ASP0020` contrast | 05, 10 |
+| `QIface` | console | Interface type patterns on a union: open and closed generic, sealed and unsealed cases, the `CS8121` cases (`CLOSED_INT`, `NO_CASE_IMPLEMENTS_SEALED`; `NO_CASE_IMPLEMENTS` compiles) | 03 |
+| `QSrcGen` | console | A union-level `[JsonNumberHandling(Strict)]` through a `JsonSerializerContext` under the `Web` defaults, next to reflection | 05, 10 |
+| `QClosed` + `QClosedLib` | console + class library | `closed` across assemblies: the declaration rules and the three warnings behind `DefineConstants`, closure that is not transitive, and the binary-breaking added case | 06 |
 | `QEf` | console + EF Core SQLite | The persistence recipe verbatim with the real `union` keyword; the placeholder constructor; detached entities; an int-mapped `Kind` | 08 |
 | `QRepro1` / `QRepro2` / `QRepro3` | the repros exactly as posted | dotnet/runtime#133668, dotnet/aspnetcore#66648, dotnet/docs#55951 | 10 |
 
@@ -33,6 +36,14 @@ in the docs, and read the output, not the docs, when they disagree.
     `TEST_CHAIN`, `TEST_EXPLICIT`, `TEST_LIST` and `TEST_UNION_INTO_UNION`; `QFormCtor`
     `QUERY_CONTROL` (`ASP0020`).
   - A run that crashes by design: `QLang2` `REC_RECURSE` overflows the stack.
+  - `QClosed` switches: `DERIVE_CLOSED` (`CS9382`), `ABSTRACT_CLOSED` (`CS9384`), `CLOSED_INTERFACE`
+    (`CS0106`), `PARTIAL_ORDER` (`CS0267`); `PARTIAL_OK` builds; `NONEXHAUSTIVE`, `NULLABLE_INPUT`
+    and `WHEN_ARM` build with `CS8509`, `CS8655` and `CS8846` as warnings.
+  - The binary-breaking case: build `QClosed`, then
+    `dotnet build QClosedLib -p:DefineConstants=THIRD -o <dir>`, copy `<dir>/QClosedLib.dll` over
+    `QClosed/bin/Debug/net11.0/` and run `QClosed.dll`. `Helicopter => SwitchExpressionException`.
+  - `QIface` switches: `CLOSED_INT` and `NO_CASE_IMPLEMENTS_SEALED` fail with `CS8121`;
+    `NO_CASE_IMPLEMENTS` builds.
   - Runs that succeed: `QLang2` `CLASS_PROVIDER` and `CAST_FIX`.
 - **RDG (Request Delegate Generator):**
 
