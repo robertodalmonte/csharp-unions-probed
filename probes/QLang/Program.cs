@@ -5,8 +5,10 @@ FourEyesApproval real = new PartlyApproved(Guid.NewGuid());
 FourEyesApproval dflt = default;
 
 Console.WriteLine("--- Trap 7 ---");
+#if RC1_IS_UNION_TYPE // CS8121 from RC 2 on
 Console.WriteLine($"real is FourEyesApproval: {real is FourEyesApproval}");
 Console.WriteLine($"dflt is FourEyesApproval: {dflt is FourEyesApproval}");
+#endif
 Console.WriteLine($"dflt is null: {dflt is null}; real is null: {real is null}");
 Console.WriteLine($"dflt is not null: {dflt is not null}; real is not null: {real is not null}");
 Console.WriteLine($"real is PartlyApproved {{ Approver: _ }}: {real is PartlyApproved { Approver: _ }}");

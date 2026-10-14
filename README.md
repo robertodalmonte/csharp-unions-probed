@@ -7,9 +7,9 @@ program in [`probes/`](probes/) and is tagged with the SDK build it was verified
 official documentation says what works. These pages record what silently does not, with the
 diagnostic codes, exception messages and HTTP status codes quoted from the run.
 
-Unions ship in .NET 11 GA (November 2026, STS). RC 1 (2026-09-08) carries a go-live licence; on
-`net11.0` the language version defaults to `15.0`, so no `<LangVersion>preview</LangVersion>` is
-needed.
+Unions ship in .NET 11 GA (November 2026, STS). RC 1 (2026-09-08) and RC 2 carry a go-live
+licence; on `net11.0` the language version defaults to `15.0`, so no `<LangVersion>preview</LangVersion>`
+is needed.
 
 ## The mental model in five lines
 
@@ -36,21 +36,22 @@ one of those four facts.
 
 ## Status by build
 
-| Page | RC 1 `11.0.100-rc.1.26425.128` | RC 2 | GA |
+| Page | RC 1 `11.0.100-rc.1.26425.128` | RC 2 `11.0.100-rc.2.26504.105` (re-run 2026-10-14) | GA |
 |---|---|---|---|
-| 01 compiler | verified 2026-09-11 | | |
-| 02 null-valued union | verified 2026-09-11 | | |
-| 03 pattern matching | verified 2026-09-11; `is <union type>` rule changed after RC 1 | **re-run: `is <union type>` and interface cases become `CS8121`** | |
-| 04 System.Text.Json | verified 2026-09-11 | | |
-| 05 ASP.NET Core | verified 2026-09-11 and 2026-09-15 | **re-run: validation of union cases (aspnetcore#68268); `[JsonNumberHandling]` on the union (runtime#133668); `QFormCtor` if the form-binding issue moves** | |
-| 06 closed hierarchies | verified 2026-09-10 | | |
-| 07 hand-written unions | verified 2026-09-11 | | |
-| 08 EF Core | verified 2026-09-11 (EF 11 RC 1) and on EF 10.0.9 | | |
-| 09 Roslyn | verified 2026-09-11 | | |
+| 01 compiler | verified 2026-09-11 | declaration errors `CS9373`, `CS9374`, `CS9375` and the `TEST_*` conversion errors reproduce; no change found | |
+| 02 null-valued union | verified 2026-09-11 | unchanged: `default` is `null`, a switch with no `null` arm throws `SwitchExpressionException` | |
+| 03 pattern matching | verified 2026-09-11; `is <union type>` rule changed after RC 1 | **changed: `is <union type>` and `pet is Pet` are `CS8121`; a union's own interface in `is` no longer matches (`g is IMarker` is `False`)** | |
+| 04 System.Text.Json | verified 2026-09-11 | unchanged: `Web` still rejects `(int, string)` strings; the structural classifier still refuses `Approval`, `UnionTwins`, `SubsetU` | |
+| 05 ASP.NET Core | verified 2026-09-11 and 2026-09-15 | **changed: union-level `[JsonNumberHandling]` works (runtime#133668 / #133673); Minimal API validation reaches union cases (aspnetcore#68268).** Unchanged: MVC union bodies are not validated, `[FromForm]` still binds `default`, RDG `CS0029`, the all-routes 500, `IParsable<T>` as the fix | |
+| 06 closed hierarchies | verified 2026-09-10 | not re-run (the cross-assembly cases were built by hand); `CS8509` and `CS8655` still appear in `QLang`/`QLang2` | |
+| 07 hand-written unions | verified 2026-09-11 | unchanged: `CLASS_PROVIDER` and `CAST_FIX` run, `REC_RECURSE` still overflows the stack | |
+| 08 EF Core | verified 2026-09-11 (EF 11 RC 1) and on EF 10.0.9 | recipe re-run on EF 11 RC 2: builds and runs; corrupt-row and `default` guards throw as described | |
+| 09 Roslyn | verified 2026-09-11 | unchanged on `Microsoft.CodeAnalysis` 5.12: same four `UnionCaseTypes` results | |
 
-Empty cells mean "not yet run on that build", not "still true". The RC 2 column names the items
-already known to change. When a build changes a finding, the page gets the new result and the
-old one stays, labelled with the build it held on.
+Empty cells mean "not yet run on that build", not "still true". "Unchanged" means the probe was
+re-run and its output matched what the page says, not that every line was diffed against an RC 1
+capture. When a build changes a finding, the page gets the new result and the old one stays,
+labelled with the build it held on. Packages in `probes/` are pinned to the RC 2 versions.
 
 ## Running the probes
 

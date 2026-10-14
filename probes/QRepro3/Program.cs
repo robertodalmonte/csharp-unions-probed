@@ -1,7 +1,9 @@
 Pet real = new Dog("Rex");
 Pet none = default;
+#if RC1_IS_UNION_TYPE // as posted; CS8121 from RC 2 on
 Console.WriteLine(real is Pet); // True
 Console.WriteLine(none is Pet); // True
+#endif
 
 Pet pet = default;
 try

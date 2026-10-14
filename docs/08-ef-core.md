@@ -2,7 +2,7 @@
 
 *Verified twice: on EF Core 10.0.9 / .NET 10 / SQLite with an abstract-record hierarchy, and on
 EF Core `11.0.0-rc.1.26425.128` / SQLite with the real `union` keyword, using the code below
-verbatim. Probe: `QEf`. The TPH defects were verified on EF Core 10.0.9.*
+verbatim, and re-run on `11.0.0-rc.2.26504.105` on 2026-10-14: it builds and runs. Probe: `QEf`. The TPH defects were verified on EF Core 10.0.9.*
 
 EF Core has no concept of a union, and none is scheduled. dotnet/efcore#36375 (*"Consider EF
 support (**if any**)"*) is Backlog; the only milestoned item, dotnet/efcore#38059, is JSON-only,

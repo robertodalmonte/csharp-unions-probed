@@ -37,7 +37,7 @@ As compiled on RC 1:
   `CS8985: List patterns may not be used for a value of type 'OneOrMore<int>'` (plus `CS0021`),
   even though the `IEnumerable<T>` case would support one.
 
-## `is <the union's own type>`: always true on RC 1, a compile error under the current spec
+## `is <the union's own type>`: always true on RC 1, `CS8121` from RC 2
 
 - **RC 1** implements the "Try-Both" rule: a type pattern tests the union instance first and
   `Value` second. `real is FourEyesApproval` and `default(FourEyesApproval) is FourEyesApproval`
@@ -46,9 +46,12 @@ As compiled on RC 1:
 - **The design changed after RC 1's compiler was cut.** LDM 2026-08-12 dropped Try-Both. The spec
   (dotnet/csharplang#10302) and the compiler (dotnet/roslyn#84897) both landed on `main` on
   2026-08-18. A type pattern on a union now tests **only `Value`**, and it is an error when no case
-  type is pattern-compatible with the pattern's type: `pet is Pet` becomes `error CS8121: An
-  expression of type 'Pet' cannot be handled by a pattern of type 'Pet'`. That message shape comes
-  from the PR's tests; it has not been compiled here yet. **Re-run `QLang` at RC 2.**
+  type is pattern-compatible with the pattern's type.
+- **RC 2 (`11.0.100-rc.2.26504.105`, 2026-10-14) carries the change.** Compiled: `real is
+  FourEyesApproval` and `pet is Pet` are both `error CS8121: An expression of type 'Pet' cannot be
+  handled by a pattern of type 'Pet'`. `QLang` and `QRepro3` no longer build as written; their
+  `is <union type>` lines now sit behind `#if RC1_IS_UNION_TYPE`, which reproduces RC 1 only on
+  an RC 1 SDK.
 
 Either way, `is <union type>` is useless as a has-a-value test. Use `approval.Value is not null`
 (or `approval is not null`, since `is null` tests `Value`). `is IUnion { Value: null }` works as a
@@ -57,13 +60,13 @@ test. On a union-typed input it falls under the new rule and does not compile un
 implements `IUnion`.
 
 The same shift applies to **interfaces declared on the union**. A union that declares
-`union GenUnion<T>(T, string) : IMarker` makes `u is IMarker` always true on RC 1 (`CS0183` again,
-because the instance is tested first). Under the current spec the union's own interfaces no longer
-count: the pattern is true only when the held case implements `IMarker`, and it is an error when
-no case type can (`p is IPet ip // error` in the spec). An unconstrained `T` case may keep it
-compiling. **Re-probe at RC 2.**
+`union GenUnion<T>(T, string) : IMarker` made `u is IMarker` always true on RC 1 (`CS0183` again,
+because the instance is tested first). On RC 2 the union's own interfaces no longer count: the
+pattern is true only when the held case implements `IMarker`. `QLang2`'s `GenUnion<T>` probe now
+prints `g is IMarker: False`. The case where no case type can implement the interface (an error in
+the spec) was not probed on RC 2.
 
 **The language reference is wrong under both rules.** It says *"a pattern like `pet is Pet`
-typically doesn't match"*. On RC 1 it always matched; under the current spec it does not compile.
-Code that relies on RC 1's `true` fails as a **build error** at RC 2, not as a silent behaviour
+typically doesn't match"*. On RC 1 it always matched; on RC 2 it does not compile.
+Code that relies on RC 1's `true` fails as a **build error** on RC 2, not as a silent behaviour
 change. Reported as part of dotnet/docs#55951 ([10](10-documentation-and-upstream.md)).

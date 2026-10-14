@@ -1,7 +1,8 @@
 # 9. Roslyn: enumerating a union's cases from an analyzer or generator
 
 *Verified through the SDK's own Roslyn (`Microsoft.CodeAnalysis` 5.11, the compiler in SDK
-`11.0.100-rc.1.26425.128`), 2026-09-11. Probe: `QRoslyn`.*
+`11.0.100-rc.1.26425.128`), 2026-09-11, and re-run on 5.12 (SDK `11.0.100-rc.2.26504.105`)
+on 2026-10-14 with the same four results. Probe: `QRoslyn`.*
 
 The compiler uses the final `CSharp15` language-version name, and `ITypeSymbol.UnionCaseTypes`
 exposes a union's cases. That is the supported way to reason about a union in a source generator
@@ -10,7 +11,7 @@ or analyzer, not re-parsing the declaration.
 Output of the probe:
 
 ```
-Microsoft.CodeAnalysis 5.11.0.0; LanguageVersion names with 15: CSharp15
+Microsoft.CodeAnalysis 5.11.0.0 (5.12.0.0 on RC 2); LanguageVersion names with 15: CSharp15
 compile errors: 0
 FourEyesApproval: TypeKind=Struct, UnionCaseTypes.IsDefault=False, [NotRequired, PendingApproval, PartlyApproved]
 IntOrString: TypeKind=Struct, UnionCaseTypes.IsDefault=False, [int, string]

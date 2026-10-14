@@ -24,7 +24,8 @@ Neither the reference nor the spec can be trusted alone.
 ## The two places where they disagree, and what the compiler does
 
 - **`is <union type>`.** RC 1 follows the July spec (always true, `CS0183`). The spec and
-  Roslyn `main` changed on 2026-08-18 to `Value`-only, where it is `CS8121`. The language
+  Roslyn `main` changed on 2026-08-18 to `Value`-only, where it is `CS8121`; RC 2 compiles it as
+  `CS8121` (verified 2026-10-14). The language
   reference's *"typically doesn't match"* is wrong under both ([03](03-pattern-matching.md)).
 - **The default null state of `Value`** was never really in conflict. The spec's Nullability
   section, the language reference and the compiler all agree on "not null" unless a case type is
@@ -42,7 +43,10 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   a bug, labelled `bug`, milestone `11.0.0`. The issue was retitled the same day to
   *"`[JsonNumberHandling]` on a union type is not applied to its cases"*, so a close means the
   attribute fix and nothing more. Confirmed in the thread: a union-level `Strict` makes `"42"`
-  bind to `string`. Check `QRepro1`'s output, not the issue state.
+  bind to `string`. **Closed as completed 2026-09-15 via #133673**, merged to `main`. **RC 2
+  carries the fix**: `QRepro1` no longer throws for the attributed union. The close is the
+  attribute fix and nothing more, as expected: the unattributed union is still ambiguous under
+  `Web`. Check `QRepro1`'s output on the build in hand, not the issue state.
 - **dotnet/aspnetcore#66648**, comment 5630500296: `[FromForm]` silently binds a null-valued
   union, and RDG binds the `string` case or emits `CS0029` for non-body unions. Narrowed on
   2026-09-15 after the area owner asked for the scenario: there is no union binding in .NET 11,
@@ -72,7 +76,8 @@ Check the status of each before relying on the matching page at RC 2 or GA.
 Not reported, because upstream already covers them:
 
 - the null-state rule, which is by design (dotnet/roslyn#85054);
-- union validation, fixed for RC 2 (dotnet/aspnetcore#68268, PR #68846);
+- union validation, fixed for RC 2 in Minimal APIs (dotnet/aspnetcore#68268, PR #68846; MVC
+  still returns 200 on RC 2);
 - the `record class` provider overflow (dotnet/docs#55322);
 - the all-routes 500, which is not union-specific.
 

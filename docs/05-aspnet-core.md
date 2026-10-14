@@ -1,8 +1,11 @@
 # 5. ASP.NET Core: body only, and the Web defaults break the flagship example
 
 *Verified on `Microsoft.AspNetCore.App 11.0.0-rc.1.26425.128` and `Microsoft.AspNetCore.OpenApi`
-of the same version, 2026-09-11 and 2026-09-15, one Kestrel host per probe. Probes: `UnionWeb`,
-`Probe2`, `RdgNoString`, `QOa`, `QVal`, `QParsable`.*
+of the same version, 2026-09-11 and 2026-09-15, one Kestrel host per probe, and re-run on
+`11.0.0-rc.2.26504.105` on 2026-10-14. Two findings changed on RC 2 (a union-level
+`[JsonNumberHandling]` and Minimal API validation); every other result on this page that was
+re-run reproduced unchanged. Probes: `UnionWeb`, `Probe2`, `RdgNoString`, `QOa`, `QVal`,
+`QParsable`, `QFormCtor`.*
 
 Microsoft's own account is *C# Unions and Closed Hierarchies in ASP.NET Core* (Dmitrii Korolev,
 .NET Blog, 2026-09-10). Unions and closed hierarchies work anywhere ASP.NET Core hands the payload
@@ -48,11 +51,16 @@ camelCase naming and case-insensitive matching, and under those `"hello"` deseri
   - **MVC is not covered by it.** With only `ConfigureHttpJsonOptions` set, the same body posted to
     a controller is still 400. MVC also needs
     `AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.NumberHandling = JsonNumberHandling.Strict)`.
-- **Does nothing on RC 1, a confirmed bug:** `[JsonNumberHandling(JsonNumberHandling.Strict)]` on
-  the union type. Still 400; the cases' number handling is not taken from the union's attribute.
-  The area owner called this "unexpected and should be fixed" (dotnet/runtime#133668, labelled
-  `bug`, milestone `11.0.0`). Once fixed it becomes the per-type fix that changes nothing
-  app-wide. **Re-run `QRepro1` at RC 2 and GA before relying on it.**
+- **Works on RC 2; did nothing on RC 1:** `[JsonNumberHandling(JsonNumberHandling.Strict)]` on
+  the union type. On RC 1 it was still 400, because the cases' number handling was not taken from
+  the union's attribute. The area owner called that "unexpected and should be fixed"
+  (dotnet/runtime#133668, labelled `bug`, milestone `11.0.0`). It was fixed on `main` 2026-09-15 by
+  dotnet/runtime#133673 (the union converter, the structural classifier, the schema exporter and
+  the STJ source generator all read the union-level attribute). **RC 2 carries it**: `QRepro1`
+  now deserializes `"hello"` into `IntOrStringStrict` under `JsonSerializerOptions.Web` without
+  throwing, and `UnionWeb`'s `POST /int-string-strict "hello"` returns 200. It is the per-type fix
+  that changes nothing app-wide. The unattributed `IntOrString` is unchanged and still ambiguous
+  under `Web`. The source-generator half of #133673 was not probed.
 - **Works, per type:** a custom classifier that decides by token kind.
 
   ```csharp
@@ -223,10 +231,21 @@ POST), because MVC resolves a body's JSON contract only when the action runs. A 
 ambiguous only at *read* time (no classifier, so no contract-time refusal) poisons nothing: 400
 on its own endpoint, 200 everywhere else.
 
-## Validation does not reach inside a union on RC 1
+## Validation reaches inside a union on Minimal APIs from RC 2, not in MVC
 
 dotnet/aspnetcore#68268 was closed as fixed for RC 2 by PR #68846 (*Support validation for C#
-union cases*). **Re-check on RC 2.** On RC 1, with `builder.Services.AddValidation()` (the
+union cases*). **Re-run on RC 2 (`QVal`, 2026-10-14):**
+
+- Minimal API, `AddValidation()`: a union of records and a union of classes, bad admin or bad
+  customer, now return **400**, with the errors keyed under the union's `Value`
+  (`errors.Value.Role`, `errors.Value.Age`). A class holding the union as a property reports
+  `errors.User.Value.Role`.
+- Still **200**: a class whose `[Required]` union property is missing from the payload. A union is
+  a struct, so `[Required]` on it is always satisfied.
+- **MVC is not fixed.** The `[ApiController]` action with the union body still returns 200 with
+  `ModelState.IsValid == true`, while the canary record body returns 400.
+
+What follows is the RC 1 behaviour, kept because it is what an RC 1 application does. On RC 1, with `builder.Services.AddValidation()` (the
 generator ships with the SDK; a `Microsoft.Extensions.Validation` package reference is redundant
 and draws `NU1510`), the canaries fail correctly: a record with `[MaxLength(10)]` on a constructor
 parameter and a class with it on a property both return 400 with `errors.Role`. Against that
@@ -244,7 +263,8 @@ baseline:
   `ModelState.IsValid == true`, while the canary record body returns 400.
 
 Put the invariants in the case types' constructors, or validate `Value` explicitly. Never rely on
-the pipeline to validate a union body on RC 1.
+the pipeline to validate a union body on RC 1, and on RC 2 do not rely on it in MVC or for a
+`[Required]` union property.
 
 ## The article's design rule, sharpened
 

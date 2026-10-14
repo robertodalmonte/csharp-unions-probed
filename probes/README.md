@@ -1,10 +1,10 @@
 # Probes
 
 Every claim in [`../docs`](../docs) came from one of these projects, run on **.NET SDK
-`11.0.100-rc.1.26425.128`** between 2026-09-10 and 2026-09-15. They are deliberately small,
-self-contained console and web projects that print what the framework did. Re-run them on RC 2 and
-on GA before relying on anything in the docs, and read the output, not the docs, when they
-disagree.
+`11.0.100-rc.1.26425.128`** between 2026-09-10 and 2026-09-15, and re-run on
+**`11.0.100-rc.2.26504.105`** on 2026-10-14. They are deliberately small, self-contained console
+and web projects that print what the framework did. Re-run them on GA before relying on anything
+in the docs, and read the output, not the docs, when they disagree.
 
 | Project | Kind | What it probes | Doc |
 |---|---|---|---|
@@ -27,6 +27,8 @@ disagree.
   probes bind fixed ports on `127.0.0.1`, so run them one at a time: `UnionWeb` 5310+, `Probe2`
   5410+, `QVal` 5480, `QOa` 5491+, `QRepro2` 5560, `QParsable` 5570, `QFormCtor` 5580.
 - **Conditional probes:** `dotnet build --no-incremental -p:DefineConstants=NAME`.
+  - `QLang` and `QRepro3` carry their RC 1 `is <union type>` lines behind `RC1_IS_UNION_TYPE`;
+    on RC 2 and later that define fails with `CS8121`.
   - Builds that fail by design: `QLang` `PROBE_ERR` and `PROBE_ERR2`; `QLang2` `TEST_EVENT`,
     `TEST_CHAIN`, `TEST_EXPLICIT`, `TEST_LIST` and `TEST_UNION_INTO_UNION`; `QFormCtor`
     `QUERY_CONTROL` (`ASP0020`).
@@ -46,7 +48,7 @@ disagree.
   suppresses it on purpose, to observe the runtime behaviour behind the analyzer. Delete the file
   from `UnionWeb` to see the three `ASP0020` errors instead.
 - **Moving to a newer SDK:**
-  - Packages are pinned to `11.0.0-rc.1.26425.128`; bump them to the matching version.
+  - Packages are pinned to `11.0.0-rc.2.26504.105`; bump them to the matching version.
   - `QRoslyn` references the SDK's own Roslyn through `$(NetCoreRoot)` and `$(NETCoreSdkVersion)`,
     so it follows whatever SDK `dotnet` resolves to. Pin the SDK with a `global.json` if you have
     several installed.
