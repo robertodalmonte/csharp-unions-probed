@@ -84,10 +84,16 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   `AddAuthorization()` startup throws, while the same union on an MVC action fails only that
   action. Asks whether the failure should be scoped to the endpoint. Backed by `QOa` and `Probe2`
   section G. [Issue](https://github.com/dotnet/aspnetcore/issues/69826).
-- **dotnet/runtime#135742** (filed 2026-10-14): a state union with data-less cases cannot be
-  classified by `JsonUnionTypeStructuralClassifier`. The refusal is by design (dotnet/runtime#129805);
-  the issue asks for guidance (a hand-written classifier or a `closed` hierarchy) and whether the
-  message should mention `[JsonRequired]` for the subset case. Backed by `UnionWeb` and `Probe2`.
+- **dotnet/runtime#135742** (filed 2026-10-14, closed as answered the same day): a state union
+  with data-less cases cannot be classified by `JsonUnionTypeStructuralClassifier`. The refusal is
+  by design (dotnet/runtime#129805); the issue asked for guidance (a hand-written classifier or a
+  `closed` hierarchy) and whether the message should mention `[JsonRequired]` for the subset case.
+  Backed by `UnionWeb` and `Probe2`. Answer ([comment](https://github.com/dotnet/runtime/issues/135742#issuecomment-6170098759)):
+  two data-less cases both serialize to `{}`, so no structural classifier, custom ones included, can
+  recover the case; use a closed class or record hierarchy with a type discriminator
+  (`[JsonPolymorphic(InferClosedTypePolymorphism = true)]`) instead of a union. `[JsonRequired]`
+  only changes which payloads a case accepts and does not resolve the ambiguity, so the message
+  should not suggest it as a general fix.
   [Issue](https://github.com/dotnet/runtime/issues/135742).
 
 Not reported, because upstream already covers them:

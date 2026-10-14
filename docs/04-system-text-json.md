@@ -27,8 +27,11 @@ FullyApproved, Rejected)`, five object cases, three of them distinguishable only
 fields are present, **cannot** be deserialized without a classifier. Serialization still "works",
 which is the trap: the write side is silent and the read side fails, possibly in a different
 service. The shipped structural classifier refuses this shape too (cases with no properties are
-indistinguishable); the guidance question is
-[dotnet/runtime#135742](https://github.com/dotnet/runtime/issues/135742).
+indistinguishable). Upstream's answer on
+[dotnet/runtime#135742](https://github.com/dotnet/runtime/issues/135742#issuecomment-6170098759):
+no structural classifier, a custom one included, can recover the case when two cases both
+serialize to `{}`; model such a state as a closed hierarchy with a type discriminator
+(`[JsonPolymorphic(InferClosedTypePolymorphism = true)]`), not a union.
 
 ## The hand-written classifier is a payload-shape heuristic
 
