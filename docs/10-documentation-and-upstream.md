@@ -93,7 +93,8 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   recover the case; use a closed class or record hierarchy with a type discriminator
   (`[JsonPolymorphic(InferClosedTypePolymorphism = true)]`) instead of a union. `[JsonRequired]`
   only changes which payloads a case accepts and does not resolve the ambiguity, so the message
-  should not suggest it as a general fix.
+  should not suggest it as a general fix. `QClosedJson` confirms the recommended shape on RC 2: the
+  same five-case state as a `closed` hierarchy round-trips every case, both data-less ones included.
   [Issue](https://github.com/dotnet/runtime/issues/135742).
 
 Not reported, because upstream already covers them:
