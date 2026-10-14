@@ -5,7 +5,7 @@ Unchanged on RC 2: a union still serializes as its case with no discriminator, `
 `(int, string)`, the structural classifier still refuses `Approval`, `UnionTwins` and `SubsetU`, the `$type`
 round-trip of a `closed` hierarchy and its 500 without `$type` are the same, and the source-generated path
 behaves like reflection (`QSrcGen`). One change, in [05](05-aspnet-core.md): a union-level
-`[JsonNumberHandling]` is now honoured. Probes: `UnionWeb`, `Probe2`, `QOa`, `QRepro1`, `QSrcGen`.*
+`[JsonNumberHandling]` is now honoured. Probes: `UnionWeb`, `Probe2`, `QOa`, `QRepro1`, `QSrcGen`, `QClosedJson`.*
 *Originally reported for Preview 7 by Andrew Lock ("the pain of serializing unions and closed class
 hierarchies with System.Text.Json", 2026-09-01). Everything below was reproduced on RC 1, message
 text included.*
@@ -32,6 +32,9 @@ indistinguishable). Upstream's answer on
 no structural classifier, a custom one included, can recover the case when two cases both
 serialize to `{}`; model such a state as a closed hierarchy with a type discriminator
 (`[JsonPolymorphic(InferClosedTypePolymorphism = true)]`), not a union.
+`QClosedJson` runs it: the same five-case state as a `closed` hierarchy round-trips every case,
+both data-less ones included (`{"$type":"NotRequired"}` vs `{"$type":"PendingApproval"}`); a payload
+with no `$type` throws `NotSupportedException`, an unknown one `JsonException`.
 
 ## The hand-written classifier is a payload-shape heuristic
 

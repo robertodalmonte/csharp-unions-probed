@@ -20,6 +20,7 @@ in the docs, and read the output, not the docs, when they disagree.
 | `QFormCtor` | web + MVC, no union | The multi-constructor `[FromForm]` fallback with plain structs and classes, logging on at `Debug`; the #51379 shape; MVC contrast; `QUERY_CONTROL` for the `ASP0020` contrast | 05, 10 |
 | `QIface` | console | Interface type patterns on a union: open and closed generic, sealed and unsealed cases, the `CS8121` cases (`CLOSED_INT`, `NO_CASE_IMPLEMENTS_SEALED`; `NO_CASE_IMPLEMENTS` compiles) | 03 |
 | `QSrcGen` | console | A union-level `[JsonNumberHandling(Strict)]` through a `JsonSerializerContext` under the `Web` defaults, next to reflection | 05, 10 |
+| `QClosedJson` | console | The data-less state from runtime#135742 as a closed hierarchy with `InferClosedTypePolymorphism`: five cases incl. two data-less round-trip by `$type`; missing and unknown discriminators throw | 04, 10 |
 | `QClosed` + `QClosedLib` | console + class library | `closed` across assemblies: the declaration rules and the three warnings behind `DefineConstants`, closure that is not transitive, and the binary-breaking added case | 06 |
 | `QEf` | console + EF Core SQLite | The persistence recipe verbatim with the real `union` keyword; the placeholder constructor; detached entities; an int-mapped `Kind` | 08 |
 | `QRepro1` / `QRepro2` / `QRepro3` | the repros exactly as posted | dotnet/runtime#133668, dotnet/aspnetcore#66648, dotnet/docs#55951 | 10 |
