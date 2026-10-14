@@ -248,6 +248,9 @@ union cases*). **Re-run on RC 2 (`QVal`, 2026-10-14):**
 - **MVC is not fixed.** The `[ApiController]` action with the union body still returns 200 with
   `ModelState.IsValid == true`, while the canary record body returns 400. Asked on the umbrella,
   [dotnet/aspnetcore#64599](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6160610105).
+  A maintainer replied the same day that a fix is in progress, [PR #69834](https://github.com/dotnet/aspnetcore/pull/69834)
+  (*Validate active union cases in MVC*), with a net11 backport undecided
+  ([comment](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6171437285)). Re-run `QVal` once it merges.
 
 What follows is the RC 1 behaviour, kept because it is what an RC 1 application does. On RC 1, with `builder.Services.AddValidation()` (the
 generator ships with the SDK; a `Microsoft.Extensions.Validation` package reference is redundant

@@ -78,7 +78,10 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   generator, and an `[ApiController]` action with a union body still returns 200 with
   `ModelState.IsValid == true` on RC 2 while the plain-record control returns 400. Also asks for a
   docs line that `[Required]` on a union-typed property is always satisfied. Backed by `QVal`.
-  [Comment](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6160610105).
+  [Comment](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6160610105). Answered the same
+  day ([reply](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6171437285)): a maintainer has a
+  fix, [PR #69834](https://github.com/dotnet/aspnetcore/pull/69834) *Validate active union cases in MVC*;
+  whether it is backported to net11 is undecided. Re-run `QVal` when it merges.
 - **dotnet/aspnetcore#69826** (filed 2026-10-14): one Minimal API endpoint taking a union the
   structural classifier refuses makes every route return 500, and with `AddControllers()` or
   `AddAuthorization()` startup throws, while the same union on an MVC action fails only that
