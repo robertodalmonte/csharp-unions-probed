@@ -1,6 +1,8 @@
 # 1. What the compiler generates
 
-*Verified on SDK `11.0.100-rc.1.26425.128` (.NET 11 RC 1). Probes: `QLang`, `QLang2`.*
+*Verified on SDK `11.0.100-rc.1.26425.128` (.NET 11 RC 1). Re-run on SDK `11.0.100-rc.2.26504.105` (.NET 11 RC 2) on 2026-10-14: the
+declaration errors (`CS9373`, `CS9374`, `CS9375`) and the conversion and `TEST_*` errors reproduce; nothing on this
+page changed. Probes: `QLang`, `QLang2`.*
 
 `union` is a contextual keyword. The compiler lowers the declaration to a `struct`:
 

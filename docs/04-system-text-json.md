@@ -1,6 +1,11 @@
 # 4. System.Text.Json: a union does not round-trip; a `closed` hierarchy does
 
-*Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-10/11. Probes: `UnionWeb`, `Probe2`, `QOa`.*
+*Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-10/11, and re-run on SDK `11.0.100-rc.2.26504.105` (.NET 11 RC 2) on 2026-10-14.
+Unchanged on RC 2: a union still serializes as its case with no discriminator, `Web` still rejects strings for
+`(int, string)`, the structural classifier still refuses `Approval`, `UnionTwins` and `SubsetU`, the `$type`
+round-trip of a `closed` hierarchy and its 500 without `$type` are the same, and the source-generated path
+behaves like reflection (`QSrcGen`). One change, in [05](05-aspnet-core.md): a union-level
+`[JsonNumberHandling]` is now honoured. Probes: `UnionWeb`, `Probe2`, `QOa`, `QRepro1`, `QSrcGen`.*
 *Originally reported for Preview 7 by Andrew Lock ("the pain of serializing unions and closed class
 hierarchies with System.Text.Json", 2026-09-01). Everything below was reproduced on RC 1, message
 text included.*

@@ -1,6 +1,8 @@
 # 2. The null-valued union
 
-*Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-11. Probes: `QLang`, `QLang2`
+*Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-11, and re-run on SDK `11.0.100-rc.2.26504.105` (.NET 11 RC 2) on 2026-10-14: `default`
+is still a null-valued union, a switch with no `null` arm still compiles and throws
+`SwitchExpressionException`, and `CS8655` still fires only under the canary. Probes: `QLang`, `QLang2`
 (`AnalysisLevel=latest-all`), `QEf` for the EF Core part.*
 
 `union` lowers to a struct, so every field, array slot and `default(T)` in a generic gives you a
