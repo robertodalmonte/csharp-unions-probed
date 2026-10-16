@@ -210,7 +210,11 @@ option objects, fixes that case (200 in both stacks); a missing `$type` is still
 ## An unclassifiable union takes the whole route table down
 
 *Filed as [dotnet/aspnetcore#69826](https://github.com/dotnet/aspnetcore/issues/69826) on
-2026-10-14: should the failure be scoped to the endpoint that uses the union?*
+2026-10-14: should the failure be scoped to the endpoint that uses the union? Answered 2026-10-16
+([comment](https://github.com/dotnet/aspnetcore/issues/69826#issuecomment-6199377701)): no product
+change in .NET 11. Isolation would need a general treatment of endpoint-construction failures, and
+building every endpoint at startup would change when user code runs and miss endpoints added later.
+Better diagnostics, opt-in early validation and per-endpoint isolation are open for after .NET 11.*
 
 The structural classifier's contract-time refusal ([04](04-system-text-json.md)) is thrown when
 the endpoint's JSON contract is built, and *when* that happens depends on unrelated services:

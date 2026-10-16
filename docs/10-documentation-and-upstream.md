@@ -86,7 +86,12 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   structural classifier refuses makes every route return 500, and with `AddControllers()` or
   `AddAuthorization()` startup throws, while the same union on an MVC action fails only that
   action. Asks whether the failure should be scoped to the endpoint. Backed by `QOa` and `Probe2`
-  section G. [Issue](https://github.com/dotnet/aspnetcore/issues/69826).
+  section G. [Issue](https://github.com/dotnet/aspnetcore/issues/69826). Answered 2026-10-16
+  ([comment](https://github.com/dotnet/aspnetcore/issues/69826#issuecomment-6199377701)): not
+  union-specific (an unregistered service inferred as a GET body fails the same way, and inferred
+  GET bodies are rejected on purpose, #35405); no behaviour change this late in .NET 11; diagnostics,
+  opt-in early validation and per-endpoint isolation to be revisited after it. Issue still open,
+  no milestone.
 - **dotnet/runtime#135742** (filed 2026-10-14, closed as answered the same day): a state union
   with data-less cases cannot be classified by `JsonUnionTypeStructuralClassifier`. The refusal is
   by design (dotnet/runtime#129805); the issue asked for guidance (a hand-written classifier or a
