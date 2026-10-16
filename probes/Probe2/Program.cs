@@ -124,7 +124,12 @@ async Task StartupProbe(string label, Action<IServiceCollection> svc)
         Console.Write($"{label}: startup OK; ");
         await Report("first request", PostJson(h, "/x", "{}"));
     }
-    catch (Exception e) { Console.WriteLine($"{label}: STARTUP THROWS {e.GetType().Name}"); }
+    catch (Exception e)
+    {
+        Console.WriteLine($"{label}: STARTUP THROWS {e.GetType().Name}");
+        foreach (var f in (e.StackTrace ?? "").Split('\n').Where(l => l.Contains("Authorization") || l.Contains("StartAsync")))
+            Console.WriteLine($"    {f.Trim()}");
+    }
     finally { if (app is not null) try { await app.StopAsync(); } catch { } }
 }
 
