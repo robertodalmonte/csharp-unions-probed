@@ -23,6 +23,9 @@ in the docs, and read the output, not the docs, when they disagree.
 | `QClosedJson` | console | The data-less state from runtime#135742 as a closed hierarchy with `InferClosedTypePolymorphism`: five cases incl. two data-less round-trip by `$type`; missing and unknown discriminators throw | 04, 10 |
 | `QClosed` + `QClosedLib` | console + class library | `closed` across assemblies: the declaration rules and the three warnings behind `DefineConstants`, closure that is not transitive, and the binary-breaking added case | 06 |
 | `QEf` | console + EF Core SQLite | The persistence recipe verbatim with the real `union` keyword; the placeholder constructor; detached entities; an int-mapped `Kind` | 08 |
+| `QConv` | console | Overlapping-case conversions (`CS0457` for two unrelated interfaces, better-conversion ties otherwise) and target typing / inference (`Task.FromResult`, `?:`, `var`, covariance); behind defines `AMBIG_SIBLINGS`, `NULL_LITERAL`, `INFER_TASK`, `VAR_TERNARY`, `TASK_CASE_TO_TASK_UNION`, `ENUMERABLE_COVARIANCE`, `INFER_TWO_ARGS`, `EXPLICIT_FROM_OBJECT` | 01 |
+| `QGuid` | console | `(Guid, string)`, `(DateTime, string)`, `(Guid, int)` under `Default`, `Web` and `Web`+`Strict`; a try-parse classifier | 05 |
+| `QStatus` | web + OpenApi | A union returned from Minimal API and MVC: status, body, `default`, OpenAPI (port 5590) | 05 |
 | `QRepro1` / `QRepro2` / `QRepro3` | the repros exactly as posted | dotnet/runtime#133668, dotnet/aspnetcore#66648, dotnet/docs#55951 | 10 |
 
 ## Running

@@ -117,10 +117,9 @@ Not reported, because upstream already covers them:
 
 ## Not compiled
 
-Only three claims in these pages come from documents rather than a run:
+Only two claims in these pages come from documents rather than a run:
 
 - that the compiler calls `TryGetValue`/`HasValue` instead of `Value` when they exist (the
   samples run, but the call was not observed);
-- the ambiguous-conversion error for overlapping cases;
 - the four behavioural obligations of hand-written unions, which the compiler does not check, so
   there is nothing to compile.

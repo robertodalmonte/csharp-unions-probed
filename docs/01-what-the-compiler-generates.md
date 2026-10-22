@@ -67,8 +67,33 @@ no diagnostic.
   `this(...)` to a generated one (`CS9375`).
 - Case types may be anything convertible to `object`: interfaces, type parameters, nullable types,
   other unions. They may **overlap** (`union OneOrMore<T>(T, IEnumerable<T>)` is a spec example).
-  The compiler errors only if a *conversion* is ambiguous, never on the declaration. (The
-  ambiguous-conversion error itself has not been compiled here.)
+  The compiler errors only if a *conversion* is ambiguous, never on the declaration. Compiled on
+  RC 2 (`QConv`, 2026-10-22): the ordinary better-conversion rules break most ties silently.
+  `union L(IEnumerable<int>, IList<int>) = new List<int>()`, `union BD(Base, Derived) = new Derived()`
+  (in either declaration order) and `union LD(long, double) = 5` all compile and pick the more
+  specific case (`int` goes to `long`, a `float` to `double`). Only two unrelated interfaces
+  implemented by one class are ambiguous: `union Sib(IFoo, IBar) = new Both()` is
+  **`CS0457: Ambiguous user defined conversions 'Sib.Sib(IFoo)' and 'Sib.Sib(IBar)'`**, reported at
+  the conversion site, never on the declaration. `Value` holds only the object, so for overlapping
+  cases nothing at runtime says which case was chosen. `null` into a union is `CS0037` (it is a
+  struct).
+
+## Target typing and inference
+
+Probed in `QConv` on RC 2. A union converts from a case wherever a target type is known:
+`U u = flag ? new A() : new B()`, switch-expression arms, lambda returns, `U[] = [new A(), new B()]`,
+`List<U>` with `Add`, `async Task<U>` and `async ValueTask<U>` returns, `Task.FromResult<U>(new A())`,
+`Id<U>(new A())`, and `U? = new A()` (a `Nullable<U>`). It does **not** convert where a type must be
+inferred or where the generic type has no conversion:
+
+| Code | Result |
+|---|---|
+| `Task<U> t = Task.FromResult(new A())` | `CS0029`: infers `Task<A>`; always write `Task.FromResult<U>(…)` |
+| `Task<U> t = taskOfA` | `CS0029` |
+| `IEnumerable<U> e = enumerableOfA` | `CS0266` |
+| `var v = flag ? new A() : new B()` | `CS0173`: no natural type |
+| `Take<T>(T a, T b)` called with an `A` and a `B` | `CS0411` |
+| `(U)someObject` | **compiles**, then `InvalidCastException` at runtime: it is a plain unbox of a struct, not a union conversion |
 
 ## Roslyn sees the cases
 

@@ -85,6 +85,33 @@ camelCase naming and case-insensitive matching, and under those `"hello"` deseri
   Under `JsonSerializerOptions.Web`: `"hello"` → `string`, `"42"` → `string`, `42` → `int`. Note
   the second result: the classifier now decides that a quoted number is text.
 
+### `Guid`, `DateTime` and `string` are the same trap, and `Strict` does not fix them
+
+Probed in `QGuid` on RC 2. The `(int, string)` fixes above are specific to numbers. Two cases that
+both read a JSON String token cannot be separated by token kind under **any** options:
+
+| Union | `Default` | `Web` | `Web` + `NumberHandling.Strict` |
+|---|---|---|---|
+| `(Guid, string)`, guid text or `"hello"` | ambiguous | ambiguous | ambiguous |
+| `(DateTime, string)`, ISO date or `"hello"` | ambiguous | ambiguous | ambiguous |
+| `(Guid, int)` | guid text → `Guid`, `42` → `int`, `"42"` → exception | guid text **ambiguous**, `"42"` ambiguous | as `Default` |
+
+The only fix is a custom classifier, and it has to read the text: `r.TryGetGuid(out _) ? typeof(Guid)
+: typeof(string)`. That works (`guid text → Guid`, `"hello" → string`, `"" → string`, a number → the
+classifier's `null`, a `JsonException`), but it is a content heuristic. A `string` case that
+happens to hold guid text serializes as `"6f1c…"` and comes back as the `Guid` case.
+
+### A union returned from an endpoint carries no status code
+
+Probed in `QStatus`. `CreateOrderResult(OrderCreated, InvalidOrder, ProductNotFound)` returned from
+a Minimal API (sync, async, inside `TypedResults.Ok`), an MVC action (`T`, `Task<T>`,
+`ActionResult<T>`) answers **200 with the bare case** for every case, `{"message":"…"}` for the
+invalid one and `{"productCode":"P404"}` for the missing one. `default(CreateOrderResult)` is
+**200 `null`**. OpenAPI publishes one 200 response whose schema is
+`{"type":"object","anyOf":[OrderCreated, InvalidOrder, ProductNotFound]}`. Mapping each case to
+201, 400 or 404 is therefore the caller's job, as in the syncfusion article's controller, and the
+`null` arm of that mapping switch is the only thing standing between `default` and a 500 (page 02).
+
 ### The OpenAPI document is wrong in the same place
 
 Under the default Web options, the `int` arm is published as

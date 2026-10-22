@@ -72,6 +72,9 @@ labelled with the build it held on. Packages in `probes/` are pinned to the RC 2
 | `QClosedJson` | console | 04, 10 |
 | `QClosed` + `QClosedLib` | console + class library | 06 |
 | `QEf` | console + EF Core SQLite | 08 |
+| `QConv` | overlapping-case conversions and target typing / inference | 01 |
+| `QGuid` | `Guid`/`DateTime` with `string` unions in System.Text.Json | 05 |
+| `QStatus` | a union returned from an endpoint carries no status | 05 |
 | `QRepro1` / `QRepro2` / `QRepro3` | the repros exactly as posted | 10 |
 
 Each project stands alone: `dotnet build`, then `dotnet run --no-build`, and read the output. The
