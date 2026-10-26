@@ -7,7 +7,7 @@ program in [`probes/`](probes/) and is tagged with the SDK build it was verified
 official documentation says what works. These pages record what silently does not, with the
 diagnostic codes, exception messages and HTTP status codes quoted from the run.
 
-Unions ship in .NET 11 GA (November 2026, STS). RC 1 (2026-09-08) and RC 2 carry a go-live
+Unions ship in .NET 11 GA (November 2026, STS). RC 1 (2026-09-08), RC 2 and RC 3 carry a go-live
 licence; on `net11.0` the language version defaults to `15.0`, so no `<LangVersion>preview</LangVersion>`
 is needed.
 
@@ -36,22 +36,22 @@ one of those four facts.
 
 ## Status by build
 
-| Page | RC 1 `11.0.100-rc.1.26425.128` | RC 2 `11.0.100-rc.2.26504.105` (re-run 2026-10-14) | GA |
-|---|---|---|---|
-| 01 compiler | verified 2026-09-11 | declaration errors `CS9373`, `CS9374`, `CS9375` and the `TEST_*` conversion errors reproduce; no change found | |
-| 02 null-valued union | verified 2026-09-11 | unchanged: `default` is `null`, a switch with no `null` arm throws `SwitchExpressionException` | |
-| 03 pattern matching | verified 2026-09-11; `is <union type>` rule changed after RC 1 | **changed: `is <union type>` and `pet is Pet` are `CS8121`; a union's own interface in `is` no longer matches (`g is IMarker` is `False`); an interface no held type can implement is `CS8121`, an unsealed case keeps it legal (`QIface`)** | |
-| 04 System.Text.Json | verified 2026-09-11 | unchanged: `Web` still rejects `(int, string)` strings; the structural classifier still refuses `Approval`, `UnionTwins`, `SubsetU`. New: `QClosedJson` shows the data-less `Approval` state as a `closed` hierarchy round-trips by `$type` (runtime#135742) | |
-| 05 ASP.NET Core | verified 2026-09-11 and 2026-09-15 | **changed: union-level `[JsonNumberHandling]` works (runtime#133668 / #133673); Minimal API validation reaches union cases (aspnetcore#68268).** The source-generator path (`QSrcGen`) behaves like reflection: the union-level attribute makes `"hello"` bind to `string`, the plain union stays ambiguous under `Web`. Unchanged: MVC union bodies are not validated, `[FromForm]` still binds `default`, RDG `CS0029`, the all-routes 500, `IParsable<T>` as the fix | |
-| 06 closed hierarchies | verified 2026-09-10 | re-run in full with `QClosed`/`QClosedLib`: `CS9382`, `CS9384`, `CS0106`, `CS0267`, the three warnings and their `WarningsAsErrors` promotion, closure not transitive, and the binary-breaking added case (`SwitchExpressionException` with no diagnostic) all reproduce | |
-| 07 hand-written unions | verified 2026-09-11 | unchanged: `CLASS_PROVIDER` and `CAST_FIX` run, `REC_RECURSE` still overflows the stack | |
-| 08 EF Core | verified 2026-09-11 (EF 11 RC 1) and on EF 10.0.9 | recipe re-run on EF 11 RC 2: builds and runs; corrupt-row and `default` guards throw as described | |
-| 09 Roslyn | verified 2026-09-11 | unchanged on `Microsoft.CodeAnalysis` 5.12: same four `UnionCaseTypes` results | |
+| Page | RC 1 `11.0.100-rc.1.26425.128` | RC 2 `11.0.100-rc.2.26504.105` (re-run 2026-10-14) | RC 3 `11.0.100-rc.3.26522.148` (re-run 2026-10-26) | GA |
+|---|---|---|---|---|
+| 01 compiler | verified 2026-09-11 | declaration errors `CS9373`, `CS9374`, `CS9375` and the `TEST_*` conversion errors reproduce; no change found | unchanged: every `QLang`/`QLang2`/`QConv` run and every define-gated build gives the same output and the same diagnostic codes as RC 2 | |
+| 02 null-valued union | verified 2026-09-11 | unchanged: `default` is `null`, a switch with no `null` arm throws `SwitchExpressionException` | unchanged | |
+| 03 pattern matching | verified 2026-09-11; `is <union type>` rule changed after RC 1 | **changed: `is <union type>` and `pet is Pet` are `CS8121`; a union's own interface in `is` no longer matches (`g is IMarker` is `False`); an interface no held type can implement is `CS8121`, an unsealed case keeps it legal (`QIface`)** | unchanged: `is <union type>` is still `CS8121`; `QIface` output identical | |
+| 04 System.Text.Json | verified 2026-09-11 | unchanged: `Web` still rejects `(int, string)` strings; the structural classifier still refuses `Approval`, `UnionTwins`, `SubsetU`. New: `QClosedJson` shows the data-less `Approval` state as a `closed` hierarchy round-trips by `$type` (runtime#135742) | unchanged: `QClosedJson`, `QGuid`, the `Probe2` and `UnionWeb` STJ lines identical | |
+| 05 ASP.NET Core | verified 2026-09-11 and 2026-09-15 | **changed: union-level `[JsonNumberHandling]` works (runtime#133668 / #133673); Minimal API validation reaches union cases (aspnetcore#68268).** The source-generator path (`QSrcGen`) behaves like reflection: the union-level attribute makes `"hello"` bind to `string`, the plain union stays ambiguous under `Web`. Unchanged: MVC union bodies are not validated, `[FromForm]` still binds `default`, RDG `CS0029`, the all-routes 500, `IParsable<T>` as the fix | unchanged on every probe (`UnionWeb`, `Probe2`, `QOa`, `QParsable`, `QFormCtor`, `QStatus`, `QRepro1/2`, `RdgNoString`, reflection and RDG). **MVC union body validation (aspnetcore#69834, backport #69929 merged 2026-10-19) is NOT in RC 3: `/mvc/union` still returns 200, `ModelState.IsValid == true`** | |
+| 06 closed hierarchies | verified 2026-09-10 | re-run in full with `QClosed`/`QClosedLib`: `CS9382`, `CS9384`, `CS0106`, `CS0267`, the three warnings and their `WarningsAsErrors` promotion, closure not transitive, and the binary-breaking added case (`SwitchExpressionException` with no diagnostic) all reproduce | unchanged: `QClosed` switches and the binary-breaking case identical | |
+| 07 hand-written unions | verified 2026-09-11 | unchanged: `CLASS_PROVIDER` and `CAST_FIX` run, `REC_RECURSE` still overflows the stack | unchanged | |
+| 08 EF Core | verified 2026-09-11 (EF 11 RC 1) and on EF 10.0.9 | recipe re-run on EF 11 RC 2: builds and runs; corrupt-row and `default` guards throw as described | unchanged on EF 11 RC 3 (`QEf`; only the random GUIDs differ) | |
+| 09 Roslyn | verified 2026-09-11 | unchanged on `Microsoft.CodeAnalysis` 5.12: same four `UnionCaseTypes` results | unchanged on `Microsoft.CodeAnalysis` 5.12: same four `UnionCaseTypes` results | |
 
 Empty cells mean "not yet run on that build", not "still true". "Unchanged" means the probe was
 re-run and its output matched what the page says, not that every line was diffed against an RC 1
 capture. When a build changes a finding, the page gets the new result and the old one stays,
-labelled with the build it held on. Packages in `probes/` are pinned to the RC 2 versions.
+labelled with the build it held on. Packages in `probes/` are pinned to the RC 3 versions (`11.0.0-rc.3.26522.148`).
 
 ## Running the probes
 
@@ -83,7 +83,7 @@ project to the pages it backs, lists the conditional builds that fail or crash b
 gives the RDG build command with the one check that matters: confirm the generated file exists
 and mentions your endpoint before trusting an RDG run.
 
-Requirements: .NET SDK `11.0.100-rc.1` or later (packages are pinned to `11.0.0-rc.1.26425.128`;
+Requirements: .NET SDK `11.0.100-rc.3` or later (packages are pinned to `11.0.0-rc.3.26522.148`;
 bump them when you move). `QEf` uses SQLite through the EF provider and needs nothing else.
 
 ## What this is not

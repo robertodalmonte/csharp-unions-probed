@@ -2,7 +2,8 @@
 
 *Verified on `Microsoft.AspNetCore.App 11.0.0-rc.1.26425.128` and `Microsoft.AspNetCore.OpenApi`
 of the same version, 2026-09-11 and 2026-09-15, one Kestrel host per probe, and re-run on
-`11.0.0-rc.2.26504.105` on 2026-10-14. Two findings changed on RC 2 (a union-level
+`11.0.0-rc.2.26504.105` on 2026-10-14 and on `11.0.0-rc.3.26522.148` on 2026-10-26 (every probe
+identical to RC 2). Two findings changed on RC 2 (a union-level
 `[JsonNumberHandling]` and Minimal API validation); every other result on this page that was
 re-run reproduced unchanged. Probes: `UnionWeb`, `Probe2`, `RdgNoString`, `QOa`, `QVal`,
 `QParsable`, `QFormCtor`.*
@@ -281,7 +282,11 @@ union cases*). **Re-run on RC 2 (`QVal`, 2026-10-14):**
   [dotnet/aspnetcore#64599](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6160610105).
   A maintainer replied the same day that a fix is in progress, [PR #69834](https://github.com/dotnet/aspnetcore/pull/69834)
   (*Validate active union cases in MVC*), with a net11 backport undecided
-  ([comment](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6171437285)). Re-run `QVal` once it merges.
+  ([comment](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6171437285)).
+- **RC 3 (`11.0.100-rc.3.26522.148`, `QVal`, 2026-10-26): still not fixed.** `/mvc/union` returns 200 with
+  `ModelState.IsValid == true`; the canary still returns 400. #69834 merged to `main` on 2026-10-19 and its
+  backport to `release/11.0` ([PR #69929](https://github.com/dotnet/aspnetcore/pull/69929)) merged the same day,
+  so the fix is not in the RC 3 shared framework (`Microsoft.AspNetCore.App 11.0.0-rc.3.26522.148`). Re-run on GA.
 
 What follows is the RC 1 behaviour, kept because it is what an RC 1 application does. On RC 1, with `builder.Services.AddValidation()` (the
 generator ships with the SDK; a `Microsoft.Extensions.Validation` package reference is redundant

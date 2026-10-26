@@ -81,7 +81,9 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   [Comment](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6160610105). Answered the same
   day ([reply](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6171437285)): a maintainer has a
   fix, [PR #69834](https://github.com/dotnet/aspnetcore/pull/69834) *Validate active union cases in MVC*;
-  whether it is backported to net11 is undecided. Re-run `QVal` when it merges.
+  whether it is backported to net11 is undecided. **Update 2026-10-26:** #69834 merged to `main` on 2026-10-19 and
+  the `release/11.0` backport ([#69929](https://github.com/dotnet/aspnetcore/pull/69929)) merged the same day, but
+  RC 3 (`11.0.100-rc.3.26522.148`) still returns 200 for the union body in `QVal`. Re-run `QVal` on GA.
 - **dotnet/aspnetcore#69826** (filed 2026-10-14): one Minimal API endpoint taking a union the
   structural classifier refuses makes every route return 500, and with `AddControllers()` or
   `AddAuthorization()` startup throws, while the same union on an MVC action fails only that

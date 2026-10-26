@@ -2,7 +2,7 @@
 
 Every claim in [`../docs`](../docs) came from one of these projects, run on **.NET SDK
 `11.0.100-rc.1.26425.128`** between 2026-09-10 and 2026-09-15, and re-run on
-**`11.0.100-rc.2.26504.105`** on 2026-10-14. They are deliberately small, self-contained console
+**`11.0.100-rc.2.26504.105`** on 2026-10-14 and on **`11.0.100-rc.3.26522.148`** on 2026-10-26 (output identical to RC 2 apart from GUIDs, trace ids and paths). They are deliberately small, self-contained console
 and web projects that print what the framework did. Re-run them on GA before relying on anything
 in the docs, and read the output, not the docs, when they disagree.
 
@@ -60,7 +60,7 @@ in the docs, and read the output, not the docs, when they disagree.
   re-run the generator, so it silently re-tests the reflection path and produces an empty diff that
   looks like "RDG behaves identically". That happened here once.
 - **`QVal` MVC re-run (dotnet/aspnetcore#69834):** the two `MVC` lines at the end of the output are
-  the ones to watch. On RC 2 the canary record body (`/mvc/admin`) returns 400 and the union body
+  the ones to watch. On RC 2 and RC 3 the canary record body (`/mvc/admin`) returns 400 and the union body
   (`/mvc/union`) returns 200 with `ModelState.IsValid == true`. When #69834 (*Validate active union
   cases in MVC*) ships in a build you have, bump the packages and the SDK, `dotnet build`, `dotnet run
   --no-build`, and expect `/mvc/union` to match the canary. If it still returns 200, the fix did not
@@ -72,7 +72,7 @@ in the docs, and read the output, not the docs, when they disagree.
   suppresses it on purpose, to observe the runtime behaviour behind the analyzer. Delete the file
   from `UnionWeb` to see the three `ASP0020` errors instead.
 - **Moving to a newer SDK:**
-  - Packages are pinned to `11.0.0-rc.2.26504.105`; bump them to the matching version.
+  - Packages are pinned to `11.0.0-rc.3.26522.148`; bump them to the matching version.
   - `QRoslyn` references the SDK's own Roslyn through `$(NetCoreRoot)` and `$(NETCoreSdkVersion)`,
     so it follows whatever SDK `dotnet` resolves to. Pin the SDK with a `global.json` if you have
     several installed.
