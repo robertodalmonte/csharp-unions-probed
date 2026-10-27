@@ -1,7 +1,8 @@
 # 3. Pattern matching: which patterns unwrap to `Value`
 
 *Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-11. Probes: `QLang`, `QLang2`.*
-*One rule changed after RC 1's compiler was cut; that row is marked and needs a re-run at RC 2.*
+*One rule changed after RC 1's compiler was cut; that row is marked and was re-run on RC 2. Re-run on SDK
+`11.0.100-rc.3.26522.148` (.NET 11 RC 3) on 2026-10-26: unchanged, `is <union type>` is still `CS8121` and `QIface` output is identical.*
 
 Most patterns applied to a union test its `Value`, which is what makes `approval is Rejected r`
 read naturally. But it is decided pattern by pattern, and the exceptions are not intuitive.

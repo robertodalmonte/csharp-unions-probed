@@ -2,7 +2,7 @@
 
 *Verified through the SDK's own Roslyn (`Microsoft.CodeAnalysis` 5.11, the compiler in SDK
 `11.0.100-rc.1.26425.128`), 2026-09-11, and re-run on 5.12 (SDK `11.0.100-rc.2.26504.105`)
-on 2026-10-14 with the same four results. Probe: `QRoslyn`.*
+on 2026-10-14 with the same four results, and again on 5.12 in SDK `11.0.100-rc.3.26522.148` on 2026-10-26. Probe: `QRoslyn`.*
 
 The compiler uses the final `CSharp15` language-version name, and `ITypeSymbol.UnionCaseTypes`
 exposes a union's cases. That is the supported way to reason about a union in a source generator

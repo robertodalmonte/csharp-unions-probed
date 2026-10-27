@@ -1,7 +1,8 @@
 # 6. The `closed` modifier, and `closed` vs `union`
 
 *Compiled on SDK `11.0.100-rc.1.26425.128`, 2026-09-10, and every claim below re-run on
-`11.0.100-rc.2.26504.105` on 2026-10-14 with the same diagnostics and the same runtime failure.
+`11.0.100-rc.2.26504.105` on 2026-10-14 with the same diagnostics and the same runtime failure, and again on `11.0.100-rc.3.26522.148` on 2026-10-26 (`QClosed` switches and the
+binary-breaking case identical).
 Diagnostic codes and messages are quoted from the compiler. Probes: `QClosed` and `QClosedLib`
 (the two assemblies; the declaration rules and the three warnings sit behind `DefineConstants`
 switches, listed in [`probes/README.md`](../probes/README.md)), `QLang`, `QLang2`. The RC 1 run

@@ -2,7 +2,8 @@
 
 *Verified on SDK `11.0.100-rc.1.26425.128` (.NET 11 RC 1). Re-run on SDK `11.0.100-rc.2.26504.105` (.NET 11 RC 2) on 2026-10-14: the
 declaration errors (`CS9373`, `CS9374`, `CS9375`) and the conversion and `TEST_*` errors reproduce; nothing on this
-page changed. Probes: `QLang`, `QLang2`.*
+page changed. Re-run again on SDK `11.0.100-rc.3.26522.148` (.NET 11 RC 3) on 2026-10-26: same output and same diagnostic
+codes as RC 2. Probes: `QLang`, `QLang2`.*
 
 `union` is a contextual keyword. The compiler lowers the declaration to a `struct`:
 
@@ -80,7 +81,7 @@ no diagnostic.
 
 ## Target typing and inference
 
-Probed in `QConv` on RC 2. A union converts from a case wherever a target type is known:
+Probed in `QConv` on RC 2 and re-run on RC 3 with the same output. A union converts from a case wherever a target type is known:
 `U u = flag ? new A() : new B()`, switch-expression arms, lambda returns, `U[] = [new A(), new B()]`,
 `List<U>` with `Add`, `async Task<U>` and `async ValueTask<U>` returns, `Task.FromResult<U>(new A())`,
 `Id<U>(new A())`, and `U? = new A()` (a `Nullable<U>`). It does **not** convert where a type must be

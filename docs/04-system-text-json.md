@@ -5,7 +5,8 @@ Unchanged on RC 2: a union still serializes as its case with no discriminator, `
 `(int, string)`, the structural classifier still refuses `Approval`, `UnionTwins` and `SubsetU`, the `$type`
 round-trip of a `closed` hierarchy and its 500 without `$type` are the same, and the source-generated path
 behaves like reflection (`QSrcGen`). One change, in [05](05-aspnet-core.md): a union-level
-`[JsonNumberHandling]` is now honoured. Probes: `UnionWeb`, `Probe2`, `QOa`, `QRepro1`, `QSrcGen`, `QClosedJson`.*
+`[JsonNumberHandling]` is now honoured. Unchanged on SDK `11.0.100-rc.3.26522.148` (.NET 11 RC 3), 2026-10-26: `QClosedJson`,
+`QGuid` and the `Probe2` and `UnionWeb` STJ lines give identical output. Probes: `UnionWeb`, `Probe2`, `QOa`, `QRepro1`, `QSrcGen`, `QClosedJson`.*
 *Originally reported for Preview 7 by Andrew Lock ("the pain of serializing unions and closed class
 hierarchies with System.Text.Json", 2026-09-01). Everything below was reproduced on RC 1, message
 text included.*

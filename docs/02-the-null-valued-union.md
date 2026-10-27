@@ -3,7 +3,7 @@
 *Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-11, and re-run on SDK `11.0.100-rc.2.26504.105` (.NET 11 RC 2) on 2026-10-14: `default`
 is still a null-valued union, a switch with no `null` arm still compiles and throws
 `SwitchExpressionException`. Probes: `QLang`, `QLang2`
-(`AnalysisLevel=latest-all`), `QEf` for the EF Core part.*
+(`AnalysisLevel=latest-all`), `QEf` for the EF Core part. Unchanged on SDK `11.0.100-rc.3.26522.148` (.NET 11 RC 3), 2026-10-26.*
 
 `union` lowers to a struct, so every field, array slot and `default(T)` in a generic gives you a
 union whose `Value` is `null`. There is no error and no exception at the point of creation. It
