@@ -33,6 +33,7 @@ one of those four facts.
 | 08 | [EF Core](docs/08-ef-core.md) | EF cannot map a union and will not; the `Ignore` + `ComplexProperty` + private bridge recipe, verified with the keyword; why TPH corrupts mutable state |
 | 09 | [Roslyn](docs/09-roslyn.md) | `ITypeSymbol.UnionCaseTypes` lists cases of generated and hand-written unions, and returns an empty array for an ordinary type |
 | 10 | [Documentation and upstream](docs/10-documentation-and-upstream.md) | Where the reference, the spec and the compiler disagree; the issues filed and how each was ruled, including three filed on 2026-10-14 |
+| 11 | [C# 15 beyond unions](docs/11-csharp-15-beyond-unions.md) | A third-party C# 15 agent skill checked claim by claim on RC 3 (`with(...)`, extension indexers, labeled jumps, breaking changes, the memory-safety preview): right almost everywhere, six imprecisions, including `IDE0410` not flagging the flag-variable loop and spread enumeration never being deferred |
 
 ## Status by build
 
@@ -76,6 +77,8 @@ labelled with the build it held on. Packages in `probes/` are pinned to the RC 3
 | `QGuid` | `Guid`/`DateTime` with `string` unions in System.Text.Json | 05 |
 | `QStatus` | a union returned from an endpoint carries no status | 05 |
 | `QRepro1` / `QRepro2` / `QRepro3` | the repros exactly as posted | 10 |
+| `QCsharp15` | console, the SDK's own Roslyn compiling ~80 snippets in-process and running them | 11 |
+| `QIde0410` | console, `IDE0410` enforced in build | 11 |
 
 Each project stands alone: `dotnet build`, then `dotnet run --no-build`, and read the output. The
 web probes bind fixed ports on `127.0.0.1`. [`probes/README.md`](probes/README.md) maps each

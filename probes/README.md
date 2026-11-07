@@ -26,6 +26,8 @@ in the docs, and read the output, not the docs, when they disagree.
 | `QConv` | console | Overlapping-case conversions (`CS0457` for two unrelated interfaces, better-conversion ties otherwise) and target typing / inference (`Task.FromResult`, `?:`, `var`, covariance); behind defines `AMBIG_SIBLINGS`, `NULL_LITERAL`, `INFER_TASK`, `VAR_TERNARY`, `TASK_CASE_TO_TASK_UNION`, `ENUMERABLE_COVARIANCE`, `INFER_TWO_ARGS`, `EXPLICIT_FROM_OBJECT` | 01 |
 | `QGuid` | console | `(Guid, string)`, `(DateTime, string)`, `(Guid, int)` under `Default`, `Web` and `Web`+`Strict`; a try-parse classifier | 05 |
 | `QStatus` | web + OpenApi | A union returned from Minimal API and MVC: status, body, `default`, OpenAPI (port 5590) | 05 |
+| `QCsharp15` | console | About 80 self-contained snippets compiled in-process by the SDK's own Roslyn at the default language version (a few with `Preview` and the `updated-memory-safety-rules` feature): `with(...)` (`W`), extension indexers (`E`), labeled jumps (`L`), breaking changes (`M`), memory safety (`U`). A case that compiles is run and its output printed; one that does not prints its diagnostics. `dotnet run --no-build -- E1` filters by id prefix. Saved output: `output-rc3.txt` | 11 |
+| `QIde0410` | console | `IDE0410` at warning with `EnforceCodeStyleInBuild`: flags `goto END` and `goto NEXT`, not the flag-variable loop | 11 |
 | `QRepro1` / `QRepro2` / `QRepro3` | the repros exactly as posted | dotnet/runtime#133668, dotnet/aspnetcore#66648, dotnet/docs#55951 | 10 |
 
 ## Running

@@ -1,0 +1,4 @@
+root = true
+[*.cs]
+dotnet_diagnostic.IDE0410.severity = warning
+csharp_style_prefer_labeled_jump_statements = true
