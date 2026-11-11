@@ -79,7 +79,9 @@ The entries record the original reports and dated replies; GA behavior is record
   [page 05](05-aspnet-core.md) and in `QFormCtor`. Related: dotnet/aspnetcore#51379, the same
   path for a class with a primary and a parameterless constructor. Milestone `Backlog`, open
   (checked 2026-11-11). GA reproduces it: every Minimal API row in `QFormCtor` is still 200 with
-  `default`/`null`, and MVC still refuses the same types with 500.
+  `default`/`null`, and MVC still refuses the same types with 500. Reported 2026-11-11
+  ([comment](https://github.com/dotnet/aspnetcore/issues/69322#issuecomment-6791060380)), restating
+  the ask: refuse at delegate build, else 400, else at least a logged diagnostic.
 - **dotnet/docs#55951**: the reference's `pet is Pet` note, and its null-handling sample. The
   first item's proposed fix was itself wrong: it proposed "always true" and cited the spec, and on
   2026-09-11 AlekseyTs (Roslyn) pointed out that the spec had changed to `Value`-only, under which
@@ -106,7 +108,9 @@ The entries record the original reports and dated replies; GA behavior is record
   RC 3 (`11.0.100-rc.3.26522.148`) still returns 200 for the union body in `QVal`.
   **GA verified 2026-11-11:** on SDK `11.0.100` / ASP.NET Core `11.0.0`, the same
   `/mvc/union` request returns **400** with `errors.Value.Role`, matching the canary.
-  The fix is present. A missing `[Required]` union property still returns 200.
+  The fix is present. A missing `[Required]` union property still returns 200 (Minimal API).
+  Confirmed on the issue 2026-11-11, with the `[Required]` limitation and the docs-note request
+  ([comment](https://github.com/dotnet/aspnetcore/issues/64599#issuecomment-6791099277)).
 - **dotnet/aspnetcore#69826** (filed 2026-10-14): one Minimal API endpoint taking a union the
   structural classifier refuses makes every route return 500, and with `AddControllers()` or
   `AddAuthorization()` startup throws, while the same union on an MVC action fails only that
@@ -121,7 +125,9 @@ The entries record the original reports and dated replies; GA behavior is record
   `AuthorizationPolicyCache` frames `Probe2` section G now prints), so opt-in early validation would
   make that deliberate; asked for a milestone. **Milestone `.NET 12 Planning`** (labels `bug`,
   `area-minimal`, checked 2026-11-11); still open. GA reproduces both failures (`QOa`, `Probe2`
-  section G).
+  section G); reported on the issue 2026-11-11
+  ([comment](https://github.com/dotnet/aspnetcore/issues/69826#issuecomment-6790980805)), with the
+  reflection/RDG contrast: the non-union control leaves `/ok` at 200 under RDG, the union does not.
 - **dotnet/runtime#135742** (filed 2026-10-14, closed as answered the same day): a state union
   with data-less cases cannot be classified by `JsonUnionTypeStructuralClassifier`. The refusal is
   by design (dotnet/runtime#129805); the issue asked for guidance (a hand-written classifier or a
