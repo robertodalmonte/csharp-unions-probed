@@ -1,5 +1,10 @@
 # 4. System.Text.Json: a union does not round-trip; a `closed` hierarchy does
 
+*GA re-run on SDK `11.0.100` / runtime `11.0.0`, 2026-11-11: the serialization,
+classification and discriminator findings are unchanged from RC 3, including the structural
+classifier's required-property and unmapped-member constraints. `QSrcGen` still honors the union-level number
+handling attribute. [GA results](../probes/results/ga/README.md).*
+
 *Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-10/11, and re-run on SDK `11.0.100-rc.2.26504.105` (.NET 11 RC 2) on 2026-10-14.
 Unchanged on RC 2: a union still serializes as its case with no discriminator, `Web` still rejects strings for
 `(int, string)`, the structural classifier still refuses `Approval`, `UnionTwins` and `SubsetU`, the `$type`

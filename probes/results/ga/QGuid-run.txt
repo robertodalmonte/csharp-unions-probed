@@ -1,0 +1,43 @@
+$ dotnet run --no-build --no-launch-profile
+
+--- Default
+GuidOrString  guid-text  -> JsonException: JSON value type 'String' is ambiguous for union type 'GuidOrString' because multiple case types can use this value type
+GuidOrString  "hello"    -> JsonException: JSON value type 'String' is ambiguous for union type 'GuidOrString' because multiple case types can use this value type
+DateOrString  iso-date   -> JsonException: JSON value type 'String' is ambiguous for union type 'DateOrString' because multiple case types can use this value type
+DateOrString  "hello"    -> JsonException: JSON value type 'String' is ambiguous for union type 'DateOrString' because multiple case types can use this value type
+GuidOrInt     guid-text  -> Guid 6f1c2b9e-0000-0000-0000-000000000001
+GuidOrInt     42         -> Int32 42
+GuidOrInt     "42"       -> JsonException: The JSON value could not be converted to System
+Classified    guid-text  -> Guid 6f1c2b9e-0000-0000-0000-000000000001
+Classified    "hello"    -> String hello
+Classified    ""         -> String
+Classified    42         -> JsonException: The custom type classifier for union type 'ClassifiedGuidOrString' returned null for JSON token type 'Number'
+--- Web
+GuidOrString  guid-text  -> JsonException: JSON value type 'String' is ambiguous for union type 'GuidOrString' because multiple case types can use this value type
+GuidOrString  "hello"    -> JsonException: JSON value type 'String' is ambiguous for union type 'GuidOrString' because multiple case types can use this value type
+DateOrString  iso-date   -> JsonException: JSON value type 'String' is ambiguous for union type 'DateOrString' because multiple case types can use this value type
+DateOrString  "hello"    -> JsonException: JSON value type 'String' is ambiguous for union type 'DateOrString' because multiple case types can use this value type
+GuidOrInt     guid-text  -> JsonException: JSON value type 'String' is ambiguous for union type 'GuidOrInt' because multiple case types can use this value type
+GuidOrInt     42         -> Int32 42
+GuidOrInt     "42"       -> JsonException: JSON value type 'String' is ambiguous for union type 'GuidOrInt' because multiple case types can use this value type
+Classified    guid-text  -> Guid 6f1c2b9e-0000-0000-0000-000000000001
+Classified    "hello"    -> String hello
+Classified    ""         -> String
+Classified    42         -> JsonException: The custom type classifier for union type 'ClassifiedGuidOrString' returned null for JSON token type 'Number'
+--- Web+Strict
+GuidOrString  guid-text  -> JsonException: JSON value type 'String' is ambiguous for union type 'GuidOrString' because multiple case types can use this value type
+GuidOrString  "hello"    -> JsonException: JSON value type 'String' is ambiguous for union type 'GuidOrString' because multiple case types can use this value type
+DateOrString  iso-date   -> JsonException: JSON value type 'String' is ambiguous for union type 'DateOrString' because multiple case types can use this value type
+DateOrString  "hello"    -> JsonException: JSON value type 'String' is ambiguous for union type 'DateOrString' because multiple case types can use this value type
+GuidOrInt     guid-text  -> Guid 6f1c2b9e-0000-0000-0000-000000000001
+GuidOrInt     42         -> Int32 42
+GuidOrInt     "42"       -> JsonException: The JSON value could not be converted to System
+Classified    guid-text  -> Guid 6f1c2b9e-0000-0000-0000-000000000001
+Classified    "hello"    -> String hello
+Classified    ""         -> String
+Classified    42         -> JsonException: The custom type classifier for union type 'ClassifiedGuidOrString' returned null for JSON token type 'Number'
+--- serialization (Default)
+"6f1c2b9e-0000-0000-0000-000000000001"
+"hello"
+
+Exit code: 0

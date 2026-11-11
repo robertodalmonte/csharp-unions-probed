@@ -1,5 +1,10 @@
 # 3. Pattern matching: which patterns unwrap to `Value`
 
+*GA re-run on SDK `11.0.100`, 2026-11-11: unchanged from RC 3. `QLang` and
+`QLang2` produce the same pattern results; `QIface`'s sealed/open interface checks
+and the `RC1_IS_UNION_TYPE` builds still produce `CS8121` where documented.
+[GA results](../probes/results/ga/README.md).*
+
 *Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-11. Probes: `QLang`, `QLang2`.*
 *One rule changed after RC 1's compiler was cut; that row is marked and was re-run on RC 2. Re-run on SDK
 `11.0.100-rc.3.26522.148` (.NET 11 RC 3) on 2026-10-26: unchanged, `is <union type>` is still `CS8121` and `QIface` output is identical.*

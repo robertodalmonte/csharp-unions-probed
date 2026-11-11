@@ -1,0 +1,23 @@
+$ dotnet run --no-build --no-launch-profile
+
+--- Trap 7 ---
+dflt is null: True; real is null: False
+dflt is not null: False; real is not null: True
+real is PartlyApproved { Approver: _ }: True
+15 is > 10: True; default is > 10: False; 15 is 15: True
+is var captures: FourEyesApproval
+not null and var x => FourEyesApproval
+--- Trap 1 runtime ---
+NoNullArm(real) => pa
+NoNullArm(default) THROWS SwitchExpressionException
+WithNullArm(default) => null arm
+--- conversions ---
+Temp t = new Celsius(100) => Value is Fahrenheit { V = 212 }
+--- escape hatches (doc samples) ---
+Outcome<int> ok => int 42; err => ex boom; default => null
+IntOrBool => int: 42
+Result: OK: success; null ref is null: True; null Value is null: True
+Shape area: 78.54
+Length: 4.048
+
+Exit code: 0

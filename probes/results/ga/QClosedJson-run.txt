@@ -1,0 +1,17 @@
+$ dotnet run --no-build --no-launch-profile
+
+NotRequired      {"$type":"NotRequired"}
+                 round-trip type: NotRequired  same: True
+PendingApproval  {"$type":"PendingApproval"}
+                 round-trip type: PendingApproval  same: True
+PartlyApproved   {"$type":"PartlyApproved","Approver":"00000000-0000-0000-0000-000000000000"}
+                 round-trip type: PartlyApproved  same: True
+FullyApproved    {"$type":"FullyApproved","Approver1":"00000000-0000-0000-0000-000000000000","Approver2":"00000000-0000-0000-0000-000000000000"}
+                 round-trip type: FullyApproved  same: True
+Rejected         {"$type":"Rejected","Rejector":"00000000-0000-0000-0000-000000000000"}
+                 round-trip type: Rejected  same: True
+Label: pending
+no discriminator => NotSupportedException: The JSON payload for polymorphic interface or abstract type 'Approval' must specify a type discriminator. Path: $ | LineNumber: 0 | BytePositionInLine: 2.
+unknown discriminator => JsonException: Read unrecognized type discriminator id 'Bogus'. Path: $ | LineNumber: 0 | BytePositionInLine: 17.
+
+Exit code: 0

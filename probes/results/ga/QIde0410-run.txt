@@ -1,0 +1,8 @@
+$ dotnet run --no-build --no-launch-profile
+
+0
+0
+0
+True
+
+Exit code: 0

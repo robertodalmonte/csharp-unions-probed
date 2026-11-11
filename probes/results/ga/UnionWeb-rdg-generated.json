@@ -1,0 +1,102 @@
+[
+  {
+    "file": "probes/UnionWeb/obj/Debug/net11.0/generated/Microsoft.AspNetCore.Http.RequestDelegateGenerator/Microsoft.AspNetCore.Http.RequestDelegateGenerator.RequestDelegateGenerator/GeneratedRouteBuilderExtensions.g.cs",
+    "bytes": 118380,
+    "sha256": "152ad0cdfc1e512c0884e5eba7f5caa7a925538b3c490b3d5d9b63ddad09b088",
+    "intercepted_endpoints": [
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 53,
+        "endpoint_registration": "a.MapPost(\"/int-string\", (UnionIntString v) => v);"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 120,
+        "endpoint_registration": "a => a.MapPost(\"/x\", (UnionIntString v) => v), h => PostJson(h, \"/x\", \"\\\"hello\\\"\"),"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 54,
+        "endpoint_registration": "a.MapGet(\"/int-string\", () => new UnionIntString(42));"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 55,
+        "endpoint_registration": "a.MapGet(\"/default\", () => default(UnionIntString));"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 56,
+        "endpoint_registration": "a.MapPost(\"/pet\", (UnionPet p) => p);"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 57,
+        "endpoint_registration": "a.MapPost(\"/pet-nc\", (UnionPetNoClassifier p) => p);"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 58,
+        "endpoint_registration": "a.MapPost(\"/int-string-strict\", (UnionIntStringStrict v) => v);"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 59,
+        "endpoint_registration": "a.MapPost(\"/payment\", (PaymentEvent e) => e.GetType().Name);"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 60,
+        "endpoint_registration": "a.MapGet(\"/payment\", PaymentEvent () => new PaymentAuthorized(\"p1\", 9.5m));"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 61,
+        "endpoint_registration": "a.MapGet(\"/typed\", Results<Ok<UnionIntString>, NotFound> () => TypedResults.Ok(new UnionIntString(7)));"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 112,
+        "endpoint_registration": "await Probe(\"[FromQuery]\", a => a.MapGet(\"/x\", ([FromQuery] UnionIntString v) => v), h => h.GetAsync(\"/x?v=42\"));"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 113,
+        "endpoint_registration": "await Probe(\"route {v}\", a => a.MapGet(\"/x/{v}\", (UnionIntString v) => v), h => h.GetAsync(\"/x/42\"));"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 116,
+        "endpoint_registration": "await Probe(\"GET, inferred\", a => a.MapGet(\"/x\", (UnionIntString v) => v), h => h.GetAsync(\"/x\"));"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 114,
+        "endpoint_registration": "await Probe(\"[FromHeader]\", a => a.MapGet(\"/x\", ([FromHeader(Name = \"v\")] UnionIntString v) => v),"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 122,
+        "endpoint_registration": "await Probe(\"body, unclassifiable union\", a => a.MapPost(\"/x\", (Approval p) => p), h => PostJson(h, \"/x\", \"{}\"));"
+      },
+      {
+        "source": "probes/UnionWeb/Program.cs",
+        "line": 123,
+        "endpoint_registration": "await Probe(\"[AsParameters] w/ union\", a => a.MapGet(\"/x\", ([AsParameters] QueryArgs q) => q.V), h => h.GetAsync(\"/x?v=42\"));"
+      }
+    ],
+    "binding_lines": [
+      "// Endpoint Parameter: V (Type = UnionIntString, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: e (Type = PaymentEvent, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: p (Type = Approval, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: p (Type = UnionPet, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: p (Type = UnionPetNoClassifier, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: q (Type = QueryArgs, IsOptional = False, IsParsable = False, IsArray = False, Source = AsParameters)",
+      "// Endpoint Parameter: v (Type = UnionIntString, IsOptional = False, IsParsable = False, IsArray = False, Source = Header)",
+      "// Endpoint Parameter: v (Type = UnionIntString, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: v (Type = UnionIntString, IsOptional = False, IsParsable = False, IsArray = False, Source = Query)",
+      "// Endpoint Parameter: v (Type = UnionIntStringStrict, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "global::UnionIntString v_local = v_temp!;"
+    ]
+  }
+]

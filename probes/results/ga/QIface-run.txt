@@ -1,0 +1,9 @@
+$ dotnet run --no-build --no-launch-profile
+
+--- union declares IMarker, no case implements it ---
+open T: False (int), True (Marked : IMarker)
+--- a case implements IPet ---
+cat is IPet: True; bird is IPet: True; default is IPet: False
+cat is IPet ip => Tom
+
+Exit code: 0

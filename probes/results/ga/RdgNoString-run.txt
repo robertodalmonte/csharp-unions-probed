@@ -1,0 +1,88 @@
+$env:ASPNETCORE_URLS="http://127.0.0.1:5599"
+$ dotnet run --no-build --no-launch-profile -- --urls http://127.0.0.1:5599
+
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://127.0.0.1:5599
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: <repo>\probes\RdgNoString
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.InvalidOperationException: v must have a valid TryParse method to support converting from a string. No public static bool IntOrBool.TryParse(string, out IntOrBool) method found for v.
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.BindParameterFromValue(ParameterInfo parameter, Expression valueExpression, RequestDelegateFactoryContext factoryContext, String source)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.CreateArgument(ParameterInfo parameter, RequestDelegateFactoryContext factoryContext, Boolean& hasTryParse, Boolean& hasBindAsync, Boolean& isAsParameters)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.CreateArguments(ParameterInfo[] parameters, RequestDelegateFactoryContext factoryContext)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.CreateArgumentsAndInferMetadata(MethodInfo methodInfo, RequestDelegateFactoryContext factoryContext)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.InferMetadata(MethodInfo methodInfo, RequestDelegateFactoryOptions options)
+         at Microsoft.AspNetCore.Routing.RouteEndpointDataSource.CreateRouteEndpointBuilder(RouteEntry entry, RoutePattern groupPrefix, IReadOnlyList`1 groupConventions, IReadOnlyList`1 groupFinallyConventions)
+         at Microsoft.AspNetCore.Routing.RouteEndpointDataSource.get_Endpoints()
+         at Microsoft.AspNetCore.Routing.CompositeEndpointDataSource.CreateEndpointsUnsynchronized()
+         at Microsoft.AspNetCore.Routing.CompositeEndpointDataSource.EnsureEndpointsInitialized()
+         at Microsoft.AspNetCore.Routing.CompositeEndpointDataSource.get_Endpoints()
+         at Microsoft.AspNetCore.Routing.DataSourceDependentCache`1.Initialize()
+         at System.Threading.LazyInitializer.EnsureInitializedCore[T](T& target, Boolean& initialized, Object& syncLock, Func`1 valueFactory)
+         at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher..ctor(EndpointDataSource dataSource, Lifetime lifetime, Func`1 matcherBuilderFactory)
+         at Microsoft.AspNetCore.Routing.Matching.DfaMatcherFactory.CreateMatcher(EndpointDataSource dataSource)
+         at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.InitializeCoreAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.<Invoke>g__AwaitMatcher|13_0(EndpointRoutingMiddleware middleware, HttpContext httpContext, Task`1 matcherTask)
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+
+GET /q?v=42 => 500
+System.InvalidOperationException: v must have a valid TryParse method to support converting from a string. No public static bool IntOrBool.TryParse(string, out IntOrBool) method found for v.
+
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.BindParameterFromValue(ParameterInfo parameter, Expression valueExpression, RequestDelegateFactoryContext factoryContext, String source)
+
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.CreateArgument(ParameterInfo parameter, RequestDelegateFactoryContext factoryContext, Boolean& hasTryParse, Boolean& hasBindAsync, Boolean& isAsParameters)
+
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.CreateArguments(ParameterInfo[] parameters, RequestDelegateFactoryContext factoryContext)
+
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.CreateArgumentsAndInferMetadata(MethodInfo methodInfo, RequestDelegateFactoryContext factoryContext)
+
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.InferMetadata(MethodInfo methodInfo, RequestDelegateFactoryOptions options)
+
+   at Microsoft.AspNetCore.Routing.RouteEndpointDataSource.CreateRouteEndpointBuilder(RouteEntry entry, RoutePattern groupPrefix, IReadOnlyList`1 groupConventions, IReadOnlyList`1 groupFinallyConventions)
+
+   at Microsoft.AspNetCore.Routing.RouteEndpointDataSource.get_Endpoints()
+
+   at Microsoft.AspNetCore.Routing.CompositeEndpointDataSource.CreateEndpointsUnsynchronized()
+
+   at Microsoft.AspNetCore.Routing.CompositeEndpointDataSource.EnsureEndpointsInitialized()
+
+   at Microsoft.AspNetCore.Routing.CompositeEndpointDataSource.get_Endpoints()
+
+   at Microsoft.AspNetCore.Routing.DataSourceDependentCache`1.Initialize()
+
+   at System.Threading.LazyInitializer.EnsureInitializedCore[T](T& target, Boolean& initialized, Object& syncLock, Func`1 valueFactory)
+
+   at Microsoft.AspNetCore.Routing.Matching.DataSourceDependentMatcher..ctor(EndpointDataSource dataSource, Lifetime lifetime, Func`1 matcherBuilderFactory)
+
+   at Microsoft.AspNetCore.Routing.Matching.DfaMatcherFactory.CreateMatcher(EndpointDataSource dataSource)
+
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.InitializeCoreAsync()
+
+--- End of stack trace from previous location ---
+
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.<Invoke>g__AwaitMatcher|13_0(EndpointRoutingMiddleware middleware, HttpContext httpContext, Task`1 matcherTask)
+
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+
+
+
+HEADERS
+
+    =======
+
+Connection: close
+
+Host: 127.0.0.1:5599
+
+User-Agent: Python-urllib/3.14
+
+Accept-Encoding: identity
+
+
+Host stopped by runner after request.

@@ -2,9 +2,12 @@
 
 Every claim in [`../docs`](../docs) came from one of these projects, run on **.NET SDK
 `11.0.100-rc.1.26425.128`** between 2026-09-10 and 2026-09-15, and re-run on
-**`11.0.100-rc.2.26504.105`** on 2026-10-14 and on **`11.0.100-rc.3.26522.148`** on 2026-10-26 (output identical to RC 2 apart from GUIDs, trace ids and paths). They are deliberately small, self-contained console
-and web projects that print what the framework did. Re-run them on GA before relying on anything
-in the docs, and read the output, not the docs, when they disagree.
+**`11.0.100-rc.2.26504.105`** on 2026-10-14 and on **`11.0.100-rc.3.26522.148`** on 2026-10-26 (output identical to RC 2 apart from GUIDs, trace ids and paths).
+**All 24 projects were re-run on GA SDK `11.0.100` / runtime `11.0.0` on 2026-11-11**,
+including conditional and RDG checks; [captured commands and results](results/ga/README.md).
+MVC now validates union cases (400 in `QVal`); the other union findings reproduce.
+These are small, self-contained console and web projects that print what the framework did.
+Read the output, not the docs, when they disagree.
 
 | Project | Kind | What it probes | Doc |
 |---|---|---|---|
@@ -26,7 +29,7 @@ in the docs, and read the output, not the docs, when they disagree.
 | `QConv` | console | Overlapping-case conversions (`CS0457` for two unrelated interfaces, better-conversion ties otherwise) and target typing / inference (`Task.FromResult`, `?:`, `var`, covariance); behind defines `AMBIG_SIBLINGS`, `NULL_LITERAL`, `INFER_TASK`, `VAR_TERNARY`, `TASK_CASE_TO_TASK_UNION`, `ENUMERABLE_COVARIANCE`, `INFER_TWO_ARGS`, `EXPLICIT_FROM_OBJECT` | 01 |
 | `QGuid` | console | `(Guid, string)`, `(DateTime, string)`, `(Guid, int)` under `Default`, `Web` and `Web`+`Strict`; a try-parse classifier | 05 |
 | `QStatus` | web + OpenApi | A union returned from Minimal API and MVC: status, body, `default`, OpenAPI (port 5590) | 05 |
-| `QCsharp15` | console | About 80 self-contained snippets compiled in-process by the SDK's own Roslyn at the default language version (a few with `Preview` and the `updated-memory-safety-rules` feature): `with(...)` (`W`), extension indexers (`E`), labeled jumps (`L`), breaking changes (`M`), memory safety (`U`). A case that compiles is run and its output printed; one that does not prints its diagnostics. `dotnet run --no-build -- E1` filters by id prefix. Saved output: `output-rc3.txt` | 11 |
+| `QCsharp15` | console | 84 self-contained snippets compiled in-process by the SDK's own Roslyn at the default language version (a few with `Preview` and the `updated-memory-safety-rules` feature): `with(...)` (`W`), extension indexers (`E`), labeled jumps (`L`), breaking changes (`M`), memory safety (`U`). A case that compiles is run and its output printed; one that does not prints its diagnostics. `dotnet run --no-build -- E1` filters by id prefix. Saved output: `output-rc3.txt` and [GA](results/ga/QCsharp15-run.txt) | 11 |
 | `QIde0410` | console | `IDE0410` at warning with `EnforceCodeStyleInBuild`: flags `goto END` and `goto NEXT`, not the flag-variable loop | 11 |
 | `QRepro1` / `QRepro2` / `QRepro3` | the repros exactly as posted | dotnet/runtime#133668, dotnet/aspnetcore#66648, dotnet/docs#55951 | 10 |
 
@@ -35,6 +38,8 @@ in the docs, and read the output, not the docs, when they disagree.
 - **Basic:** each project stands alone. `dotnet build`, then `dotnet run --no-build`. The web
   probes bind fixed ports on `127.0.0.1`, so run them one at a time: `UnionWeb` 5310+, `Probe2`
   5410+, `QVal` 5480, `QOa` 5491+, `QRepro2` 5560, `QParsable` 5570, `QFormCtor` 5580.
+  `QStatus` uses 5590. `RdgNoString` keeps serving until stopped; set `ASPNETCORE_URLS`
+  to choose its port (the GA run used `http://127.0.0.1:5599`) and request `/q?v=42`.
 - **Conditional probes:** `dotnet build --no-incremental -p:DefineConstants=NAME`.
   - `QLang` and `QRepro3` carry their RC 1 `is <union type>` lines behind `RC1_IS_UNION_TYPE`;
     on RC 2 and later that define fails with `CS8121`.
@@ -51,32 +56,38 @@ in the docs, and read the output, not the docs, when they disagree.
   - `QIface` switches: `CLOSED_INT` and `NO_CASE_IMPLEMENTS_SEALED` fail with `CS8121`;
     `NO_CASE_IMPLEMENTS` builds.
   - Runs that succeed: `QLang2` `CLASS_PROVIDER` and `CAST_FIX`.
+  - `QConv`: `AMBIG_SIBLINGS`, `NULL_LITERAL`, `INFER_TASK`, `VAR_TERNARY`,
+    `TASK_CASE_TO_TASK_UNION`, `ENUMERABLE_COVARIANCE` and `INFER_TWO_ARGS` fail as
+    documented on page 01. `EXPLICIT_FROM_OBJECT` builds, then throws `InvalidCastException`.
+  - `QRepro2` `WITH_QUERY`: reflection makes both requests 500; with RDG the query
+    returns the string case (200), and the form endpoint falls back to reflection (200, default).
 - **RDG (Request Delegate Generator):**
 
   ```
   dotnet build --no-incremental -p:EnableRequestDelegateGenerator=true -p:EmitCompilerGeneratedFiles=true
   ```
 
-  Then confirm that `obj\…\GeneratedRouteBuilderExtensions.g.cs` exists **and mentions the
-  endpoint** before trusting the run. An incremental build after flipping the property does not
+  Then confirm that `obj\…\GeneratedRouteBuilderExtensions.g.cs` exists **and covers the
+  endpoint**, using its `InterceptsLocationAttribute` source location and generated binding
+  code (route strings need not appear in the generated file). `RDG003` means that endpoint
+  falls back to reflection; `QFormCtor` and the form-only `QRepro2` emit no endpoint file.
+  An incremental build after flipping the property does not
   re-run the generator, so it silently re-tests the reflection path and produces an empty diff that
   looks like "RDG behaves identically". That happened here once.
 - **`QVal` MVC re-run (dotnet/aspnetcore#69834):** the two `MVC` lines at the end of the output are
   the ones to watch. On RC 2 and RC 3 the canary record body (`/mvc/admin`) returns 400 and the union body
-  (`/mvc/union`) returns 200 with `ModelState.IsValid == true`. When #69834 (*Validate active union
-  cases in MVC*) ships in a build you have, bump the packages and the SDK, `dotnet build`, `dotnet run
-  --no-build`, and expect `/mvc/union` to match the canary. If it still returns 200, the fix did not
-  reach that build. The Minimal API lines (`/union-rec`, `/union-cls`) are already fixed on RC 2 and the
-  `[Required]` wrapper "user missing" line is expected to stay 200 on a struct, so both are controls;
-  docs 05 and 10 get the new result and
-  keep the RC 2 one, labelled with its build.
+  (`/mvc/union`) returns 200 with `ModelState.IsValid == true`. **GA carries the fix:** both
+  return 400; the union's error is keyed as `Value.Role`. This was verified with reflection
+  and RDG enabled on 2026-11-11. The Minimal API lines (`/union-rec`, `/union-cls`) still
+  return 400 and the `[Required]` wrapper "user missing" line still returns 200. Docs 05
+  and 10 retain the older results, labelled with their builds.
 - **`ASP0020`:** `UnionWeb`, `Probe2`, `RdgNoString` and `QRepro2` carry an `.editorconfig` that
   suppresses it on purpose, to observe the runtime behaviour behind the analyzer. Delete the file
   from `UnionWeb` to see the three `ASP0020` errors instead.
 - **Moving to a newer SDK:**
-  - Packages are pinned to `11.0.0-rc.3.26522.148`; bump them to the matching version.
+  - Packages are pinned to GA `11.0.0`; bump them deliberately when moving versions.
   - `QRoslyn` references the SDK's own Roslyn through `$(NetCoreRoot)` and `$(NETCoreSdkVersion)`,
-    so it follows whatever SDK `dotnet` resolves to. Pin the SDK with a `global.json` if you have
-    several installed.
+    so it follows whatever SDK `dotnet` resolves to. The repository's `global.json` pins
+    `11.0.100`, permits later patches, and excludes prerelease SDKs.
 - **The empty `Directory.Build.props` / `.targets`** are deliberate. They stop MSBuild inheriting
   anything from the folders above your clone, so the probes build the same way everywhere.

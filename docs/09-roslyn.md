@@ -1,5 +1,9 @@
 # 9. Roslyn: enumerating a union's cases from an analyzer or generator
 
+*GA re-run on SDK `11.0.100` / `Microsoft.CodeAnalysis 5.12.0.0`, 2026-11-11:
+the same four `UnionCaseTypes` results, with zero compilation errors.
+[GA output](../probes/results/ga/QRoslyn-run.txt).*
+
 *Verified through the SDK's own Roslyn (`Microsoft.CodeAnalysis` 5.11, the compiler in SDK
 `11.0.100-rc.1.26425.128`), 2026-09-11, and re-run on 5.12 (SDK `11.0.100-rc.2.26504.105`)
 on 2026-10-14 with the same four results, and again on 5.12 in SDK `11.0.100-rc.3.26522.148` on 2026-10-26. Probe: `QRoslyn`.*
@@ -11,7 +15,7 @@ or analyzer, not re-parsing the declaration.
 Output of the probe:
 
 ```
-Microsoft.CodeAnalysis 5.11.0.0 (5.12.0.0 on RC 2); LanguageVersion names with 15: CSharp15
+Microsoft.CodeAnalysis 5.12.0.0; LanguageVersion names with 15: CSharp15
 compile errors: 0
 FourEyesApproval: TypeKind=Struct, UnionCaseTypes.IsDefault=False, [NotRequired, PendingApproval, PartlyApproved]
 IntOrString: TypeKind=Struct, UnionCaseTypes.IsDefault=False, [int, string]

@@ -1,0 +1,6 @@
+$ dotnet run --no-build --no-launch-profile
+
+POST /form v=42 => 200 null-valued union
+GET  /q?v=42    => 404
+
+Exit code: 0

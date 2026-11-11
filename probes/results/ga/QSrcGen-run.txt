@@ -1,0 +1,20 @@
+$ dotnet run --no-build --no-launch-profile
+
+context NumberHandling=AllowReadingFromString, naming=System.Text.Json.JsonCamelCaseNamingPolicy
+reflection, plain          42       => Int32(42)
+reflection, plain          "hello"  => JsonException: JSON value type 'String' is ambiguous for union type 'Plain' because multiple case types can use this value type
+reflection, plain          "42"     => JsonException: JSON value type 'String' is ambiguous for union type 'Plain' because multiple case types can use this value type
+reflection, strict attr    42       => Int32(42)
+reflection, strict attr    "hello"  => String(hello)
+reflection, strict attr    "42"     => String(42)
+source-gen, plain          42       => Int32(42)
+source-gen, plain          "hello"  => JsonException: JSON value type 'String' is ambiguous for union type 'Plain' because multiple case types can use this value type
+source-gen, plain          "42"     => JsonException: JSON value type 'String' is ambiguous for union type 'Plain' because multiple case types can use this value type
+source-gen, strict attr    42       => Int32(42)
+source-gen, strict attr    "hello"  => String(hello)
+source-gen, strict attr    "42"     => String(42)
+--- serialization through the context ---
+ser Plain("x") => "x"
+ser Strict(7) => 7
+
+Exit code: 0

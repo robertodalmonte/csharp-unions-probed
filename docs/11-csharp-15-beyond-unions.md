@@ -1,5 +1,12 @@
 # 11. C# 15 beyond unions: `with(...)`, extension indexers, labeled jumps, memory safety
 
+*GA re-run on SDK `11.0.100` (Roslyn `5.12.0.0`, compiler build
+`5.12.0-1.26529.118`, runtime `11.0.0`), 2026-11-11: every `QCsharp15` case
+reproduces the RC 3 result. The output differs only in compiler build/path and diagnostic
+ordering. `QIde0410` still reports the two `goto` warnings and no flag-variable warning.
+The six findings below therefore also hold on GA, including `CS0227` in `U10`.
+[GA output](../probes/results/ga/QCsharp15-run.txt).*
+
 *Compiled on SDK `11.0.100-rc.3.26522.148` (Roslyn 5.12.0, runtime 11.0.0) on 2026-11-07, at the
 default language version (`LanguageVersion.Default` = C# 15, no `LangVersion` line). Probes:
 `QCsharp15` (every case below, by id; full output in
@@ -15,7 +22,7 @@ labeled jumps, `M` = breaking changes, `U` = the memory-safety preview.
 **Result: the skill is right on almost every compiler fact it states, and imprecise or incomplete
 in six places.** The six are listed first; the confirmations follow.
 
-## Where the skill is imprecise or wrong on RC 3
+## Where the skill is imprecise or wrong on RC 3 and GA
 
 1. **Spread enumeration order is not "may happen later".** The skill says that for
    `.. GetItems()` the call happens in position but *enumerating* may happen after later elements
@@ -34,7 +41,7 @@ in six places.** The six are listed first; the confirmations follow.
    and `AnalysisLevel=latest-all`, only the two `goto` forms warn (`goto END` after a loop and
    `goto NEXT` with `NEXT: ;` at the end of the body). The `found = true; break;` loop with
    `&& !found` in the condition is silent.
-4. **`CS9401` does not exist on RC 3 (`U10`).** The skill's diagnostic table maps `safe`/`unsafe`
+4. **`U10` reports `CS0227` on RC 3 and GA.** The skill's diagnostic table maps `safe`/`unsafe`
    modifiers and blocks without `AllowUnsafeBlocks` to `CS9401 / CS0227`, and says "newer compilers
    (after .NET 11.0.100)" report `CS9401`. This compiler reports `CS0227` for the modifier, the
    block and `unsafe(expr)` alike. `CS9401` is a claim about a compiler that is not installed
@@ -52,7 +59,7 @@ in six places.** The six are listed first; the confirmations follow.
    (`E16b`). Nothing in the message says "ambiguous". The same `CS0021` is what the
    inference-from-assigned-value failure gives (`E12`).
 
-## Confirmed on RC 3
+## Confirmed on RC 3 and GA
 
 ### `with(...)` (section 1)
 

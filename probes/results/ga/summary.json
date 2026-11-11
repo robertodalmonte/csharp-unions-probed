@@ -1,0 +1,2211 @@
+[
+  {
+    "id": "environment",
+    "project": null,
+    "command": [
+      "dotnet",
+      "--info"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "environment.txt"
+  },
+  {
+    "id": "Probe2-build",
+    "project": "Probe2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "Probe2-run",
+    "project": "Probe2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "Probe2-run.txt"
+  },
+  {
+    "id": "QClosed-build",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-run",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QClosed-run.txt"
+  },
+  {
+    "id": "QClosedJson-build",
+    "project": "QClosedJson",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosedJson-run",
+    "project": "QClosedJson",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QClosedJson-run.txt"
+  },
+  {
+    "id": "QClosedLib-build",
+    "project": "QClosedLib",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-run",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QConv-run.txt"
+  },
+  {
+    "id": "QCsharp15-build",
+    "project": "QCsharp15",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QCsharp15-run",
+    "project": "QCsharp15",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QCsharp15-run.txt"
+  },
+  {
+    "id": "QEf-build",
+    "project": "QEf",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QEf-run",
+    "project": "QEf",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QEf-run.txt"
+  },
+  {
+    "id": "QFormCtor-build",
+    "project": "QFormCtor",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QFormCtor-run",
+    "project": "QFormCtor",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QFormCtor-run.txt"
+  },
+  {
+    "id": "QGuid-build",
+    "project": "QGuid",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QGuid-run",
+    "project": "QGuid",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QGuid-run.txt"
+  },
+  {
+    "id": "QIde0410-build",
+    "project": "QIde0410",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QIde0410-run",
+    "project": "QIde0410",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QIde0410-run.txt"
+  },
+  {
+    "id": "QIface-build",
+    "project": "QIface",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QIface-run",
+    "project": "QIface",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QIface-run.txt"
+  },
+  {
+    "id": "QLang-build",
+    "project": "QLang",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang-run",
+    "project": "QLang",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QLang-run.txt"
+  },
+  {
+    "id": "QLang2-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-run",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QLang2-run.txt"
+  },
+  {
+    "id": "QOa-build",
+    "project": "QOa",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QOa-run",
+    "project": "QOa",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QOa-run.txt"
+  },
+  {
+    "id": "QParsable-build",
+    "project": "QParsable",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QParsable-run",
+    "project": "QParsable",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QParsable-run.txt"
+  },
+  {
+    "id": "QRepro1-build",
+    "project": "QRepro1",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRepro1-run",
+    "project": "QRepro1",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QRepro1-run.txt"
+  },
+  {
+    "id": "QRepro2-build",
+    "project": "QRepro2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRepro2-run",
+    "project": "QRepro2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QRepro2-run.txt"
+  },
+  {
+    "id": "QRepro3-build",
+    "project": "QRepro3",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRepro3-run",
+    "project": "QRepro3",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QRepro3-run.txt"
+  },
+  {
+    "id": "QRoslyn-build",
+    "project": "QRoslyn",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRoslyn-run",
+    "project": "QRoslyn",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QRoslyn-run.txt"
+  },
+  {
+    "id": "QSrcGen-build",
+    "project": "QSrcGen",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QSrcGen-run",
+    "project": "QSrcGen",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QSrcGen-run.txt"
+  },
+  {
+    "id": "QStatus-build",
+    "project": "QStatus",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QStatus-run",
+    "project": "QStatus",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QStatus-run.txt"
+  },
+  {
+    "id": "QVal-build",
+    "project": "QVal",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QVal-run",
+    "project": "QVal",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QVal-run.txt"
+  },
+  {
+    "id": "RdgNoString-build",
+    "project": "RdgNoString",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "UnionWeb-build",
+    "project": "UnionWeb",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "UnionWeb-run",
+    "project": "UnionWeb",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "UnionWeb-run.txt"
+  },
+  {
+    "id": "QLang-PROBE_ERR-build",
+    "project": "QLang",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=PROBE_ERR"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS9373",
+      "CS9374"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang-PROBE_ERR2-build",
+    "project": "QLang",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=PROBE_ERR2"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS9375",
+      "CS0117"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang-RC1_IS_UNION_TYPE-build",
+    "project": "QLang",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=RC1_IS_UNION_TYPE"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS8121"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-TEST_EVENT-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=TEST_EVENT"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS9373"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-TEST_CHAIN-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=TEST_CHAIN"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0029"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-TEST_EXPLICIT-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=TEST_EXPLICIT"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0030"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-TEST_LIST-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=TEST_LIST"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS8985"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-TEST_UNION_INTO_UNION-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=TEST_UNION_INTO_UNION"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0029"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-DERIVE_CLOSED-build",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=DERIVE_CLOSED"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS9382"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-ABSTRACT_CLOSED-build",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=ABSTRACT_CLOSED"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS9384"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-CLOSED_INTERFACE-build",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=CLOSED_INTERFACE"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0106"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-PARTIAL_ORDER-build",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=PARTIAL_ORDER"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0267"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QIface-CLOSED_INT-build",
+    "project": "QIface",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=CLOSED_INT"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS8121"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QIface-NO_CASE_IMPLEMENTS_SEALED-build",
+    "project": "QIface",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=NO_CASE_IMPLEMENTS_SEALED"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS8121"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-AMBIG_SIBLINGS-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=AMBIG_SIBLINGS"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0457"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-NULL_LITERAL-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=NULL_LITERAL"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0037"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-INFER_TASK-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=INFER_TASK"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0029"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-VAR_TERNARY-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=VAR_TERNARY"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0173"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-TASK_CASE_TO_TASK_UNION-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=TASK_CASE_TO_TASK_UNION"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0029"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-ENUMERABLE_COVARIANCE-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=ENUMERABLE_COVARIANCE"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0266"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-INFER_TWO_ARGS-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=INFER_TWO_ARGS"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0411"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QFormCtor-QUERY_CONTROL-build",
+    "project": "QFormCtor",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=QUERY_CONTROL"
+    ],
+    "expected": "failure",
+    "required": [
+      "ASP0020"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRepro3-RC1_IS_UNION_TYPE-build",
+    "project": "QRepro3",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=RC1_IS_UNION_TYPE"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS8121"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-CLASS_PROVIDER-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=CLASS_PROVIDER"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-CLASS_PROVIDER-run",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QLang2-CLASS_PROVIDER-run.txt"
+  },
+  {
+    "id": "QLang2-CAST_FIX-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=CAST_FIX"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-CAST_FIX-run",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QLang2-CAST_FIX-run.txt"
+  },
+  {
+    "id": "QLang2-REC_RECURSE-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=REC_RECURSE"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-REC_RECURSE-run",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "failure",
+    "required": [
+      "Stack overflow."
+    ],
+    "exit_code": 3221225725,
+    "passed": true,
+    "log": "QLang2-REC_RECURSE-run.txt"
+  },
+  {
+    "id": "QIface-NO_CASE_IMPLEMENTS-build",
+    "project": "QIface",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=NO_CASE_IMPLEMENTS"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QIface-NO_CASE_IMPLEMENTS-run",
+    "project": "QIface",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QIface-NO_CASE_IMPLEMENTS-run.txt"
+  },
+  {
+    "id": "QClosed-PARTIAL_OK-build",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=PARTIAL_OK"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-PARTIAL_OK-run",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QClosed-PARTIAL_OK-run.txt"
+  },
+  {
+    "id": "QConv-EXPLICIT_FROM_OBJECT-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=EXPLICIT_FROM_OBJECT"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-EXPLICIT_FROM_OBJECT-run",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "failure",
+    "required": [
+      "InvalidCastException"
+    ],
+    "exit_code": 3762504530,
+    "passed": true,
+    "log": "QConv-EXPLICIT_FROM_OBJECT-run.txt"
+  },
+  {
+    "id": "QRepro2-WITH_QUERY-build",
+    "project": "QRepro2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=WITH_QUERY"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRepro2-WITH_QUERY-run",
+    "project": "QRepro2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QRepro2-WITH_QUERY-run.txt"
+  },
+  {
+    "id": "QClosed-NONEXHAUSTIVE-warning",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=NONEXHAUSTIVE"
+    ],
+    "expected": "success",
+    "required": [
+      "warning CS8509"
+    ],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-NONEXHAUSTIVE-error",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=NONEXHAUSTIVE",
+      "-p:WarningsAsErrors=CS8509"
+    ],
+    "expected": "failure",
+    "required": [
+      "error CS8509"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-NULLABLE_INPUT-warning",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=NULLABLE_INPUT"
+    ],
+    "expected": "success",
+    "required": [
+      "warning CS8655"
+    ],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-NULLABLE_INPUT-error",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=NULLABLE_INPUT",
+      "-p:WarningsAsErrors=CS8655"
+    ],
+    "expected": "failure",
+    "required": [
+      "error CS8655"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-WHEN_ARM-warning",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=WHEN_ARM"
+    ],
+    "expected": "success",
+    "required": [
+      "warning CS8846"
+    ],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-WHEN_ARM-error",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=WHEN_ARM",
+      "-p:WarningsAsErrors=CS8846"
+    ],
+    "expected": "failure",
+    "required": [
+      "error CS8846"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-binary-consumer-build",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosedLib-THIRD-build",
+    "project": "QClosedLib",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=THIRD",
+      "-o",
+      "<repo>\\probes\\obj\\ga-third"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-binary-added-case-run",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [
+      "Lib has Helicopter: True",
+      "Helicopter => SwitchExpressionException"
+    ],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QClosed-binary-added-case-run.txt"
+  },
+  {
+    "id": "QClosed-binary-restore-build",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "UnionWeb-rdg-build",
+    "project": "UnionWeb",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "UnionWeb-rdg-run",
+    "project": "UnionWeb",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "UnionWeb-rdg-run.txt"
+  },
+  {
+    "id": "Probe2-rdg-build",
+    "project": "Probe2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "Probe2-rdg-run",
+    "project": "Probe2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "Probe2-rdg-run.txt"
+  },
+  {
+    "id": "QOa-rdg-build",
+    "project": "QOa",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QOa-rdg-run",
+    "project": "QOa",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QOa-rdg-run.txt"
+  },
+  {
+    "id": "QVal-rdg-build",
+    "project": "QVal",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QVal-rdg-run",
+    "project": "QVal",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QVal-rdg-run.txt"
+  },
+  {
+    "id": "QParsable-rdg-build",
+    "project": "QParsable",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QParsable-rdg-run",
+    "project": "QParsable",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QParsable-rdg-run.txt"
+  },
+  {
+    "id": "QFormCtor-rdg-build",
+    "project": "QFormCtor",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QFormCtor-rdg-run",
+    "project": "QFormCtor",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QFormCtor-rdg-run.txt"
+  },
+  {
+    "id": "QStatus-rdg-build",
+    "project": "QStatus",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QStatus-rdg-run",
+    "project": "QStatus",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QStatus-rdg-run.txt"
+  },
+  {
+    "id": "QRepro2-rdg-build",
+    "project": "QRepro2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRepro2-rdg-run",
+    "project": "QRepro2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QRepro2-rdg-run.txt"
+  },
+  {
+    "id": "QRepro2-rdg-WITH_QUERY-build",
+    "project": "QRepro2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:DefineConstants=WITH_QUERY",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRepro2-rdg-WITH_QUERY-run",
+    "project": "QRepro2",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "QRepro2-rdg-WITH_QUERY-run.txt"
+  },
+  {
+    "id": "RdgNoString-rdg-build",
+    "project": "RdgNoString",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal",
+      "-p:EnableRequestDelegateGenerator=true",
+      "-p:EmitCompilerGeneratedFiles=true"
+    ],
+    "expected": "failure",
+    "required": [
+      "CS0029"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "Probe2-restore-build",
+    "project": "Probe2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosed-restore-build",
+    "project": "QClosed",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QClosedLib-restore-build",
+    "project": "QClosedLib",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QConv-restore-build",
+    "project": "QConv",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QFormCtor-restore-build",
+    "project": "QFormCtor",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QIface-restore-build",
+    "project": "QIface",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang-restore-build",
+    "project": "QLang",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QLang2-restore-build",
+    "project": "QLang2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QOa-restore-build",
+    "project": "QOa",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QParsable-restore-build",
+    "project": "QParsable",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRepro3-restore-build",
+    "project": "QRepro3",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QStatus-restore-build",
+    "project": "QStatus",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QVal-restore-build",
+    "project": "QVal",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "RdgNoString-restore-build",
+    "project": "RdgNoString",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "UnionWeb-restore-build",
+    "project": "UnionWeb",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "RdgNoString-run",
+    "project": "RdgNoString",
+    "command": [
+      "dotnet",
+      "run",
+      "--no-build",
+      "--no-launch-profile",
+      "--",
+      "--urls",
+      "http://127.0.0.1:5599"
+    ],
+    "expected": "HTTP 500: no TryParse",
+    "http_status": 500,
+    "passed": true,
+    "log": "RdgNoString-run.txt",
+    "environment": {
+      "ASPNETCORE_URLS": "http://127.0.0.1:5599",
+      "ASPNETCORE_ENVIRONMENT": "Development"
+    }
+  },
+  {
+    "id": "UnionWeb-ASP0020-control-build",
+    "project": "UnionWeb",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "failure",
+    "required": [
+      "ASP0020"
+    ],
+    "exit_code": 1,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "UnionWeb-ASP0020-restore-build",
+    "project": "UnionWeb",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  },
+  {
+    "id": "QRepro2-restore-build",
+    "project": "QRepro2",
+    "command": [
+      "dotnet",
+      "build",
+      "--no-incremental",
+      "--nologo",
+      "-v:minimal"
+    ],
+    "expected": "success",
+    "required": [],
+    "exit_code": 0,
+    "passed": true,
+    "log": "builds.txt"
+  }
+]

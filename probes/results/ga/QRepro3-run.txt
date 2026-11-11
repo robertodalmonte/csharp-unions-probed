@@ -1,0 +1,5 @@
+$ dotnet run --no-build --no-launch-profile
+
+System.Runtime.CompilerServices.SwitchExpressionException
+
+Exit code: 0

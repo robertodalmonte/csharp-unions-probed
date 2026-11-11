@@ -1,5 +1,10 @@
 # 2. The null-valued union
 
+*GA re-run on SDK `11.0.100`, 2026-11-11: unchanged. `QLang` still throws
+`SwitchExpressionException` for the default union without a null arm; `QLang2`'s
+`CS8655` canary still warns, while its other null-arm variants do not. EF Core `11.0.0`
+still reaches the bridge guards. [GA results](../probes/results/ga/README.md).*
+
 *Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-11, and re-run on SDK `11.0.100-rc.2.26504.105` (.NET 11 RC 2) on 2026-10-14: `default`
 is still a null-valued union, a switch with no `null` arm still compiles and throws
 `SwitchExpressionException`. Probes: `QLang`, `QLang2`

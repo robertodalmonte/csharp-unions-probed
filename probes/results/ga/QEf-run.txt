@@ -1,0 +1,26 @@
+$ dotnet run --no-build --no-launch-profile
+
+DDL: CREATE TABLE "Transfers" (     "Id" TEXT NOT NULL CONSTRAINT "PK_Transfers" PRIMARY KEY,     "FromAccountId" TEXT NOT NULL,     "ToAccountId" TEXT NOT NULL,     "ApprovalData_Approver1" TEXT NULL,     "ApprovalData_Approver2" TEXT NULL,     "ApprovalData_Kind" TEXT NOT NULL,     "ApprovalData_Rejector" TEXT NULL )
+after insert (Partly):   PartlyAp | 9517CFC7 | NULL | NULL
+materialized, no Include: PartlyApproved { Approver = 9517cfc7-0375-4c0c-a269-ba25ccb64eac }; state=Unchanged
+after WithApproval + DetectChanges: state=Modified
+after Partly -> Fully:   FullyApp | 9517CFC7 | 165326F8 | NULL
+after Fully -> Rejected: Rejected | NULL | NULL | FADCA1A9
+SQL: .param set @kind 'Rejected'  SELECT "t"."Id", "t"."FromAccountId", "t"."ToAccountId", "t"."ApprovalData_Approver1", "t"."ApprovalData_Approver2", "t"."ApprovalData_Kind", "t"."ApprovalData_Rejector" FROM "Transfers" AS "t" WHERE "t"."ApprovalData_Kind" = @kind
+WhereApproval(Rejected)=1, WhereApproval(PartlyApproved)=0
+BadTransfer (placeholder ctor seeds default union) materialized: PendingApproval { }; state=Unchanged
+BadTransfer after DetectChanges: state=Unchanged
+BadTransfer AsNoTracking => PendingApproval { }
+BadTransfer FindAsync => PendingApproval { }
+Add(new Transfer(..., default)), no SaveChanges => THROWS InvalidOperationException: Transfer.Approval was never initialised.
+Attach(new Transfer(..., default)) [placeholder seeds NotRequired] => THROWS InvalidOperationException: Transfer.Approval was never initialised.
+Update(new Transfer(..., default)) [placeholder seeds NotRequired] => THROWS InvalidOperationException: Transfer.Approval was never initialised.
+Attach(new BadTransfer(..., default)) [placeholder seeds default] => THROWS InvalidOperationException: Transfer.Approval was never initialised.
+Add with default(FourEyesApproval) THROWS InvalidOperationException: Transfer.Approval was never initialised.
+corrupt row (Partly, Approver1 NULL) THROWS InvalidOperationException: Corrupt approval state: Kind=PartlyApproved requires column 'Approver1', but it was null.
+corrupt row (Kind='Bogus') THROWS InvalidOperationException: Cannot convert string value 'Bogus' from the database to any value in the mapped 'ApprovalKind' enum.
+int-mapped Kind column: INTEGER
+int-mapped Kind=99 loaded => THROWS InvalidOperationException: Corrupt approval state: unknown kind '99'.
+int-mapped Kind=0 loaded => THROWS InvalidOperationException: Corrupt approval state: unknown kind 'Unknown'.
+
+Exit code: 0

@@ -1,0 +1,10 @@
+$ dotnet run --no-build --no-launch-profile
+
+Default 42       => Int32
+Default "hello"  => String
+Default "42"     => String
+Web     42       => Int32
+Web     "hello"  => JsonException: JSON value type 'String' is ambiguous for union type 'IntOrString' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 7.
+Web     "42"     => JsonException: JSON value type 'String' is ambiguous for union type 'IntOrString' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 4.
+
+Exit code: 0

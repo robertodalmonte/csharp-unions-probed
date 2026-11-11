@@ -1,0 +1,18 @@
+[
+  {
+    "file": "probes/QRepro2/obj/Debug/net11.0/generated/Microsoft.AspNetCore.Http.RequestDelegateGenerator/Microsoft.AspNetCore.Http.RequestDelegateGenerator.RequestDelegateGenerator/GeneratedRouteBuilderExtensions.g.cs",
+    "bytes": 22432,
+    "sha256": "6e4eae18dc7860dbd23dc2fad32220e567f3f33c86d975d62bcf1596567133ae",
+    "intercepted_endpoints": [
+      {
+        "source": "probes/QRepro2/Program.cs",
+        "line": 12,
+        "endpoint_registration": "app.MapGet(\"/q\", ([FromQuery] IntOrString v) => v);     // RDG: ?v=42 -> 200 \"42\" (string case)"
+      }
+    ],
+    "binding_lines": [
+      "// Endpoint Parameter: v (Type = IntOrString, IsOptional = False, IsParsable = False, IsArray = False, Source = Query)",
+      "global::IntOrString v_local = v_temp!;"
+    ]
+  }
+]

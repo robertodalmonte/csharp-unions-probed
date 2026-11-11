@@ -1,5 +1,9 @@
 # 1. What the compiler generates
 
+*GA re-run on SDK `11.0.100`, 2026-11-11: `QLang`, `QLang2` and `QConv`, including
+all define-gated builds, reproduce the RC 3 findings and diagnostic codes.
+[GA results](../probes/results/ga/README.md).*
+
 *Verified on SDK `11.0.100-rc.1.26425.128` (.NET 11 RC 1). Re-run on SDK `11.0.100-rc.2.26504.105` (.NET 11 RC 2) on 2026-10-14: the
 declaration errors (`CS9373`, `CS9374`, `CS9375`) and the conversion and `TEST_*` errors reproduce; nothing on this
 page changed. Re-run again on SDK `11.0.100-rc.3.26522.148` (.NET 11 RC 3) on 2026-10-26: same output and same diagnostic
@@ -25,7 +29,7 @@ becomes, in effect,
 
 `UnionAttribute` and `IUnion` live in the runtime since Preview 5. On `net11.0`, `LangVersion`
 resolves to `15.0` by default, so `<LangVersion>preview</LangVersion>` is not needed for either
-`union` or `closed`. RC 1 carries a go-live licence; unions ship in .NET 11 GA (November 2026).
+`union` or `closed`. Both are available in .NET 11 GA and verified with SDK `11.0.100`.
 
 ## Five consequences
 

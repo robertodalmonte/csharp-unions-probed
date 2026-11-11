@@ -1,0 +1,41 @@
+[
+  {
+    "file": "probes/QVal/obj/Debug/net11.0/generated/Microsoft.AspNetCore.Http.RequestDelegateGenerator/Microsoft.AspNetCore.Http.RequestDelegateGenerator.RequestDelegateGenerator/GeneratedRouteBuilderExtensions.g.cs",
+    "bytes": 59674,
+    "sha256": "42d769551b5b8fe3283388bd3ded296b7ee9474a58b56aa91f46623e79b73910",
+    "intercepted_endpoints": [
+      {
+        "source": "probes/QVal/Program.cs",
+        "line": 14,
+        "endpoint_registration": "app.MapPost(\"/admin-rec\", (AdminRec a) => \"ok\");"
+      },
+      {
+        "source": "probes/QVal/Program.cs",
+        "line": 15,
+        "endpoint_registration": "app.MapPost(\"/admin-cls\", (AdminCls a) => \"ok\");"
+      },
+      {
+        "source": "probes/QVal/Program.cs",
+        "line": 16,
+        "endpoint_registration": "app.MapPost(\"/union-rec\", (UserRec u) => $\"ok {u.Value?.GetType().Name}\");"
+      },
+      {
+        "source": "probes/QVal/Program.cs",
+        "line": 17,
+        "endpoint_registration": "app.MapPost(\"/union-cls\", (UserCls u) =>"
+      },
+      {
+        "source": "probes/QVal/Program.cs",
+        "line": 23,
+        "endpoint_registration": "app.MapPost(\"/wrapper\", (Wrapper w) => $\"ok {w.User.Value?.GetType().Name}\");"
+      }
+    ],
+    "binding_lines": [
+      "// Endpoint Parameter: a (Type = AdminCls, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: a (Type = AdminRec, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: u (Type = UserCls, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: u (Type = UserRec, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: w (Type = Wrapper, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)"
+    ]
+  }
+]

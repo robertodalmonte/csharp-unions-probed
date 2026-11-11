@@ -1,0 +1,14 @@
+$ dotnet run --no-build --no-launch-profile
+
+CANARY record, param attrs, bad admin => 400 {"title":"One or more validation errors occurred.","status":400,"errors":{"Role":["The field Role must be a string or array type with a maximum length of '10'."]}}
+CANARY class, property attrs, bad admin => 400 {"title":"One or more validation errors occurred.","status":400,"errors":{"Role":["The field Role must be a string or array type with a maximum length of '10'."]}}
+union of records, bad admin => 400 {"title":"One or more validation errors occurred.","status":400,"errors":{"Value.Role":["The field Role must be a string or array type with a maximum length of '10'."]}}
+union of records, bad customer => 400 {"title":"One or more validation errors occurred.","status":400,"errors":{"Value.Age":["The field Age must be between 18 and 120."]}}
+union of classes, bad admin => 400 {"title":"One or more validation errors occurred.","status":400,"errors":{"Value.Role":["The field Role must be a string or array type with a maximum length of '10'."]}}
+union of classes, bad customer => 400 {"title":"One or more validation errors occurred.","status":400,"errors":{"Value.Age":["The field Age must be between 18 and 120."]}}
+class with [Required] union property, bad admin inside => 400 {"title":"One or more validation errors occurred.","status":400,"errors":{"User.Value.Role":["The field Role must be a string or array type with a maximum length of '10'."]}}
+class with [Required] union property, user missing => 200 ok
+MVC CANARY record body, bad admin => 400 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"Role":["The field Role must be a string or array type with a maximum length of '10'."]},"traceId":"0HNPVPA13QDAO:00000009"}
+MVC union body, bad admin => 400 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"Value.Role":["The field Role must be a string or array type with a maximum length of '10'."]},"traceId":"0HNPVPA13QDAO:000000…
+
+Exit code: 0

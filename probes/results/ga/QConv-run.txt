@@ -1,0 +1,36 @@
+$ dotnet run --no-build --no-launch-profile
+
+=== 1. Overlapping cases ===
+union L(IEnumerable<int>, IList<int>) = List<int>   -> List`1
+union L = int[]                                      -> Int32[]
+union L = IEnumerable<int> typed value               -> List`1
+union BD(Base, Derived) = Derived                    -> Derived
+union BD = Base                                      -> Base
+union BD = (Base)Derived                             -> Derived
+union DB(Derived, Base) = Derived (order swapped)    -> Derived
+union LD(long, double) = int 5                       -> Int64 5
+union LD = long 5                                    -> Int64 5
+union LD = float                                     -> Double 5
+union OS(object, string) = "x"                       -> String x
+union OS = 42                                        -> Int32 42
+union Sib(IFoo, IBar) via explicit constructor        -> Both
+overlap in the declaration compiles: OneOrMore<int>(int, IEnumerable<int>) = Int32 1
+
+=== 3. Target typing and inference ===
+cond ? new A() : new B() -> U          : A
+switch arms A / B        -> U          : A
+Func<U> = () => new A()                : A
+Func<U> = () => cond ? A : B           : A
+U[] = [new A(), new B()]               : A,B
+List<U> collection expr + Add(new B()) : A,B
+Id(new A()) assigned to U (T=A)        : A
+Id<U>(new A())                         : A
+Task.FromResult<U>(new A())            : A
+async Task<U> return new A()           : A
+async ValueTask<U> return new B()      : B
+U? = new A()  (Nullable<U>)            : A
+U? = null                              : no value
+(U)new A() explicit cast of a case    : A
+is/as: o is U = False
+
+Exit code: 0

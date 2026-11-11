@@ -1,0 +1,35 @@
+[
+  {
+    "file": "probes/QParsable/obj/Debug/net11.0/generated/Microsoft.AspNetCore.Http.RequestDelegateGenerator/Microsoft.AspNetCore.Http.RequestDelegateGenerator.RequestDelegateGenerator/GeneratedRouteBuilderExtensions.g.cs",
+    "bytes": 50902,
+    "sha256": "303743692b54349d5cba1d20b514709d2d53541a6605e7fc984969d071c2c7bd",
+    "intercepted_endpoints": [
+      {
+        "source": "probes/QParsable/Program.cs",
+        "line": 10,
+        "endpoint_registration": "app.MapGet(\"/q\", ([FromQuery] IntOrString v) => Formatter.Describe(v));"
+      },
+      {
+        "source": "probes/QParsable/Program.cs",
+        "line": 11,
+        "endpoint_registration": "app.MapGet(\"/h\", ([FromHeader(Name = \"X-V\")] IntOrString v) => Formatter.Describe(v));"
+      },
+      {
+        "source": "probes/QParsable/Program.cs",
+        "line": 12,
+        "endpoint_registration": "app.MapGet(\"/r/{v}\", (IntOrString v) => Formatter.Describe(v));"
+      },
+      {
+        "source": "probes/QParsable/Program.cs",
+        "line": 13,
+        "endpoint_registration": "app.MapPost(\"/form\", ([FromForm] IntOrString v) => Formatter.Describe(v)).DisableAntiforgery();"
+      }
+    ],
+    "binding_lines": [
+      "// Endpoint Parameter: v (Type = IntOrString, IsOptional = False, IsParsable = True, IsArray = False, Source = FormBody)",
+      "// Endpoint Parameter: v (Type = IntOrString, IsOptional = False, IsParsable = True, IsArray = False, Source = Header)",
+      "// Endpoint Parameter: v (Type = IntOrString, IsOptional = False, IsParsable = True, IsArray = False, Source = Query)",
+      "// Endpoint Parameter: v (Type = IntOrString, IsOptional = False, IsParsable = True, IsArray = False, Source = RouteOrQuery)"
+    ]
+  }
+]

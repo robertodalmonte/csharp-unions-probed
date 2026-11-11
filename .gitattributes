@@ -2,3 +2,5 @@
 *.md text eol=lf
 *.cs text eol=lf
 *.csproj text eol=lf
+global.json text eol=lf
+probes/results/** text eol=lf

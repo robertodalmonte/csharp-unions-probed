@@ -1,0 +1,27 @@
+[
+  {
+    "file": "probes/QStatus/obj/Debug/net11.0/generated/Microsoft.AspNetCore.Http.RequestDelegateGenerator/Microsoft.AspNetCore.Http.RequestDelegateGenerator.RequestDelegateGenerator/GeneratedRouteBuilderExtensions.g.cs",
+    "bytes": 37761,
+    "sha256": "113764cc93b7bf9132d99889a9e41d6944109d454d7d03c4440262a141a08cc4",
+    "intercepted_endpoints": [
+      {
+        "source": "probes/QStatus/Program.cs",
+        "line": 13,
+        "endpoint_registration": "app.MapGet(\"/min/{kind}\", (string kind) => Make(kind));"
+      },
+      {
+        "source": "probes/QStatus/Program.cs",
+        "line": 14,
+        "endpoint_registration": "app.MapGet(\"/min-async/{kind}\", async (string kind) => { await Task.Yield(); return Make(kind); });"
+      },
+      {
+        "source": "probes/QStatus/Program.cs",
+        "line": 15,
+        "endpoint_registration": "app.MapGet(\"/min-typed/{kind}\", Task<Microsoft.AspNetCore.Http.HttpResults.Ok<CreateOrderResult>> (string kind) =>"
+      }
+    ],
+    "binding_lines": [
+      "// Endpoint Parameter: kind (Type = string, IsOptional = False, IsParsable = False, IsArray = False, Source = RouteOrQuery)"
+    ]
+  }
+]

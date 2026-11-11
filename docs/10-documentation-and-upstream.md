@@ -1,5 +1,12 @@
 # 10. Where the documentation disagrees with the compiler, and what was reported upstream
 
+*GA re-run on SDK `11.0.100` / runtime `11.0.0`, 2026-11-11: `QRepro1/2/3`
+and the supporting probes were re-run. MVC now rejects the invalid union body with 400
+(`QVal`), confirming the behavior tracked by #69834/#69929. The number-handling fix,
+form-binding fallback, classifier refusal and route-table failures reproduce.
+Issue discussion and status dates below are historical; this re-run checks installed
+behavior. [GA results](../probes/results/ga/README.md).*
+
 ## Sources used
 
 - The **C# language reference**, *Union types* (`learn.microsoft.com/.../builtin-types/union`,
@@ -35,7 +42,7 @@ Neither the reference nor the spec can be trusted alone.
 
 ## Reported upstream
 
-Check the status of each before relying on the matching page at RC 2 or GA.
+The entries record the original reports and dated replies; GA behavior is recorded alongside them.
 
 - **dotnet/runtime#133668**: `union (int, string)` rejects every string under
   `JsonSerializerDefaults.Web`, and `[JsonNumberHandling]` on the union is ignored. Ruled
@@ -83,7 +90,10 @@ Check the status of each before relying on the matching page at RC 2 or GA.
   fix, [PR #69834](https://github.com/dotnet/aspnetcore/pull/69834) *Validate active union cases in MVC*;
   whether it is backported to net11 is undecided. **Update 2026-10-26:** #69834 merged to `main` on 2026-10-19 and
   the `release/11.0` backport ([#69929](https://github.com/dotnet/aspnetcore/pull/69929)) merged the same day, but
-  RC 3 (`11.0.100-rc.3.26522.148`) still returns 200 for the union body in `QVal`. Re-run `QVal` on GA.
+  RC 3 (`11.0.100-rc.3.26522.148`) still returns 200 for the union body in `QVal`.
+  **GA verified 2026-11-11:** on SDK `11.0.100` / ASP.NET Core `11.0.0`, the same
+  `/mvc/union` request returns **400** with `errors.Value.Role`, matching the canary.
+  The fix is present. A missing `[Required]` union property still returns 200.
 - **dotnet/aspnetcore#69826** (filed 2026-10-14): one Minimal API endpoint taking a union the
   structural classifier refuses makes every route return 500, and with `AddControllers()` or
   `AddAuthorization()` startup throws, while the same union on an MVC action fails only that
@@ -113,8 +123,8 @@ Check the status of each before relying on the matching page at RC 2 or GA.
 Not reported, because upstream already covers them:
 
 - the null-state rule, which is by design (dotnet/roslyn#85054);
-- union validation in Minimal APIs, fixed for RC 2 (dotnet/aspnetcore#68268, PR #68846); the MVC
-  gap is the #64599 comment above;
+- union validation in Minimal APIs, fixed for RC 2 (dotnet/aspnetcore#68268, PR #68846); MVC
+  validation is also verified fixed on GA, as recorded in the #64599 entry above;
 - the `record class` provider overflow (dotnet/docs#55322).
 
 ## Not compiled

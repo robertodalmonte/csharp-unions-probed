@@ -1,5 +1,10 @@
 # 8. Persisting a union with EF Core
 
+*GA re-run on SDK `11.0.100` / EF Core SQLite `11.0.0`, 2026-11-11: `QEf` builds
+and runs unchanged from RC 3, apart from generated GUIDs. State transitions, queries,
+tracking, default-value guards and corrupt-row failures reproduce. The historical
+EF 10 TPH comparison was not re-run. [GA output](../probes/results/ga/QEf-run.txt).*
+
 *Verified twice: on EF Core 10.0.9 / .NET 10 / SQLite with an abstract-record hierarchy, and on
 EF Core `11.0.0-rc.1.26425.128` / SQLite with the real `union` keyword, using the code below
 verbatim, and re-run on `11.0.0-rc.2.26504.105` on 2026-10-14: it builds and runs. Unchanged on `11.0.0-rc.3.26522.148` (2026-10-26; only the random GUIDs differ). Probe: `QEf`. The TPH defects were verified on EF Core 10.0.9.*

@@ -1,0 +1,26 @@
+$ dotnet run --no-build --no-launch-profile
+
+GET  /q?v=42        => 200 int 42
+GET  /q?v=abc       => 200 string abc
+GET  /q (missing)   => 400 Microsoft.AspNetCore.Http.BadHttpRequestException: Required parameter "IntOrString v" was not provided from query string.    at Microsoft.As…
+GET  /h X-V:42      => 200 int 42
+GET  /h X-V:abc     => 200 string abc
+GET  /r/42          => 200 int 42
+GET  /r/abc         => 200 string abc
+POST /form v=42     => 200 int 42
+POST /form v=abc    => 200 string abc
+POST /form-opaque   => 200 Opaque 42
+POST /form-opaque1  => 200 null-valued Opaque1
+POST /form-opaque2  => 200 null-valued Opaque2
+POST /form-opaque1 value=42 => 200 Opaque1 42
+POST /form-opaque2 value=42 => 200 null-valued Opaque2
+POST /form-plain v=42       => 200 null-valued union
+POST /form-plain value=42   => 200 null-valued union
+POST /form-plain Value=42   => 200 null-valued union
+MVC GET  /mvc/q?v=42        => 200 int 42
+MVC GET  /mvc/q?v=abc       => 200 string abc
+MVC GET  /mvc/h X-V:42      => 200 int 42
+MVC GET  /mvc/r/42          => 200 int 42
+MVC POST /mvc/form v=42     => 200 int 42
+
+Exit code: 0

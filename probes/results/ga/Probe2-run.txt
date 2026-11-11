@@ -1,0 +1,67 @@
+$ dotnet run --no-build --no-launch-profile
+
+=== A. Structural classifier edges (Default options) ===
+OneEmpty(Empty1, Distinct(Code)) {Code} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'OneEmpty' because the case type 'Empty1' can never be selected uniquely. The case type 'Distinct' recognizes every property name recognized by 'Empty1' and has no stricter required-property or unmapped-member constraints.
+OneEmptyReq(Empty1, DistinctReq{required Code}) {} => Empty1(Empty1 { })
+OneEmptyReq {Code} => DistinctReq(DistinctReq { Code = c })
+OneEmptyReq {Cod} (typo) => Empty1(Empty1 { })
+OneEmptyOptional(Empty1, AllOpt(D = null)) {} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'OneEmptyOptional' because the case type 'Empty1' can never be selected uniquely. The case type 'AllOpt' recognizes every property name recognized by 'Empty1' and has no stricter required-property or unmapped-member constraints.
+TwoEmpty(Empty1, Empty2) {} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'TwoEmpty' because the case type 'Empty1' can never be selected uniquely. The case type 'Empty2' recognizes every property name recognized by 'Empty1' and has no stricter required-property or unmapped-member constraints.
+[JsonRequired] subset {Name} => JReqA(JReqA { Name = n })
+[JsonRequired] subset {Name,Extra} => JReqB(JReqB { Name = n, Extra = e })
+DisallowBoth {Name,Extr} (typo) => THROWS JsonException: The custom type classifier for union type 'DisallowBoth' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+DisallowBoth {Name} => DisA(DisA { Name = n })
+DisallowBoth {Name,Extra} => DisB(DisB { Name = n, Extra = e })
+polymorphic case {Title} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'UnionPoly' because the case type 'PolyBase' uses polymorphism or is itself a union type. Union cases that use polymorphism or are union types are not supported.
+JsonTypeClassifierFactory`1 exists? => System.Text.Json.Serialization.JsonTypeClassifierFactory`1
+custom classifier "hello" (Web) => String(hello)
+custom classifier "42" (Web) => String(42)
+custom classifier 42 (Web) => Int32(42)
+source-gen ctx deser 42 => Int32(42)
+source-gen ctx deser "hello" => String(hello)
+source-gen ctx ser "x" => "x"
+
+=== B. SignalR payload options ===
+PayloadSerializerOptions: NumberHandling=Strict, CaseInsensitive=True, Naming=JsonCamelCaseNamingPolicy
+SignalR options deser "hello" => String(hello)
+
+=== C. OpenAPI with ConfigureHttpJsonOptions Strict ===
+UnionIntString schema => {"anyOf":[{"type":"integer","format":"int32"},{"type":"string"}]}
+minimal POST "hello" => 200 "hello"
+
+=== D. http options Strict only; MVC options default ===
+minimal POST "hello" => 200 "hello"
+MVC POST "hello" => 400 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"$":["JSON value type 'String' is ambiguous for union type 'UnionIntString' because multiple case types can use this value type. Specify a custom type classifier to s…
+MVC [FromForm] v=42 => 500 System.InvalidOperationException: Could not create an instance of type 'UnionIntString'. Model bound complex types must not be abstract or value types and must have a parameterless constructor. Record types must have a single primary constructor. Alternatively, give the 'v' parameter a non-null defa…
+MVC [FromHeader] v: 42 => 500 System.InvalidOperationException: Could not create an instance of type 'UnionIntString'. Model bound complex types must not be abstract or value types and must have a parameterless constructor. Record types must have a single primary constructor. Alternatively, give the 'v' parameter a non-null defa…
+GetFromJsonAsync<UnionIntString> "hello" => THROWS JsonException: JSON value type 'String' is ambiguous for union type 'UnionIntString' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 7.
+
+=== E. both options Strict + AllowOutOfOrderMetadataProperties ===
+MVC POST "hello" => 200 "hello"
+minimal $type not first => 200 PaymentAuthorized
+MVC $type not first => 200 PaymentAuthorized
+minimal no $type => 500 System.NotSupportedException: The JSON payload for polymorphic interface or abstract type 'PaymentEvent' must specify a type discriminator. Path: $ | LineNumber: 0 | BytePositionInLine: 13.  ---> System.NotSupportedException: The JSON payload for polymorphic interface or abstract type 'PaymentEvent'…
+
+=== F. Production environment, closed hierarchy without $type ===
+Production minimal no $type => 500
+Production MVC no $type => 500
+
+=== G. unclassifiable union: what makes StartAsync throw ===
+bare: startup OK; first request => 500 System.NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'TwoEmpty' because the case type 'Empty1' can never be selected uniquely. The case type 'Empty2' recognizes every property name recognized by 'Empty1' and has no stricter required-property or unmapped-memb…
+AddAuthorization(): STARTUP THROWS NotSupportedException
+    at Microsoft.AspNetCore.Authorization.Policy.AuthorizationPolicyCache..ctor(EndpointDataSource dataSource)
+    at InvokeStub_AuthorizationPolicyCache..ctor(Object, Span`1)
+    at InvokeStub_AuthorizationMiddlewareInternal..ctor(Object, Object, Object, Object, Object)
+    at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__16_1(IHostedService service, CancellationToken token)
+    at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+AddOpenApi(): startup OK; first request => 500 System.NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'TwoEmpty' because the case type 'Empty1' can never be selected uniquely. The case type 'Empty2' recognizes every property name recognized by 'Empty1' and has no stricter required-property or unmapped-memb…
+AddControllers(): STARTUP THROWS NotSupportedException
+    at Microsoft.AspNetCore.Authorization.Policy.AuthorizationPolicyCache..ctor(EndpointDataSource dataSource)
+    at InvokeStub_AuthorizationPolicyCache..ctor(Object, Span`1)
+    at InvokeStub_AuthorizationMiddlewareInternal..ctor(Object, Object, Object, Object, Object)
+    at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__16_1(IHostedService service, CancellationToken token)
+    at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+
+Exit code: 0

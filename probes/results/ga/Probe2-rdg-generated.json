@@ -1,0 +1,44 @@
+[
+  {
+    "file": "probes/Probe2/obj/Debug/net11.0/generated/Microsoft.AspNetCore.Http.RequestDelegateGenerator/Microsoft.AspNetCore.Http.RequestDelegateGenerator.RequestDelegateGenerator/GeneratedRouteBuilderExtensions.g.cs",
+    "bytes": 49316,
+    "sha256": "5d1e74cf54189831ff6ef7762fe3d133c3830a17dce6a10668b5c3e969bd2f84",
+    "intercepted_endpoints": [
+      {
+        "source": "probes/Probe2/Program.cs",
+        "line": 54,
+        "endpoint_registration": "a => { a.MapPost(\"/x\", (UnionIntString v) => v); a.MapOpenApi(); });"
+      },
+      {
+        "source": "probes/Probe2/Program.cs",
+        "line": 66,
+        "endpoint_registration": "a => { a.MapPost(\"/x\", (UnionIntString v) => v); a.MapGet(\"/hello\", () => Results.Json(\"hello\")); a.MapControllers(); });"
+      },
+      {
+        "source": "probes/Probe2/Program.cs",
+        "line": 66,
+        "endpoint_registration": "a => { a.MapPost(\"/x\", (UnionIntString v) => v); a.MapGet(\"/hello\", () => Results.Json(\"hello\")); a.MapControllers(); });"
+      },
+      {
+        "source": "probes/Probe2/Program.cs",
+        "line": 93,
+        "endpoint_registration": "a => { a.MapPost(\"/payment\", (PaymentEvent e) => e.GetType().Name); a.MapControllers(); });"
+      },
+      {
+        "source": "probes/Probe2/Program.cs",
+        "line": 105,
+        "endpoint_registration": "a => { a.MapPost(\"/payment\", (PaymentEvent e) => e.GetType().Name); a.MapControllers(); });"
+      },
+      {
+        "source": "probes/Probe2/Program.cs",
+        "line": 123,
+        "endpoint_registration": "(app, var h) = await Start(port++, \"Development\", svc, a => a.MapPost(\"/x\", (TwoEmpty p) => p));"
+      }
+    ],
+    "binding_lines": [
+      "// Endpoint Parameter: e (Type = PaymentEvent, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: p (Type = TwoEmpty, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)",
+      "// Endpoint Parameter: v (Type = UnionIntString, IsOptional = False, IsParsable = False, IsArray = False, Source = JsonBodyOrService)"
+    ]
+  }
+]

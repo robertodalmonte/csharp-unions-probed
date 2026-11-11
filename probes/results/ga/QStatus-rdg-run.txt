@@ -1,0 +1,20 @@
+$ dotnet run --no-build --no-launch-profile
+
+GET /min/created           -> 200 application/json  {"orderId":"6f1c2b9e-0000-0000-0000-000000000001"}
+GET /min/invalid           -> 200 application/json  {"message":"Quantity must be greater than zero."}
+GET /min/missing           -> 200 application/json  {"productCode":"P404"}
+GET /min/default           -> 200 application/json  null
+GET /min-async/invalid     -> 200 application/json  {"message":"Quantity must be greater than zero."}
+GET /min-typed/missing     -> 200 application/json  {"productCode":"P404"}
+GET /mvc/created           -> 200 application/json  {"orderId":"6f1c2b9e-0000-0000-0000-000000000001"}
+GET /mvc/invalid           -> 200 application/json  {"message":"Quantity must be greater than zero."}
+GET /mvc/missing           -> 200 application/json  {"productCode":"P404"}
+GET /mvc/default           -> 200 application/json  null
+GET /mvc-async/invalid     -> 200 application/json  {"message":"Quantity must be greater than zero."}
+GET /mvc-action/invalid    -> 200 application/json  {"message":"Quantity must be greater than zero."}
+OpenAPI /min/{kind} 200 -> {"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateOrderResult"}}}}}
+OpenAPI /mvc/{kind} 200 -> {"200":{"description":"OK","content":{"text/plain":{"schema":{"$ref":"#/components/schemas/CreateOrderResult"}},"application/json":{"schema":{"$ref":"#/components/schemas/CreateOrderResult"}},"text/json":{"schema":{"$ref":"#/components/schemas/CreateOrderResult"}}}}}
+OpenAPI /mvc-action/{kind} 200 -> {"200":{"description":"OK","content":{"text/plain":{"schema":{"$ref":"#/components/schemas/CreateOrderResult"}},"application/json":{"schema":{"$ref":"#/components/schemas/CreateOrderResult"}},"text/json":{"schema":{"$ref":"#/components/schemas/CreateOrderResult"}}}}}
+Schema: {"type":"object","anyOf":[{"$ref":"#/components/schemas/OrderCreated"},{"$ref":"#/components/schemas/InvalidOrder"},{"$ref":"#/components/schemas/ProductNotFound"}]}
+
+Exit code: 0

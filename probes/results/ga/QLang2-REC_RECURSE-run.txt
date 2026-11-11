@@ -1,0 +1,10 @@
+$ dotnet run --no-build --no-launch-profile
+
+Stack overflow.
+Repeated 19213 times:
+--------------------------------
+   at RecurseUnion+IUnionMembers.Create(Int32)
+--------------------------------
+   at Program.<Main>$(System.String[])
+
+Exit code: 3221225725

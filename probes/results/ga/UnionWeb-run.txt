@@ -1,0 +1,118 @@
+$ dotnet run --no-build --no-launch-profile
+
+=== 1. Raw System.Text.Json: Default vs Web ===
+[Default] ser UnionIntString(42) => 42
+[Default] ser UnionIntString("hello") => "hello"
+[Default] deser 42 => Int32(42)
+[Default] deser "hello" => String(hello)
+[Default] deser "42" => String(42)
+[Default] ser default(UnionIntString) => null
+[Default] deser null -> UnionIntString => Value=null
+[Default] deser null -> UnionNullableIntString => Value=null
+[Default] ser UnionPet(Cat) => {"Name":"Tom","Coat":"tabby"}
+[Default] deser UnionPet Pascal Cat => Cat(Cat { Name = Tom, Coat = tabby })
+[Default] deser UnionPet camel Cat => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Default] deser UnionPet camel Dog => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Default] deser UnionPet {name} only => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Default] deser UnionPet {Name} only => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Default] deser UnionPet coat+breed => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Default] deser UnionPet breed first => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Default] deser UnionPet unknown prop => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Default] deser UnionPetNoClassifier => THROWS JsonException: JSON value type 'Object' is ambiguous for union type 'UnionPetNoClassifier' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Default] deser UnionTwins {name} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'UnionTwins' because the case type 'TwinA' can never be selected uniquely. The case type 'TwinB' recognizes every property name recognized by 'TwinA' and has no stricter required-property or unmapped-member constraints.
+[Default] deser Approval {} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'Approval' because the case type 'NotRequired' can never be selected uniquely. The case type 'PendingApproval' recognizes every property name recognized by 'NotRequired' and has no stricter required-property or unmapped-member constraints.
+[Default] deser Approval approver => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'Approval' because the case type 'NotRequired' can never be selected uniquely. The case type 'PendingApproval' recognizes every property name recognized by 'NotRequired' and has no stricter required-property or unmapped-member constraints.
+[Default] deser Approval rejector => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'Approval' because the case type 'NotRequired' can never be selected uniquely. The case type 'PendingApproval' recognizes every property name recognized by 'NotRequired' and has no stricter required-property or unmapped-member constraints.
+[Default] deser SubsetU {name} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'SubsetU' because the case type 'Small' can never be selected uniquely. The case type 'Big' recognizes every property name recognized by 'Small' and has no stricter required-property or unmapped-member constraints.
+[Default] deser SubsetReq {name} => Small(Small { Name = X })
+[Default] deser SubsetReq {name,extra} => BigReq(BigReq { Name = X, Extra = e })
+[Default] deser SubsetReq {name,typo} => Small(Small { Name = X })
+[Default] ser PaymentEvent => {"$type":"PaymentAuthorized","Amount":9.5,"PaymentId":"p1"}
+[Default] roundtrip PaymentEvent => PaymentAuthorized
+[Web] ser UnionIntString(42) => 42
+[Web] ser UnionIntString("hello") => "hello"
+[Web] deser 42 => Int32(42)
+[Web] deser "hello" => THROWS JsonException: JSON value type 'String' is ambiguous for union type 'UnionIntString' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 7.
+[Web] deser "42" => THROWS JsonException: JSON value type 'String' is ambiguous for union type 'UnionIntString' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 4.
+[Web] ser default(UnionIntString) => null
+[Web] deser null -> UnionIntString => Value=null
+[Web] deser null -> UnionNullableIntString => Value=null
+[Web] ser UnionPet(Cat) => {"name":"Tom","coat":"tabby"}
+[Web] deser UnionPet Pascal Cat => Cat(Cat { Name = Tom, Coat = tabby })
+[Web] deser UnionPet camel Cat => Cat(Cat { Name = Tom, Coat = tabby })
+[Web] deser UnionPet camel Dog => Dog(Dog { Name = Rex, Breed = lab })
+[Web] deser UnionPet {name} only => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Web] deser UnionPet {Name} only => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Web] deser UnionPet coat+breed => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Web] deser UnionPet breed first => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Web] deser UnionPet unknown prop => THROWS JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Web] deser UnionPetNoClassifier => THROWS JsonException: JSON value type 'Object' is ambiguous for union type 'UnionPetNoClassifier' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+[Web] deser UnionTwins {name} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'UnionTwins' because the case type 'TwinA' can never be selected uniquely. The case type 'TwinB' recognizes every property name recognized by 'TwinA' and has no stricter required-property or unmapped-member constraints.
+[Web] deser Approval {} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'Approval' because the case type 'NotRequired' can never be selected uniquely. The case type 'PendingApproval' recognizes every property name recognized by 'NotRequired' and has no stricter required-property or unmapped-member constraints.
+[Web] deser Approval approver => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'Approval' because the case type 'NotRequired' can never be selected uniquely. The case type 'PendingApproval' recognizes every property name recognized by 'NotRequired' and has no stricter required-property or unmapped-member constraints.
+[Web] deser Approval rejector => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'Approval' because the case type 'NotRequired' can never be selected uniquely. The case type 'PendingApproval' recognizes every property name recognized by 'NotRequired' and has no stricter required-property or unmapped-member constraints.
+[Web] deser SubsetU {name} => THROWS NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'SubsetU' because the case type 'Small' can never be selected uniquely. The case type 'Big' recognizes every property name recognized by 'Small' and has no stricter required-property or unmapped-member constraints.
+[Web] deser SubsetReq {name} => Small(Small { Name = X })
+[Web] deser SubsetReq {name,extra} => BigReq(BigReq { Name = X, Extra = e })
+[Web] deser SubsetReq {name,typo} => Small(Small { Name = X })
+[Web] ser PaymentEvent => {"$type":"PaymentAuthorized","amount":9.5,"paymentId":"p1"}
+[Web] roundtrip PaymentEvent => PaymentAuthorized
+
+=== 2. Minimal API + MVC + OpenAPI, happy paths ===
+POST /int-string 42 => 200 42
+POST /int-string "hello" => 400 Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "UnionIntString v" from the request body as JSON.  ---> System.Text.Json.JsonException: JSON value type 'String' is ambiguous for union type 'UnionIntString' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 7.    at System.Text.Json.…
+POST /int-string "42" => 400 Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "UnionIntString v" from the request body as JSON.  ---> System.Text.Json.JsonException: JSON value type 'String' is ambiguous for union type 'UnionIntString' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 4.    at System.Text.Json.…
+GET  /int-string => 200 42
+GET  /default => 200 null
+POST /pet camel Cat => 200 {"name":"Tom","coat":"tabby"}
+POST /pet camel Dog => 200 {"name":"Rex","breed":"lab"}
+POST /pet Pascal Dog => 200 {"name":"Rex","breed":"lab"}
+POST /pet {name} => 400 Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "UnionPet p" from the request body as JSON.  ---> System.Text.Json.JsonException: The custom type classifier for union type 'UnionPet' returned null for JSON token type 'StartObject'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.    at System.Text.Json.ThrowHelper.ThrowJsonException(String message)    at System.Text.Json.ThrowHelper.ThrowJ…
+POST /pet-nc Cat => 400 Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "UnionPetNoClassifier p" from the request body as JSON.  ---> System.Text.Json.JsonException: JSON value type 'Object' is ambiguous for union type 'UnionPetNoClassifier' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 1.    at Syste…
+GET  /payment => {"$type":"PaymentAuthorized","amount":9.5,"paymentId":"p1"}
+POST /payment (roundtrip) => 200 PaymentAuthorized
+POST /payment no $type => 500 System.NotSupportedException: The JSON payload for polymorphic interface or abstract type 'PaymentEvent' must specify a type discriminator. Path: $ | LineNumber: 0 | BytePositionInLine: 13.  ---> System.NotSupportedException: The JSON payload for polymorphic interface or abstract type 'PaymentEvent' must specify a type discriminator.    --- End of inner exception stack trace ---    at System.Text.Json.ThrowHelper.Thr…
+GET  /typed => 200 7
+MVC POST int-string "hello" => 400 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"$":["JSON value type 'String' is ambiguous for union type 'UnionIntString' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 7."]},"traceId":"0HNPVP9MTD29F:0000000F"}
+MVC POST int-string 42 => 200 42
+MVC POST int-string "42" => 400 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"$":["JSON value type 'String' is ambiguous for union type 'UnionIntString' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 4."]},"traceId":"0HNPVP9MTD29F:00000011"}
+MVC POST pet Cat => 200 {"name":"Tom","coat":"tabby"}
+MVC POST pet-nc Cat => 400 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"$":["JSON value type 'Object' is ambiguous for union type 'UnionPetNoClassifier' because multiple case types can use this value type. Specify a custom type classifier to support deserialization. Path: $ | LineNumber: 0 | BytePositionInLine: 1."]},"traceId":"0HNPVP9MTD29F:00000013"}
+MVC GET async => 200 "async"
+MVC GET query ?v=42 => 500 System.InvalidOperationException: Could not create an instance of type 'UnionIntString'. Model bound complex types must not be abstract or value types and must have a parameterless constructor. Record types must have a single primary constructor. Alternatively, give the 'v' parameter a non-null default value.    at Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinder.CreateModel(ModelBindingContext …
+MVC GET route /r/42 => 415 {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.16","title":"Unsupported Media Type","status":415,"traceId":"0HNPVP9MTD29F:00000016"}
+POST /int-string-strict "hello" => 200 "hello"
+POST /int-string-strict 42 => 200 42
+POST /payment $type not first => 500 System.NotSupportedException: The JSON payload for polymorphic interface or abstract type 'PaymentEvent' must specify a type discriminator. Path: $ | LineNumber: 0 | BytePositionInLine: 13.  ---> System.NotSupportedException: The JSON payload for polymorphic interface or abstract type 'PaymentEvent' must specify a type discriminator.    --- End of inner exception stack trace ---    at System.Text.Json.ThrowHelper.Thr…
+POST /payment unknown $type => 400 Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "PaymentEvent e" from the request body as JSON.  ---> System.Text.Json.JsonException: Read unrecognized type discriminator id 'PaymentRefunded'. Path: $ | LineNumber: 0 | BytePositionInLine: 39.    at System.Text.Json.ThrowHelper.ThrowJsonException(String message)    at System.Text.Json.ThrowHelper.ThrowJsonException_UnrecognizedTypeDiscrimin…
+MVC POST payment no $type => 500 System.NotSupportedException: The JSON payload for polymorphic interface or abstract type 'PaymentEvent' must specify a type discriminator. Path: $ | LineNumber: 0 | BytePositionInLine: 13.  ---> System.NotSupportedException: The JSON payload for polymorphic interface or abstract type 'PaymentEvent' must specify a type discriminator.    --- End of inner exception stack trace ---    at System.Text.Json.ThrowHelper.Thr…
+MVC POST payment roundtrip => 200 PaymentAuthorized
+--- OpenAPI paths (body / 200 schema) ---
+POST  /int-string  body={"$ref":"#/components/schemas/UnionIntString"}  200={"$ref":"#/components/schemas/UnionIntString"}  params=-
+GET   /int-string  body=-  200={"$ref":"#/components/schemas/UnionIntString"}  params=-
+GET   /default  body=-  200={"$ref":"#/components/schemas/UnionIntString"}  params=-
+POST  /pet  body={"$ref":"#/components/schemas/UnionPet"}  200={"$ref":"#/components/schemas/UnionPet"}  params=-
+POST  /pet-nc  body={"$ref":"#/components/schemas/UnionPetNoClassifier"}  200={"$ref":"#/components/schemas/UnionPetNoClassifier"}  params=-
+POST  /int-string-strict  body={"$ref":"#/components/schemas/UnionIntStringStrict"}  200={"$ref":"#/components/schemas/UnionIntStringStrict"}  params=-
+POST  /payment  body={"$ref":"#/components/schemas/PaymentEvent"}  200=-  params=-
+GET   /payment  body=-  200={"$ref":"#/components/schemas/PaymentEvent"}  params=-
+GET   /typed  body=-  200={"$ref":"#/components/schemas/UnionIntString"}  params=-
+POST  /mvc/int-string  body={"$ref":"#/components/schemas/UnionIntString"}  200={"$ref":"#/components/schemas/UnionIntString"}  params=-
+POST  /mvc/pet  body={"$ref":"#/components/schemas/UnionPet"}  200={"$ref":"#/components/schemas/UnionPet"}  params=-
+POST  /mvc/pet-nc  body={"$ref":"#/components/schemas/UnionPetNoClassifier"}  200={"$ref":"#/components/schemas/UnionPetNoClassifier"}  params=-
+POST  /mvc/payment  body={"$ref":"#/components/schemas/PaymentEvent"}  200={"type":"string"}  params=-
+GET   /mvc/async  body=-  200={"$ref":"#/components/schemas/UnionIntString"}  params=-
+GET   /mvc/q  body=-  200={"type":"string"}  params=[{"name":"Value","in":"query","schema":{}}]
+GET   /mvc/r/{v}  body={"$ref":"#/components/schemas/UnionIntString"}  200={"type":"string"}  params=[{"name":"v","in":"path","required":true,"schema":{"type":"string"}}]
+
+=== 3. Minimal API, non-JSON binding sources ===
+minimal [FromQuery] => 500 System.InvalidOperationException: v must have a valid TryParse method to support converting from a string. No public static bool UnionIntString.TryParse(string, out UnionIntString) method found for v.    at Microsoft.AspNetCore.Http.RequestDelegateFactory.BindParameterFromValue(ParameterInfo parameter, Expression valueExpression, RequestDelegateFactoryContext factoryContext, String source)    at Microsoft.AspNetCore.…
+minimal route {v} => 500 System.InvalidOperationException: Body was inferred but the method does not allow inferred body parameters. Below is the list of parameters that we found:   Parameter           | Source                         --------------------------------------------------------------------------------- v                   | Body (Inferred)   Did you mean to register the "Body (Inferred)" parameter(s) as a Service or apply the [F…
+minimal [FromHeader] => 500 System.InvalidOperationException: v must have a valid TryParse method to support converting from a string. No public static bool UnionIntString.TryParse(string, out UnionIntString) method found for v.    at Microsoft.AspNetCore.Http.RequestDelegateFactory.BindParameterFromValue(ParameterInfo parameter, Expression valueExpression, RequestDelegateFactoryContext factoryContext, String source)    at Microsoft.AspNetCore.…
+minimal GET, inferred => 500 System.InvalidOperationException: Body was inferred but the method does not allow inferred body parameters. Below is the list of parameters that we found:   Parameter           | Source                         --------------------------------------------------------------------------------- v                   | Body (Inferred)   Did you mean to register the "Body (Inferred)" parameter(s) as a Service or apply the [F…
+minimal [FromForm] => 200 null
+minimal body "hello", NumberHandling=Strict via ConfigureHttpJsonOptions => 200 "hello"
+minimal body, unclassifiable union => 500 System.NotSupportedException: The JsonUnionTypeStructuralClassifier cannot classify union type 'Approval' because the case type 'NotRequired' can never be selected uniquely. The case type 'PendingApproval' recognizes every property name recognized by 'NotRequired' and has no stricter required-property or unmapped-member constraints.    at System.Text.Json.ThrowHelper.ThrowNotSupportedException_UnionTypeStructuralClas…
+minimal [AsParameters] w/ union => 500 System.InvalidOperationException: Body was inferred but the method does not allow inferred body parameters. Below is the list of parameters that we found:   Parameter           | Source                         --------------------------------------------------------------------------------- V                   | Body (Inferred) q                   | As Parameter (Attribute)   Did you mean to register the "Body (Infer…
+
+Exit code: 0

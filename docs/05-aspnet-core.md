@@ -1,4 +1,10 @@
-# 5. ASP.NET Core: body only, and the Web defaults break the flagship example
+# 5. ASP.NET Core: binding, validation, and the Web defaults
+
+*GA re-run on SDK `11.0.100`, `Microsoft.AspNetCore.App 11.0.0` and OpenAPI `11.0.0`,
+2026-11-11. MVC now validates the active union case: `QVal`'s invalid union body returns
+400 with `errors.Value.Role`, matching the plain-record canary. Minimal API validation
+continues to return 400; a missing `[Required]` union property still returns 200.
+The RC results below are retained as history. [GA output](../probes/results/ga/QVal-run.txt).*
 
 *Verified on `Microsoft.AspNetCore.App 11.0.0-rc.1.26425.128` and `Microsoft.AspNetCore.OpenApi`
 of the same version, 2026-09-11 and 2026-09-15, one Kestrel host per probe, and re-run on
@@ -61,7 +67,8 @@ camelCase naming and case-insensitive matching, and under those `"hello"` deseri
   now deserializes `"hello"` into `IntOrStringStrict` under `JsonSerializerOptions.Web` without
   throwing, and `UnionWeb`'s `POST /int-string-strict "hello"` returns 200. It is the per-type fix
   that changes nothing app-wide. The unattributed `IntOrString` is unchanged and still ambiguous
-  under `Web`. The source-generator half of #133673 was not probed.
+  under `Web`. `QSrcGen` confirms the same behavior through a `JsonSerializerContext` on
+  RC 2, RC 3 and GA: the attributed union accepts strings, while the plain union stays ambiguous.
 - **Works, per type:** a custom classifier that decides by token kind.
 
   ```csharp
@@ -257,16 +264,28 @@ the endpoint's JSON contract is built, and *when* that happens depends on unrela
   builds every Minimal API endpoint, called from `CompositeEndpointDataSource`, which merges all
   sources into one route table. **MVC routes go down with it**: `GET /mvc/ok` returns 500 beside
   the bad Minimal API endpoint. Same on reflection and RDG, and inside a `MapGroup`.
-- **None of this is specific to unions.** An ordinary endpoint that fails to build (a GET whose
-  record parameter is inferred as a body) takes the table down the same way. Unions only add a new
-  way for an endpoint to fail at build time.
+- **Endpoint-construction failure is not specific to unions.** On the reflection path, `QOa`'s
+  non-union control (a GET whose record parameter is inferred as a body) takes the table down
+  the same way. With RDG enabled on GA, that control leaves `/ok` working (200), while the
+  unclassifiable-union endpoint still makes `/ok` return 500. This contrast is path-specific;
+  [reflection](../probes/results/ga/QOa-run.txt) and [RDG](../probes/results/ga/QOa-rdg-run.txt)
+  output are captured separately.
 
 The reverse is contained. The same union on an **MVC action** fails only that action (500 on its
 POST), because MVC resolves a body's JSON contract only when the action runs. A union that is
 ambiguous only at *read* time (no classifier, so no contract-time refusal) poisons nothing: 400
 on its own endpoint, 200 everywhere else.
 
-## Validation reaches inside a union on Minimal APIs from RC 2, not in MVC
+## Validation reaches union cases: Minimal APIs from RC 2, MVC on GA
+
+**GA (`11.0.100` / ASP.NET Core `11.0.0`, `QVal`, 2026-11-11): MVC is fixed.**
+`POST /mvc/union` with the invalid admin payload returns **400** with
+`errors.Value.Role`, as does the canary's `/mvc/admin` with `errors.Role`. The handler
+does not run. This is the behavior tracked by #69834 and its #69929 backport.
+Minimal API invalid record and class cases still return 400 with `Value.Role` or
+`Value.Age`, and the wrapper reports `User.Value.Role`. A missing `[Required]` union
+property still returns **200**: the property is a struct, so `[Required]` cannot
+detect its null-valued default. [GA output](../probes/results/ga/QVal-run.txt).
 
 dotnet/aspnetcore#68268 was closed as fixed for RC 2 by PR #68846 (*Support validation for C#
 union cases*). **Re-run on RC 2 (`QVal`, 2026-10-14):**
@@ -286,7 +305,8 @@ union cases*). **Re-run on RC 2 (`QVal`, 2026-10-14):**
 - **RC 3 (`11.0.100-rc.3.26522.148`, `QVal`, 2026-10-26): still not fixed.** `/mvc/union` returns 200 with
   `ModelState.IsValid == true`; the canary still returns 400. #69834 merged to `main` on 2026-10-19 and its
   backport to `release/11.0` ([PR #69929](https://github.com/dotnet/aspnetcore/pull/69929)) merged the same day,
-  so the fix is not in the RC 3 shared framework (`Microsoft.AspNetCore.App 11.0.0-rc.3.26522.148`). Re-run on GA.
+  so the fix is not in the RC 3 shared framework (`Microsoft.AspNetCore.App 11.0.0-rc.3.26522.148`).
+  The GA result above supersedes this limitation.
 
 What follows is the RC 1 behaviour, kept because it is what an RC 1 application does. On RC 1, with `builder.Services.AddValidation()` (the
 generator ships with the SDK; a `Microsoft.Extensions.Validation` package reference is redundant
@@ -305,9 +325,10 @@ baseline:
 - MVC is no different: an `[ApiController]` action with the union body returns 200 with
   `ModelState.IsValid == true`, while the canary record body returns 400.
 
-Put the invariants in the case types' constructors, or validate `Value` explicitly. Never rely on
-the pipeline to validate a union body on RC 1, and on RC 2 do not rely on it in MVC or for a
-`[Required]` union property.
+On GA, both Minimal API validation (`AddValidation()`) and MVC (`[ApiController]`) validate
+the active case. Keep invariants in the case types' constructors where appropriate, and guard
+the null-valued default explicitly: `[Required]` on a union property does not catch it.
+On RC 1, validate `Value` explicitly; on RC 2 and RC 3, MVC still needs that workaround.
 
 ## The article's design rule, sharpened
 

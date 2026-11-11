@@ -1,0 +1,9 @@
+$ dotnet run --no-build --no-launch-profile
+
+Plane { FlightNumber = LH1 } => flight LH1
+Train { Operator = DB } => DB
+Lib has Helicopter: False
+Box => A3, B
+MyMid via Mid arm => mid
+
+Exit code: 0

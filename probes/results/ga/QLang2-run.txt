@@ -1,0 +1,10 @@
+$ dotnet run --no-build --no-launch-profile
+
+static abstract provider: True, True, default is null: True
+HasValue provider: True, default is null: True
+record class provider (private ctor with extra param): True, True
+partial union: 42; discard switch: discard
+generic union with constraint + interface list, g is IMarker: False
+overlapping cases: one=Int32, many=List`1
+
+Exit code: 0

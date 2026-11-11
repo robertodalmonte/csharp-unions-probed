@@ -1,0 +1,371 @@
+$ dotnet run --no-build --no-launch-profile
+
+Microsoft.CodeAnalysis 5.12.0.0; LanguageVersion.Default = CSharp15; runtime 11.0.0
+
+=== W01  List<T> capacity: [with(capacity: n), ..xs] presizes
+  compiles; runs:
+    2 8
+    2 4
+
+=== W02  HashSet comparer: [with(OrdinalIgnoreCase), "Hello", "HELLO", "hello"] has 1 element
+  compiles; runs:
+    1
+
+=== W03  IList<T>: [with(capacity: 100)] creates List<int>(100); ICollection<T> takes with() and with(capacity)
+  compiles; runs:
+    List`1 cap=100
+    List`1 List`1 List`1 cap(c)=4
+
+=== W04  List<int> copy = [with([1, 2]), 3] binds List<T>(IEnumerable<T>) -> 1, 2, 3
+  compiles; runs:
+    1,2,3
+
+=== W05  Builder type: Create<T>(IEqualityComparer<T>, ReadOnlySpan<T>) -> with(comparer) gives 2 elements; with() calls Create(ROS)
+  compiles; runs:
+    2 1 2
+
+=== W06  A type whose only constructor takes arguments is a target WITH with(...)
+  compiles; runs:
+    temperature: 18,21,24
+
+=== W07  ...and is an error WITHOUT with(...) (no parameterless constructor)
+  error CS9214: Collection expression type must have an applicable constructor that can be called with no arguments.   <<  NamedValues bad = [18, 21, 24];
+
+=== W08  with(...) not first is a compile error
+  error CS9354: 'with(...)' element must be the first element   <<  List<int> l = [1, with(capacity: 3)];
+
+=== W09  Arrays and spans: an error even for an empty with() (one line each)
+  error CS9355: 'with(...)' elements are not supported for type 'int[]'   <<  int[] a = [with(), 1];
+  error CS9355: 'with(...)' elements are not supported for type 'Span<int>'   <<  Span<int> s = [with(), 1];
+  error CS9355: 'with(...)' elements are not supported for type 'ReadOnlySpan<int>'   <<  ReadOnlySpan<int> r = [with(), 1];
+
+=== W10  IEnumerable<T>, IReadOnlyCollection<T>, IReadOnlyList<T> accept only an empty with()
+  compiles; runs:
+    <>z__ReadOnlySingleElementList`1 <>z__ReadOnlySingleElementList`1 <>z__ReadOnlySingleElementList`1
+
+=== W11  ...and with(capacity: 10) on them is an error (one line each)
+  error CS9357: 'with(...)' element for a read-only interface must be empty if present   <<  IEnumerable<int> a = [with(capacity: 10), 1];
+  error CS9357: 'with(...)' element for a read-only interface must be empty if present   <<  IReadOnlyCollection<int> b = [with(capacity: 10), 1];
+  error CS9357: 'with(...)' element for a read-only interface must be empty if present   <<  IReadOnlyList<int> c = [with(capacity: 10), 1];
+
+=== W12  Overload resolution ignores the arguments: Print(List<string>)/Print(HashSet<string>) with [with(comparer), ...] is CS0121
+  error CS0121: The call is ambiguous between the following methods or properties: 'P.Print(System.Collections.Generic.List<string>)' and 'P.Print(System.Collections.Generic.HashSet<string>)'   <<  Print([with(StringComparer.OrdinalIgnoreCase), "one", "ONE"]);
+
+=== W13  ...but a fixed target type then resolves it
+  compiles; runs:
+    1
+
+=== W14  Inference ignores the arguments: Use([with(10)]) is CS0411; Use<int>([with(10)]) is fine
+  error CS0411: The type arguments for method 'P.Use<T>(List<T>)' cannot be inferred from the usage. Try specifying the type arguments explicitly.   <<  Use([with(10)]);
+
+=== W15  [with(default)] on List<int> is ambiguous between constructors
+  error CS0121: The call is ambiguous between the following methods or properties: 'System.Collections.Generic.List<int>.List(int)' and 'System.Collections.Generic.List<int>.List(System.Collections.Generic.IEnumerable<int>)'   <<  List<int> l = [with(default)];
+  error CS8716: There is no target type for the default literal.   <<  List<int> l = [with(default)];
+
+=== W16  dynamic arguments are an error
+  error CS9356: 'with(...)' element arguments cannot be dynamic   <<  List<int> l = [with(cap), 1];
+
+=== W17  Evaluation order: with-args first, then elements left to right; spread call happens in position, enumeration later
+  compiles; runs:
+    with, e1, call, enumerate, e2
+
+=== W18  A method named 'with' is called as an element via @with(...) (element position)
+  compiles; runs:
+    3,3
+
+=== W19  ...and unescaped with(1, 2) at element 0 is collection arguments, so List<int>(1, 2) fails
+  error CS1729: 'List<int>' does not contain a constructor that takes 2 arguments   <<  List<int> l = [with(1, 2), 3];
+
+=== W20  Dictionary targets: empty with(comparer) only? (one line each)
+  error CS9174: Cannot initialize type 'IDictionary<string, int>' with a collection expression because the type is not constructible.   <<  IDictionary<string, int> i = [with(StringComparer.OrdinalIgnoreCase)];
+  error CS9174: Cannot initialize type 'IReadOnlyDictionary<string, int>' with a collection expression because the type is not constructible.   <<  IReadOnlyDictionary<string, int> r = [with()];
+
+=== W21  Builder with the span FIRST and an optional comparer after: with(comparer) cannot bind; plain and with() can
+  error CS9187: Could not find an accessible 'Create' method with the expected signature: a static method whose last parameter is of type 'ReadOnlySpan<T>' and return type 'BadSet<T>'.   <<  BadSet<string> a = ["x"];
+  error CS9187: Could not find an accessible 'Create' method with the expected signature: a static method whose last parameter is of type 'ReadOnlySpan<T>' and return type 'BadSet<T>'.   <<  BadSet<string> b = [with(), "x"];
+  error CS9187: Could not find an accessible 'Create' method with the expected signature: a static method whose last parameter is of type 'ReadOnlySpan<T>' and return type 'BadSet<T>'.   <<  BadSet<string> c = [with(StringComparer.Ordinal), "x"];
+
+=== W22  Capacity vs copy: [with(5)] on List<int> is capacity 5
+  compiles; runs:
+    0 5
+
+=== W23  ImmutableArray<T>/ImmutableHashSet<T>/SortedSet<T> builders and comparers
+  compiles; runs:
+    2 1 a
+
+=== W24  A second with(...) element is an error
+  error CS9354: 'with(...)' element must be the first element   <<  List<int> l = [with(capacity: 1), with(capacity: 2), 3];
+
+=== W26  Spread enumeration order by target kind: List, HashSet, builder type, ImmutableArray, array (log of when the iterator runs vs later elements)
+  compiles; runs:
+    List: e1, call, enumerate, e2
+    HashSet: e1, call, enumerate, e2
+    MySet(builder): e1, call, enumerate, e2
+    ImmutableArray: e1, call, enumerate, e2
+    int[] (no with): e1, call, enumerate, e2
+    IEnumerable<int>: e1, call, enumerate, e2
+
+=== W25  Classic initializers are unchanged; with(...) is only a collection-expression feature
+  compiles; runs:
+    2 4
+
+=== E01  extension(IEnumerable<int> sequence) { public int this[int index] } works: numbers[2] == 3
+  compiles; runs:
+    3
+
+=== E02  Two-parameter get/set extension indexer on IDictionary<string,string>
+  compiles; runs:
+    Debug | Logging:Level
+
+=== E03  The block needs a NAMED receiver: extension(IEnumerable<int>) with an indexer is an error
+  error CS9303: 'this[]': cannot declare instance members in an extension block with an unnamed receiver parameter   <<  public int this[int index] => 0;
+
+=== E04  An extension can never hijack an instance indexer: List<int>[0] stays the real element
+  compiles; runs:
+    5 5
+
+=== E05  Extension indexers are never used for string or arrays: "abc"[1] and arr[0] stay real (this[int] declared on both)
+  compiles; runs:
+    b 7
+
+=== E06  ...but a DIFFERENT signature on string is usable ("abc"["k"]): the claim 'never used for string' is only about colliding shapes
+  error CS1503: Argument 1: cannot convert from 'string' to 'int'   <<  Console.WriteLine("abc"["k"]);
+  error CS0029: Cannot implicitly convert type 'string' to 'int'   <<  Console.WriteLine(arr["k"]);
+
+=== E07  Cannot appear in expression trees (the lambda s => s[2] to Expression<>)
+  error CS9296: An expression tree may not contain an extension property or indexer access   <<  Expression<Func<IEnumerable<int>, int>> e = s => s[2];
+
+=== E08  Extension Count + this[int] + Slice(int,int) unlock ^1, ranges and list patterns
+  compiles; runs:
+    40 20 True
+
+=== E09  [IndexerName("X")] changes the metadata names; default is Item (reflected static method names)
+  compiles; runs:
+    Named: get_X
+    Plain: get_Item
+    v
+    v
+
+=== E10  Forbidden modifiers on an extension indexer (one block each, one line each)
+  error CS0106: The modifier 'virtual' is not valid for this item   <<  public static class M1 { extension(List<int> l) { public virtual int this[string k] => 0; } }
+  error CS0106: The modifier 'abstract' is not valid for this item   <<  public static class M2 { extension(List<int> l) { public abstract int this[string k] { get; } } }
+  error CS0501: 'M2.extension(List<int>).this[string].get' must declare a body because it is not marked abstract, extern, or partial   <<  public static class M2 { extension(List<int> l) { public abstract int this[string k] { get; } } }
+  error CS0106: The modifier 'override' is not valid for this item   <<  public static class M3 { extension(List<int> l) { public override int this[string k] => 0; } }
+  error CS0106: The modifier 'new' is not valid for this item   <<  public static class M4 { extension(List<int> l) { public new int this[string k] => 0; } }
+  error CS0106: The modifier 'sealed' is not valid for this item   <<  public static class M5 { extension(List<int> l) { public sealed int this[string k] => 0; } }
+  error CS9304: 'M7.extension(List<int>).this[string]': cannot declare init-only accessors in an extension block   <<  public static class M7 { extension(List<int> l) { public int this[string k] { get => 0; init { } } } }
+  error CS9302: 'M6.extension(List<int>).this[string]': new protected member declared in an extension block   <<  public static class M6 { extension(List<int> l) { protected int this[string k] => 0; } }
+  error CS0106: The modifier 'static' is not valid for this item   <<  public static class M9 { extension(List<int> l) { public static int this[string k] => 0; } }
+  error CS9248: Partial property 'M8.extension(List<int>).this[string]' must have an implementation part.   <<  public static class M8 { extension(List<int> l) { public partial int this[string k] { get; } } }
+  error CS0751: A partial member must be declared within a partial type   <<  public static class M8 { extension(List<int> l) { public partial int this[string k] { get; } } }
+
+=== E11  A type parameter of a generic extension block must appear in the receiver or the indexer parameters
+  error CS9295: The type parameter `T` is not referenced by either the extension parameter or a parameter of this member   <<  public static class G1 { extension<T>(List<int> l) { public int this[string k] => 0; } }
+
+=== E12  Type inference uses receiver and index args only, never the assigned value: i[42, null] = new object() fails, E.set_Item(...) succeeds
+  error CS0021: Cannot apply indexing with [] to an expression of type 'Holder'   <<  i[42, null] = new object();
+
+=== E13  Null-conditional x?[i,j] and index assignment inside an object initializer both resolve to the extension indexer
+  compiles; runs:
+    1
+    null
+    xy=5
+
+=== E14  ref-returning extension indexer: w[1] = 7; w[1]++
+  compiles; runs:
+    1,8,3
+
+=== E15  Lookup order tier 2 beats tier 3: implicit Index support from INSTANCE members (Length + this[int]) beats an extension this[Index]
+  compiles; runs:
+    instance1 instance2
+
+=== E15b  Tier 3 beats tier 4: an extension this[Index] beats implicit Index support from extension Count + this[int]
+  compiles; runs:
+    ext-int1 ext-Index
+
+=== E16  Two extension indexers with the same receiver and signature in different classes are ambiguous (which diagnostic?)
+  error CS0021: Cannot apply indexing with [] to an expression of type 'Holder'   <<  Console.WriteLine(h[1]);
+
+=== E16b  ...control: with one of them removed, the same call compiles
+  compiles; runs:
+    1
+
+=== E17  A NON-colliding extension indexer on a type that already has an instance indexer: List<int>["k"] and Dictionary<string,int>[1]
+  compiles; runs:
+    ext:k1
+
+=== E17b  ...and on string / array with a non-colliding signature (the E06 shape, one line each)
+  error CS1503: Argument 1: cannot convert from 'string' to 'int'   <<  Console.WriteLine("abc"["k"]);
+
+=== L01  break outer / continue outer in for, foreach, while and do loops
+  compiles; runs:
+    for: (2, 0)
+    while/foreach: 9
+    do: 4
+
+=== L02  break dispatch; inside a foreach inside a switch STATEMENT exits the switch, not just the foreach
+  warning CS0162: Unreachable code detected   <<  break;
+  compiles; runs:
+    step 1
+    after switch
+
+=== L03  continue label cannot target a switch
+  error CS9394: No enclosing loop with the label 'dispatch' out of which to continue   <<  for (int i = 0; i < 2; i++) continue dispatch;
+  warning CS0162: Unreachable code detected   <<  for (int i = 0; i < 2; i++) continue dispatch;
+
+=== L04  Only the statement immediately after a label is labeled: a: b: while ... break a is an error
+  error CS9393: No enclosing loop or switch statement with the label 'a' out of which to break   <<  break a;
+  warning CS0164: This label has not been referenced   <<  a: b: while (true)
+
+=== L05  ...and break b works (control)
+  warning CS0164: This label has not been referenced   <<  a: b: while (true)
+  compiles; runs:
+    left via b
+
+=== L06  break label to a label on a plain block or an if is an error
+  error CS9393: No enclosing loop or switch statement with the label 'blk' out of which to break   <<  blk: { for (int i = 0; i < 2; i++) { break blk; } }
+  warning CS0162: Unreachable code detected   <<  blk: { for (int i = 0; i < 2; i++) { break blk; } }
+
+=== L07  break outer across try/finally runs the finally blocks, innermost first
+  warning CS0162: Unreachable code detected   <<  for (int j = 0; j < 2; j++) { Console.WriteLine("jump"); break outer; }
+  compiles; runs:
+    jump
+    inner finally
+    outer finally
+    after
+
+=== L08  Neither form can leave a finally block
+  error CS0157: Control cannot leave the body of a finally clause   <<  finally { break outer; }
+  warning CS0162: Unreachable code detected   <<  outer: for (int i = 0; i < 2; i++)
+
+=== L09  Cannot jump out of a lambda or a local function to an outer loop (one line each)
+  error CS1632: Control cannot leave the body of an anonymous method or lambda expression   <<  Action a = () => { break outer; };
+  error CS9394: No enclosing loop with the label 'outer' out of which to continue   <<  void Local() { continue outer; }
+  warning CS8321: The local function 'Local' is declared but never used   <<  void Local() { continue outer; }
+
+=== L10  The same label on two nested loops is an error; give each its own name
+  error CS0158: The label 'outer' shadows another label by the same name in a contained scope   <<  outer: for (int j = 0; j < 2; j++) { break outer; }
+  warning CS0162: Unreachable code detected   <<  outer: for (int j = 0; j < 2; j++) { break outer; }
+  warning CS0164: This label has not been referenced   <<  outer: for (int i = 0; i < 2; i++)
+
+=== L11  The same label on two SEQUENTIAL loops in one block is an error (label scope is the whole block)
+  error CS0140: The label 'outer' is a duplicate   <<  outer: for (int j = 0; j < 2; j++) { break outer; }
+  warning CS0162: Unreachable code detected   <<  outer: for (int i = 0; i < 2; i++) { break outer; }
+  warning CS0162: Unreachable code detected   <<  outer: for (int j = 0; j < 2; j++) { break outer; }
+
+=== L12  ...but the same label in sibling blocks is fine
+  warning CS0162: Unreachable code detected   <<  { outer: for (int i = 0; i < 2; i++) { break outer; } }
+  warning CS0162: Unreachable code detected   <<  { outer: for (int j = 0; j < 2; j++) { break outer; } }
+  compiles; runs:
+    ok
+
+=== L13  One label serves both break and continue, replacing the goto pair
+  compiles; runs:
+    taken=6 skipped=3
+
+=== L14  The old goto to the same label still compiles, and a labeled loop is still a goto target
+  compiles; runs:
+    10
+
+=== L15  Labeled jumps inside iterator and async methods
+  compiles; runs:
+    0,10,20
+    4
+
+=== L16  Unlabeled break/continue unchanged: a break in a nested loop leaves only the inner loop
+  compiles; runs:
+    3
+
+=== L17  Label name that equals a local variable name, and a label never used (warning?)
+  warning CS0164: This label has not been referenced   <<  outer: for (int i = 0; i < 2; i++) { outer++; }
+  warning CS0164: This label has not been referenced   <<  unused: for (int i = 0; i < 2; i++) { }
+  compiles; runs:
+    2
+
+=== M01  Section 0: '#error version' reports CS8304 with compiler and language versions
+  error CS1029: #error: 'version'   <<  #error version
+  error CS8304: Compiler version: '5.12.0-1.26529.118 (297acf930fb0f5c07fd4e51d78e521b4ad2e5d1f)'. Language version: default (15.0). Compiler path: '<repo>\probes\QCsharp15\bin\Debug\net11.0\Microsoft.CodeAnalysis.CSharp.dll'.   <<  #error version
+
+=== M02  Section 8: a loop-local Span<int> items = [x] assigned to an outer span is now an error
+  error CS8352: Cannot use variable 'items' in this context because it may expose referenced variables outside of their declaration scope   <<  outer = items;
+
+=== M03  Section 8: nameof(this.P) inside an attribute is now an error; nameof(P) is fine
+  error CS0027: Keyword 'this' is not available in the current context   <<  [Marker(nameof(this.P))] public int Q;
+  warning CS9113: Parameter 'n' is unread.   <<  public class Marker(string n) : Attribute { }
+
+=== M04  Section 8: x && y with x an interface type and y dynamic is CS7083
+  error CS7083: Expression must be implicitly convertible to Boolean or its type 'IDisposable' must not be an interface and must define operator 'false'.   <<  var z = x && y;
+
+=== M05  Section 8: a type named 'closed' needs @closed (CS9380); a field of type closed may give CS1519
+  error CS1519: Invalid token ';' in a member declaration   <<  public class UsesIt { public closed Field; }
+  error CS1519: Invalid token ';' in a member declaration   <<  public class UsesIt { public closed Field; }
+  error CS9380: Types and aliases cannot be named 'closed'.   <<  public class closed { }
+
+=== M06  Section 8: 'union Foo;' inside a type now parses as a union declaration (CS9370); @union escapes it
+  error CS9370: A union declaration must specify at least one case type.   <<  public class Host { union Foo; }
+  warning CS8618: Non-nullable field 'Foo2' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the field as nullable.   <<  public class Host2 { @union Foo2; }
+  warning CS0169: The field 'Host2.Foo2' is never used   <<  public class Host2 { @union Foo2; }
+
+=== M07  Section 8: (X.Y) when ... in a switch-expression arm parses as constant pattern + when, not a cast
+  compiles; runs:
+    2
+
+=== U01  Preview: a requires-unsafe member called from safe code is an error with the updated rules
+  error CS9362: 'P.ReadInt32(byte*)' must be used in an unsafe context because it is marked as 'unsafe'   <<  public static void Caller(byte[] b) { fixed (byte* p = b) { var v = ReadInt32(p); } }
+
+=== U02  Preview: the same call inside unsafe { } compiles
+  compiles; runs:
+
+=== U03  Preview: 'unsafe' on a signature no longer opens an unsafe context for the body (dereference without inner block)
+  error CS9360: This operation may only be used in an unsafe context   <<  public static unsafe int Deref(int* p) { return *p; }
+
+=== U04  Preview, ORIGINAL rules (no feature flag): the same unsafe method body is an unsafe context
+  compiles; runs:
+
+=== U05  Preview: SumBytes discharges the obligation: pinned array, inner unsafe block, safe signature
+  compiles; runs:
+    6
+
+=== U06  Preview: unsafe(expr) in a field initializer calls a requires-unsafe member from a field initializer (no block possible)
+  compiles; runs:
+    42
+
+=== U06b  ...control: the same field initializer without unsafe(...) is CS9362
+  error CS9362: 'P.ReadValue()' must be used in an unsafe context because it is marked as 'unsafe'   <<  static readonly int Signature = ReadValue();
+
+=== U07  Preview: unsafe on a type declaration, a static constructor, a finalizer and a lambda are errors (one line each)
+  error CS1525: Invalid expression term ')'   <<  public class T4 { public void M() { Action a = unsafe () => { }; } }
+  error CS1003: Syntax error, ',' expected   <<  public class T4 { public void M() { Action a = unsafe () => { }; } }
+  error CS1002: ; expected   <<  public class T4 { public void M() { Action a = unsafe () => { }; } }
+  error CS9377: The 'unsafe' modifier does not have any effect here under the current memory safety rules.   <<  public unsafe class T1 { }
+  error CS9377: The 'unsafe' modifier does not have any effect here under the current memory safety rules.   <<  public class T2 { static unsafe T2() { } }
+  error CS9377: The 'unsafe' modifier does not have any effect here under the current memory safety rules.   <<  public class T3 { unsafe ~T3() { } }
+
+=== U08  Preview: await is allowed inside an unsafe block but not inside a fixed statement
+  error CS9398: Cannot await in context of a 'fixed' statement   <<  public static async Task B(byte[] b) { fixed (byte* p = b) { await Task.Yield(); } }
+
+=== U09  Preview: every extern method must say safe or unsafe; a bare extern is an error (one line each)
+  error CS9389: 'extern' member must be marked 'unsafe' or 'safe'.   <<  [System.Runtime.InteropServices.DllImport("libc")] internal static extern int Bare();
+
+=== U13  Preview: instance fields of an explicit-layout struct need safe/unsafe (CS9392); safe resolves it
+  error CS9392: Field in an explicit or extended layout type must be marked 'unsafe' or 'safe'.   <<  public struct S1 { [System.Runtime.InteropServices.FieldOffset(0)] public int A; }
+
+=== U10  Preview: modifiers 'safe'/'unsafe' without AllowUnsafeBlocks (CS9401 per the skill; CS0227 for unsafe(expr))
+  error CS0227: Unsafe code may only appear if compiling with /unsafe   <<  public static unsafe int X(int* p) { unsafe { return *p; } }
+  error CS0227: Unsafe code may only appear if compiling with /unsafe   <<  static readonly int Y = unsafe(1);
+  error CS0227: Unsafe code may only appear if compiling with /unsafe   <<  public static unsafe int X(int* p) { unsafe { return *p; } }
+  warning CS0414: The field 'P.Y' is assigned but its value is never used   <<  static readonly int Y = unsafe(1);
+
+=== U11  Preview WITHOUT the feature flag: pointer relaxations only (declare a pointer, &local, fixed, sizeof) compile in safe code
+  warning CS0219: The variable 's' is assigned but its value is never used   <<  public static void M(int[] a) { int n = 4; int* p = &n; fixed (int* q = a) { } var s = sizeof(int); }
+  compiles; runs:
+
+=== U12  ...and WITHOUT preview the same lines are CS0214
+  error CS0214: Pointers and fixed size buffers may only be used in an unsafe context   <<  public static void M(int[] a) { int n = 4; int* p = &n; fixed (int* q = a) { } var s = sizeof(int); }
+  error CS0214: Pointers and fixed size buffers may only be used in an unsafe context   <<  public static void M(int[] a) { int n = 4; int* p = &n; fixed (int* q = a) { } var s = sizeof(int); }
+  error CS0214: Pointers and fixed size buffers may only be used in an unsafe context   <<  public static void M(int[] a) { int n = 4; int* p = &n; fixed (int* q = a) { } var s = sizeof(int); }
+  error CS0214: Pointers and fixed size buffers may only be used in an unsafe context   <<  public static void M(int[] a) { int n = 4; int* p = &n; fixed (int* q = a) { } var s = sizeof(int); }
+  warning CS0219: The variable 's' is assigned but its value is never used   <<  public static void M(int[] a) { int n = 4; int* p = &n; fixed (int* q = a) { } var s = sizeof(int); }
+
+
+Exit code: 0

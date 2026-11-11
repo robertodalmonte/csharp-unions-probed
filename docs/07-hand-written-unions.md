@@ -1,5 +1,9 @@
 # 7. Hand-written unions: when the generated struct is wrong
 
+*GA re-run on SDK `11.0.100`, 2026-11-11: unchanged from RC 3. The normal samples,
+`CLASS_PROVIDER` and `CAST_FIX` run; `REC_RECURSE` still terminates with a stack overflow.
+[GA results](../probes/results/ga/README.md).*
+
 *Verified on SDK `11.0.100-rc.1.26425.128`, 2026-09-11, and re-run on SDK `11.0.100-rc.2.26504.105` (.NET 11 RC 2) on 2026-10-14: the
 class-based, non-boxing and `IUnionMembers` providers still work, `CLASS_PROVIDER` and `CAST_FIX` still run, and
 `REC_RECURSE` still overflows the stack. Unchanged on SDK `11.0.100-rc.3.26522.148` (.NET 11 RC 3), 2026-10-26. Probes: `QLang` (the language reference's samples), `QLang2`

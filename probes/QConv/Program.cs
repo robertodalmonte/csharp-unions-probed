@@ -2,7 +2,7 @@
 // target-typing / inference contexts a service returning a union meets.
 // Builds that fail by design, one define each (dotnet build --no-incremental -p:DefineConstants=NAME):
 //   AMBIG_SIBLINGS, NULL_LITERAL, INFER_TASK, VAR_TERNARY, TASK_CASE_TO_TASK_UNION, ENUMERABLE_COVARIANCE,
-//   INFER_TWO_ARGS, NULLABLE_UNION_FROM_CASE_DEFAULT
+//   INFER_TWO_ARGS
 using System.Collections;
 
 Console.WriteLine("=== 1. Overlapping cases ===");

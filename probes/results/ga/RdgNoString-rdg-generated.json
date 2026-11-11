@@ -1,0 +1,18 @@
+[
+  {
+    "file": "probes/RdgNoString/obj/Debug/net11.0/generated/Microsoft.AspNetCore.Http.RequestDelegateGenerator/Microsoft.AspNetCore.Http.RequestDelegateGenerator.RequestDelegateGenerator/GeneratedRouteBuilderExtensions.g.cs",
+    "bytes": 22491,
+    "sha256": "03ac9f189815c90379638248c6bb928fb4711550a4e441ec31b9cad05702b37f",
+    "intercepted_endpoints": [
+      {
+        "source": "probes/RdgNoString/Program.cs",
+        "line": 4,
+        "endpoint_registration": "app.MapGet(\"/q\", ([FromQuery] IntOrBool v) => v.Value?.ToString());"
+      }
+    ],
+    "binding_lines": [
+      "// Endpoint Parameter: v (Type = IntOrBool, IsOptional = False, IsParsable = False, IsArray = False, Source = Query)",
+      "global::IntOrBool v_local = v_temp!;"
+    ]
+  }
+]

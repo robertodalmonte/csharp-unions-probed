@@ -1,0 +1,6 @@
+$ dotnet run --no-build --no-launch-profile
+
+POST /form v=42 => 500 System.InvalidOperationException: v must have a valid TryParse method to support converting from a string. No public sta…
+GET  /q?v=42    => 500 System.InvalidOperationException: v must have a valid TryParse method to support converting from a string. No public sta…
+
+Exit code: 0

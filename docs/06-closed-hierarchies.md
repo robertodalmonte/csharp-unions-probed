@@ -1,5 +1,10 @@
 # 6. The `closed` modifier, and `closed` vs `union`
 
+*GA re-run on SDK `11.0.100`, 2026-11-11: unchanged from RC 3. Declaration checks,
+all three exhaustiveness warnings and their promotion to errors, cross-assembly
+derivation through `Mid`, and the added-case binary failure reproduce.
+[GA results](../probes/results/ga/README.md).*
+
 *Compiled on SDK `11.0.100-rc.1.26425.128`, 2026-09-10, and every claim below re-run on
 `11.0.100-rc.2.26504.105` on 2026-10-14 with the same diagnostics and the same runtime failure, and again on `11.0.100-rc.3.26522.148` on 2026-10-26 (`QClosed` switches and the
 binary-breaking case identical).

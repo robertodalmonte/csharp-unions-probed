@@ -1,0 +1,10 @@
+$ dotnet run --no-build --no-launch-profile
+
+Microsoft.CodeAnalysis 5.12.0.0; LanguageVersion names with 15: CSharp15
+compile errors: 0
+FourEyesApproval: TypeKind=Struct, UnionCaseTypes.IsDefault=False, [NotRequired, PendingApproval, PartlyApproved]
+IntOrString: TypeKind=Struct, UnionCaseTypes.IsDefault=False, [int, string]
+Shape: TypeKind=Struct, UnionCaseTypes.IsDefault=False, [Circle, Square]
+Plain: TypeKind=Class, UnionCaseTypes.IsDefault=False, []
+
+Exit code: 0
