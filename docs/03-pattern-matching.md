@@ -83,7 +83,8 @@ as the spec says (`QIface`, RC 2):
 So the rule is about whether some type that could be held can implement the interface, not about
 whether one does.
 
-**The language reference is wrong under both rules.** It says *"a pattern like `pet is Pet`
+**Historical: corrected upstream on 2026-10-22** (dotnet/docs#56457; the reference now
+says `CS8121`). **The language reference was wrong under both rules.** It said *"a pattern like `pet is Pet`
 typically doesn't match"*. On RC 1 it always matched; on RC 2 it does not compile.
 Code that relies on RC 1's `true` fails as a **build error** on RC 2, not as a silent behaviour
 change. Reported as part of dotnet/docs#55951 ([10](10-documentation-and-upstream.md)).

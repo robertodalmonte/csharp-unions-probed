@@ -249,7 +249,8 @@ option objects, fixes that case (200 in both stacks); a missing `$type` is still
 ([comment](https://github.com/dotnet/aspnetcore/issues/69826#issuecomment-6199377701)): no product
 change in .NET 11. Isolation would need a general treatment of endpoint-construction failures, and
 building every endpoint at startup would change when user code runs and miss endpoints added later.
-Better diagnostics, opt-in early validation and per-endpoint isolation are open for after .NET 11.*
+Better diagnostics, opt-in early validation and per-endpoint isolation are open for after .NET 11.
+Milestone `.NET 12 Planning` (checked 2026-11-11); GA (`11.0.100`) reproduces both failures.*
 
 The structural classifier's contract-time refusal ([04](04-system-text-json.md)) is thrown when
 the endpoint's JSON contract is built, and *when* that happens depends on unrelated services:

@@ -30,6 +30,10 @@ Neither the reference nor the spec can be trusted alone.
 
 ## The two places where they disagree, and what the compiler does
 
+*Historical. Both criticisms of the language reference below were corrected upstream by
+2026-10-22 (dotnet/docs#55951, entry under "Reported upstream"). The Learn copy of the spec
+was not rechecked.*
+
 - **`is <union type>`.** RC 1 follows the July spec (always true, `CS0183`). The spec and
   Roslyn `main` changed on 2026-08-18 to `Value`-only, where it is `CS8121`; RC 2 compiles it as
   `CS8121` (verified 2026-10-14). The language
@@ -73,12 +77,21 @@ The entries record the original reports and dated replies; GA behavior is record
   a non-parsable query parameter already is; failing that at request time; and for
   `FormDataMapperOptions` to receive the application's `ILoggerFactory`. Mechanism and repro on
   [page 05](05-aspnet-core.md) and in `QFormCtor`. Related: dotnet/aspnetcore#51379, the same
-  path for a class with a primary and a parameterless constructor.
+  path for a class with a primary and a parameterless constructor. Milestone `Backlog`, open
+  (checked 2026-11-11). GA reproduces it: every Minimal API row in `QFormCtor` is still 200 with
+  `default`/`null`, and MVC still refuses the same types with 500.
 - **dotnet/docs#55951**: the reference's `pet is Pet` note, and its null-handling sample. The
   first item's proposed fix was itself wrong: it proposed "always true" and cited the spec, and on
   2026-09-11 AlekseyTs (Roslyn) pointed out that the spec had changed to `Value`-only, under which
   `pet is Pet` does not compile. The note is still wrong, for a different reason. The second item
-  stands.
+  stands. **Resolved 2026-10-20 / 2026-10-22.** The issue was closed as completed on 2026-10-20 by
+  [dotnet/docs#56471](https://github.com/dotnet/docs/pull/56471), which shipped the refuted
+  "always `true`, `CS0183`" wording. [dotnet/docs#56457](https://github.com/dotnet/docs/pull/56457)
+  (*Update C# 15 content to match RC 2 status*, 2026-10-22) replaced it: the reference now says
+  `pet is Pet` is `CS8121`, and its null-handling text says a default union holds null, that the
+  compiler does not necessarily warn about an omitted `null` arm, and that the switch then throws
+  `SwitchExpressionException`. Both items are corrected in the published page; the criticisms on
+  [02](02-the-null-valued-union.md) and [03](03-pattern-matching.md) are historical.
 
 - **dotnet/aspnetcore#64599** (comment, 2026-10-14): the umbrella *Support C# unions*. Asks
   whether MVC validation of union cases is in scope. #68846 changed the validation source
@@ -106,7 +119,9 @@ The entries record the original reports and dated replies; GA behavior is record
   ([comment](https://github.com/dotnet/aspnetcore/issues/69826#issuecomment-6208367953)): agreed,
   noted that `AddAuthorization()` already builds every endpoint in `StartAsync` (the
   `AuthorizationPolicyCache` frames `Probe2` section G now prints), so opt-in early validation would
-  make that deliberate; asked for a milestone. Issue still open, no milestone.
+  make that deliberate; asked for a milestone. **Milestone `.NET 12 Planning`** (labels `bug`,
+  `area-minimal`, checked 2026-11-11); still open. GA reproduces both failures (`QOa`, `Probe2`
+  section G).
 - **dotnet/runtime#135742** (filed 2026-10-14, closed as answered the same day): a state union
   with data-less cases cannot be classified by `JsonUnionTypeStructuralClassifier`. The refusal is
   by design (dotnet/runtime#129805); the issue asked for guidance (a hand-written classifier or a

@@ -35,7 +35,8 @@ Compiled on RC 1, including under `<AnalysisLevel>latest-all</AnalysisLevel>`:
   union with an interface case, one with value-type-only cases, a struct field, or code inside a
   `#nullable disable` region. Passed `default(FourEyesApproval)`, the switch throws
   `SwitchExpressionException` at runtime. The language reference's own `Pet pet = default` sample
-  implies a warning; there is none.
+  implied a warning; there is none. (Historical: the reference was corrected by 2026-10-22,
+  dotnet/docs#55951, and now says the compiler does not necessarily warn.)
 - `CS8655` (*the pattern 'null' is not covered*) appears in exactly two situations: when a case
   type is itself nullable (`union MaybeText(string?, int)`), or when the same method has already
   tested the union with `is null`, because flow analysis then learns "maybe null". A canary in the
